@@ -11,7 +11,7 @@
 #' @param colors String. Column name of the variable that supplies the grouping values. The plot will show a different color per group.
 #' @param grouping String. Column name of the variable that supplies the Y-Axis labels to show in the plot.
 #' @param cvec Named vector with the colors to apply to the dots. Default is NULL.
-#' @param order String. Column name of the variable that contains the custom order for the labels.
+#' @param order String. Column name of the variable that contains the desired order for the labels.
 #' @param diffOpac Boolean. If TRUE, the plot will expect different levels of opacities for the dots. Default is FALSE.
 #' @param opacities Named vector with the opacity levels to apply to the dots. Default is NULL.
 #' @param diffShp Boolean. If TRUE, the plot will expect different shapes for the dots. Default is FALSE.
