@@ -43,7 +43,8 @@ wjp_dots(
 
 \item{shapes}{Named vector with shapes to be displayed. Default is NULL.}
 
-\item{draw_ci}{Boolean. If TRUE, will draw a binomial confidence interval with target value as parameter of interest.}
+\item{draw_ci}{Boolean. If TRUE, draws a normal-approximation confidence
+interval using \code{sd} and \code{sample_size}.}
 
 \item{sd}{String. Column name of the variable that supplies the standard error for drawing confidence intervals.}
 

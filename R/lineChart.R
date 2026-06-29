@@ -114,7 +114,7 @@ wjp_lines <- function(
     repel          = F, 
     transparency   = F,        
     transparencies = NULL,   
-    custom.axis    = F,         
+    custom.axis    = FALSE,
     x.breaks       = NULL,    
     x.labels       = NULL,    
     sec.ticks      = NULL,       
@@ -144,7 +144,7 @@ wjp_lines <- function(
                     label = labels_var,
                     group = ngroups))
     
-  if (transparency == F) {
+  if (transparency == FALSE) {
     plt <- plt +
       geom_point(size = 2,
                  show.legend = F) +
@@ -161,11 +161,11 @@ wjp_lines <- function(
                 show.legend  = F)
   }
   
-  if (repel == F) {
+  if (repel == FALSE) {
     
     # Applying regular geom_text
     
-    if (transparency == F) {
+    if (transparency == FALSE) {
       plt <- plt +
         geom_text(aes(y       = target_var + 7.5,
                       x       = grouping_var,
@@ -195,7 +195,7 @@ wjp_lines <- function(
       stop("Package 'ggrepel' is required for repel=TRUE. Install with: install.packages('ggrepel')")
     }
 
-    if (transparency == F) {
+    if (transparency == FALSE) {
       plt <- plt +
         ggrepel::geom_text_repel(mapping = aes(y     = target_var,
                                       x     = grouping_var,
@@ -234,12 +234,12 @@ wjp_lines <- function(
       
   }
   
-  if (transparency == T) {
+  if (transparency == TRUE) {
     plt <- plt +
       scale_alpha_manual(values = transparencies)
   }
   
-  if (custom.axis == F) {
+  if (custom.axis == FALSE) {
     plt <- plt +
       scale_y_continuous(limits = c(0, 105),
                          expand = c(0,0),
@@ -252,6 +252,15 @@ wjp_lines <- function(
     }
     
   } else {
+    if (!requireNamespace("ggh4x", quietly = TRUE)) {
+      stop("Package 'ggh4x' is required for custom.axis=TRUE. Install with: install.packages('ggh4x')", call. = FALSE)
+    }
+    if (is.null(x.breaks) || is.null(x.labels)) {
+      stop("`x.breaks` and `x.labels` must be provided when custom.axis = TRUE.", call. = FALSE)
+    }
+    if (length(x.breaks) != length(x.labels)) {
+      stop("`x.breaks` and `x.labels` must have the same length.", call. = FALSE)
+    }
     plt <- plt +
       scale_y_continuous(limits = c(0, 105),
                          expand = c(0,0),
@@ -261,7 +270,7 @@ wjp_lines <- function(
                          breaks = x.breaks,
                          expand = expansion(mult = c(0.075, 0.125)),
                          labels = x.labels,
-                         guide  = "axis_minor",
+                         guide  = ggh4x::guide_axis_minor(),
                          minor_breaks = sec.ticks)
     
     if (!is.null(cvec)) {

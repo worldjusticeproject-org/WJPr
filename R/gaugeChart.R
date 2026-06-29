@@ -109,6 +109,9 @@ wjp_gauge <- function(
   # Calculate total for scaling
 
   total_value <- sum(data$target_var)
+  if (!is.finite(total_value) || total_value <= 0) {
+    stop("`target` values must sum to a positive finite value.", call. = FALSE)
+  }
 
   # Scale values to span 180 degrees (half circle)
   # We'll use 0-100 for the data and add padding to make it a semicircle
@@ -138,7 +141,9 @@ wjp_gauge <- function(
   if (!is.null(cvec)) {
     cvec <- c(cvec, "___padding___" = "transparent")
   } else {
-    cvec <- c("___padding___" = "transparent")
+    palette <- c("#2a2a94", "#575796", "#7b7db8", "#a6a8cf", "#d0d1e8")
+    cvec <- stats::setNames(rep(palette, length.out = length(unique(data$colors_var))), unique(data$colors_var))
+    cvec <- c(cvec, "___padding___" = "transparent")
   }
 
   # Drawing chart
@@ -157,7 +162,7 @@ wjp_gauge <- function(
           y     = labpos,
           x     = 1.5),
       color     = "white",
-      size      = 1.866058 * .pt,
+      size      = 1.866058 * ggplot2::.pt,
       family    = "Lato Full",
       fontface  = "bold"
     ) +

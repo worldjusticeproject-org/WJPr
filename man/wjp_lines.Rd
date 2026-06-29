@@ -15,7 +15,7 @@ wjp_lines(
   repel = F,
   transparency = F,
   transparencies = NULL,
-  custom.axis = F,
+  custom.axis = FALSE,
   x.breaks = NULL,
   x.labels = NULL,
   sec.ticks = NULL,

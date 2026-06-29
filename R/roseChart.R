@@ -70,7 +70,7 @@ wjp_rose <- function(
     data,             
     target,       
     grouping,    
-    labels,      
+    labels,
     cvec      = NULL,           
     order_var = NULL
 ){
@@ -81,10 +81,13 @@ wjp_rose <- function(
       target_var    = all_of(target),
       grouping_var  = all_of(grouping),
       alabels_var   = all_of(labels),
-    ) %>%
-    mutate(
-      target_var = target_var/100
     )
+
+  max_target <- suppressWarnings(max(abs(data$target_var), na.rm = TRUE))
+  if (is.finite(max_target) && max_target > 1) {
+    data <- data %>%
+      mutate(target_var = target_var / 100)
+  }
   
   if (is.null(order_var)){
     data <- data %>%
@@ -115,7 +118,7 @@ wjp_rose <- function(
     geom_hline(yintercept = seq(0, 1, by = 0.2), 
                colour     = "#d1cfd1", 
                linetype   = "dashed",
-               size       = 0.45) +
+               linewidth  = 0.45) +
     geom_col(aes(x        = reorder(alabels_var, order_var),
                  y        = target_var,
                  fill     = grouping_var),

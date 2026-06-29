@@ -16,7 +16,8 @@
 #' @param opacities Named vector with the opacity levels to apply to the dots. Default is NULL.
 #' @param diffShp Boolean. If TRUE, the plot will expect different shapes for the dots. Default is FALSE.
 #' @param shapes Named vector with shapes to be displayed. Default is NULL.
-#' @param draw_ci Boolean. If TRUE, will draw a binomial confidence interval with target value as parameter of interest.
+#' @param draw_ci Boolean. If TRUE, draws a normal-approximation confidence
+#'   interval using \code{sd} and \code{sample_size}.
 #' @param sd  String. Column name of the variable that supplies the standard error for drawing confidence intervals.
 #' @param sample_size  String. Column name of the variable that supplies the number of observations for drawing confidence intervals.
 #' @param bgcolor String. Hex code for the "white" background in the strips.
@@ -124,6 +125,9 @@ wjp_dots <- function(
   
   # Add sample_size_var if drawing CI
   if (draw_ci){
+    if (is.null(sd) || is.null(sample_size)) {
+      stop("`sd` and `sample_size` must be provided when draw_ci = TRUE.", call. = FALSE)
+    }
     z <- qnorm(1 - 0.05 / 2)
     data  <- data %>%
       rename(sd_var = all_of(sd),

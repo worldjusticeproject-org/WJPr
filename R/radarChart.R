@@ -13,7 +13,8 @@
 #' @param colors A string specifying the variable in the data frame that contains the color groupings.
 #' @param cvec A named vector of colors to apply to lines.
 #' @param order_var A string specifying the variable in the data frame that contains the display order of categories. Default is NULL.
-#' @param maincat A string indicating the category of labels to show in the radar.
+#' @param maincat A string indicating the column used to choose the axis labels.
+#'   If NULL, labels are taken from the first color group.
 #' @param source A string which can take two values (GPP or QRQ). 
 #'
 #' @return A ggplot object representing the radar plot.
@@ -81,7 +82,7 @@ wjp_radar <- function(
     target,       
     labels,        
     colors,
-    maincat,
+    maincat   = NULL,
     cvec      = NULL,   
     order_var = NULL,
     source    = "GPP"
@@ -93,6 +94,14 @@ wjp_radar <- function(
            target_var  = all_of(target),
            label_var   = all_of(labels),
            color_var   = all_of(colors))
+
+  if (!is.null(maincat)) {
+    data <- data %>%
+      rename(maincat_var = all_of(maincat))
+  } else {
+    data <- data %>%
+      mutate(maincat_var = color_var)
+  }
   
   if (is.null(order_var)){
     data <- data %>%
@@ -267,12 +276,16 @@ wjp_radar <- function(
       label_data <- text_coords() %>%
         mutate(n = row_number())
 
+      label_group <- data %>%
+        ungroup() %>%
+        distinct(maincat_var) %>%
+        slice_head(n = 1) %>%
+        pull(maincat_var)
+
       axis_labels <- data %>%
         arrange(order_var) %>%
-        filter(color_var == data %>%
-                 ungroup() %>%
-                 distinct(color_var) %>%
-                 slice_head(n=1)) %>%
+        filter(maincat_var == label_group) %>%
+        distinct(axis_var, .keep_all = TRUE) %>%
         pull(label_var)
 
       if (requireNamespace("ggtext", quietly = TRUE)) {
@@ -311,7 +324,7 @@ wjp_radar <- function(
           y     = y, 
           group = color_var, 
           color = as.factor(color_var)), 
-      size = 1
+      linewidth = 1
     ) +
     
     # Remaining aesthetics
@@ -329,5 +342,4 @@ wjp_radar <- function(
   return(radar)
   
 }
-
 

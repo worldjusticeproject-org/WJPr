@@ -4,7 +4,6 @@
 if (getRversion() >= "2.15.1") {
   utils::globalVariables(c(
     ".",
-    ".pt",
     "alabels_var",
     "color",
     "color_type",
@@ -28,6 +27,7 @@ if (getRversion() >= "2.15.1") {
     "labpos",
     "levels_var",
     "lower",
+    "maincat_var",
     "order_var",
     "p_value",
     "primary",

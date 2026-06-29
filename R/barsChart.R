@@ -138,6 +138,14 @@ wjp_bars <- function(
     data <- data %>%
       dplyr::rename(order_var = all_of(order))
   }
+
+  y_upper <- 110
+  if (isTRUE(expand)) {
+    max_value <- suppressWarnings(max(c(data$target_var, data$lab_pos), na.rm = TRUE))
+    if (is.finite(max_value)) {
+      y_upper <- max(110, max_value * 1.05)
+    }
+  }
   
   # Creating plot
   if(is.null(order)) {
@@ -181,7 +189,7 @@ wjp_bars <- function(
                                  fill  = colors_var)) +
         ggplot2::geom_bar(stat = "identity",
                           show.legend = F,  width = width) +
-        ggplot2::geom_text(aes(y    = target_var + lab_pos),
+        ggplot2::geom_text(aes(y    = lab_pos),
                            color    = "#4a4a49",
                            family   = "Lato Full",
                            fontface = "bold")
@@ -211,7 +219,7 @@ wjp_bars <- function(
   
   if (direction == "vertical") {
     plt  <- plt +
-      ggplot2::scale_y_continuous(limits = c(0, 110),
+      ggplot2::scale_y_continuous(limits = c(0, y_upper),
                                   breaks = seq(0,100,20),
                                   labels = paste0(seq(0,100,20), "%")) +
       ptheme +
@@ -222,7 +230,7 @@ wjp_bars <- function(
   
   if (direction == "horizontal") {
     plt  <- plt +
-      ggplot2::scale_y_continuous(limits = c(0, 110),
+      ggplot2::scale_y_continuous(limits = c(0, y_upper),
                                   breaks = seq(0,100,20),
                                   labels = paste0(seq(0,100,20), "%"),
                                   position = "right") +

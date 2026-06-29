@@ -91,13 +91,13 @@ wjp_divbars <- function(
     target,       
     grouping,         
     diverging,     
-    negative = NULL,   
+    negative = NULL,
     cvec = NULL,
     labels = NULL,  
     label_color = "#ffffff",
     custom_order = F, 
     order = NULL,  
-    ptheme= WJP_theme()
+    ptheme = WJP_theme()
 ){
   
   # Renaming variables in the data frame to match the function naming
@@ -115,6 +115,17 @@ wjp_divbars <- function(
            grouping_var  = all_of(diverging),
            order_var     = any_of(order))
   data$labels_var <- rep("", nrow(data))
+  }
+
+  if (!is.null(negative)) {
+    data <- data %>%
+      mutate(
+        target_var = if_else(
+          grouping_var == negative,
+          -abs(target_var),
+          target_var
+        )
+      )
   }
   
   # Creating ggplot
@@ -141,7 +152,7 @@ wjp_divbars <- function(
              width        = 0.85) +
     geom_hline(yintercept = 0,
                linetype   = "solid",
-               size       = 0.5,
+               linewidth  = 0.5,
                color      = "#262424")
   
   if (!is.null(cvec)) {
@@ -156,7 +167,7 @@ wjp_divbars <- function(
                        position = "right") +
     scale_x_discrete(limits   = rev) +
     coord_flip() +
-    WJP_theme() +
+    ptheme +
     geom_text(aes(label = labels_var), 
               family   = "Lato Full", 
               fontface = "bold",
@@ -165,18 +176,18 @@ wjp_divbars <- function(
     theme(panel.grid.major = element_blank(),
           axis.text.x      = element_text(family = "Lato Full",
                                           face   = "bold",
-                                          size   = 3.514598*.pt,
+                                          size   = 3.514598 * ggplot2::.pt,
                                           color  = "#262424",
                                           hjust  = 0),
           axis.text.y      = element_text(family = "Lato Full",
                                           face   = "bold",
-                                          size   = 3.514598*.pt,
+                                          size   = 3.514598 * ggplot2::.pt,
                                           color  = "#262424",
                                           hjust  = 0),
           axis.title.x      = element_blank(),
           axis.title.y      = element_blank(),
           axis.line.x       = element_line(linetype   = "solid",
-                                           size       = 0.5,
+                                           linewidth  = 0.5,
                                            color      = "#262424"))
   
   return(chart)

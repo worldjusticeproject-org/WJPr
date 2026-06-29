@@ -99,13 +99,13 @@ wjp_lollipops <- function(
       aes(x    = reorder(grouping_var, order_var),  
           ymin = 0, 
           ymax = target_var), 
-      size  = line_size, 
+      linewidth = line_size,
       color = line_color
     ) +
     geom_point(
       aes(y = target_var, 
           x = reorder(grouping_var, order_var)),
-      size  = line_size, 
+      size  = point_size,
       shape = 16, 
       color = point_color
     ) +

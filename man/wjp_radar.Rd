@@ -10,7 +10,7 @@ wjp_radar(
   target,
   labels,
   colors,
-  maincat,
+  maincat = NULL,
   cvec = NULL,
   order_var = NULL,
   source = "GPP"
@@ -27,7 +27,8 @@ wjp_radar(
 
 \item{colors}{A string specifying the variable in the data frame that contains the color groupings.}
 
-\item{maincat}{A string indicating the category of labels to show in the radar.}
+\item{maincat}{A string indicating the column used to choose the axis labels.
+If NULL, labels are taken from the first color group.}
 
 \item{cvec}{A named vector of colors to apply to lines.}
 

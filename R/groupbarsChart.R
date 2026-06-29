@@ -94,6 +94,10 @@ if (is.null(labels)) {
       dplyr::rename(labels_var = dplyr::all_of(labels))
   }
 
+  if (any(!is.na(data$target_var) & (data$target_var < 0 | data$target_var > 1))) {
+    stop("`target` must contain proportions between 0 and 1 for wjp_groupbars().", call. = FALSE)
+  }
+
   # ===========================================================================
   # 2. PREPARE DATA FOR STACKED BARS
   # ===========================================================================
