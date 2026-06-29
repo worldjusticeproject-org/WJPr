@@ -216,6 +216,40 @@ values across categories.</p>
 <span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"Narnia"</span> <span class="op">=</span> <span class="st">"#3366FF"</span>, <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#00A8A5"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/bars-vertical-1.png" class="r-plt" alt="" width="100%"></p>
+<p><strong>Expected input structure</strong> — one row per category,
+with the value column (<code>target</code>) and the category column
+(<code>grouping</code>); <code>labels</code>/<code>lab_pos</code> are
+optional helpers for the data labels.</p>
+<table class="table">
+<caption>Input data for wjp_bars(): target = trust, grouping =
+country</caption>
+<thead><tr class="header">
+<th align="left">country</th>
+<th align="right">trust</th>
+<th align="left">label</th>
+<th align="right">label_pos</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Atlantis</td>
+<td align="right">49.09091</td>
+<td align="left">49%</td>
+<td align="right">54.09091</td>
+</tr>
+<tr class="even">
+<td align="left">Narnia</td>
+<td align="right">45.65217</td>
+<td align="left">46%</td>
+<td align="right">50.65217</td>
+</tr>
+<tr class="odd">
+<td align="left">Neverland</td>
+<td align="right">63.63636</td>
+<td align="left">64%</td>
+<td align="right">68.63636</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level3">
 <h3 id="horizontal-bars">Horizontal Bars<a class="anchor" aria-label="anchor" href="#horizontal-bars"></a>
@@ -234,6 +268,8 @@ orientation.</p>
 <span>  direction <span class="op">=</span> <span class="st">"horizontal"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/bars-horizontal-1.png" class="r-plt" alt="" width="100%"></p>
+<p>Uses the same <code>data_bars</code> structure shown above — only
+<code>direction = "horizontal"</code> changes.</p>
 <hr>
 </div>
 </div>
@@ -269,6 +305,51 @@ extending from a center point.</p>
 <span>  cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Trust"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"No Trust"</span> <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/divbars-1.png" class="r-plt" alt="" width="100%"></p>
+<p><strong>Expected input structure</strong> — one row per
+<code>grouping</code> × <code>diverging</code> combination. Negative
+values point left, positive values point right (<code>percent</code>
+here is signed).</p>
+<table class="table">
+<caption>Input data for wjp_divbars(): target = percent, grouping =
+country, diverging = response</caption>
+<thead><tr class="header">
+<th align="left">country</th>
+<th align="left">response</th>
+<th align="right">n</th>
+<th align="right">percent</th>
+<th align="left">label</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Atlantis</td>
+<td align="left">No Trust</td>
+<td align="right">28</td>
+<td align="right">-50.90909</td>
+<td align="left">51%</td>
+</tr>
+<tr class="even">
+<td align="left">Atlantis</td>
+<td align="left">Trust</td>
+<td align="right">27</td>
+<td align="right">49.09091</td>
+<td align="left">49%</td>
+</tr>
+<tr class="odd">
+<td align="left">Narnia</td>
+<td align="left">No Trust</td>
+<td align="right">25</td>
+<td align="right">-54.34783</td>
+<td align="left">54%</td>
+</tr>
+<tr class="even">
+<td align="left">Narnia</td>
+<td align="left">Trust</td>
+<td align="right">21</td>
+<td align="right">45.65217</td>
+<td align="left">46%</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </div>
 <div class="section level2">
@@ -303,6 +384,45 @@ with dot markers.</p>
 <span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"Narnia"</span> <span class="op">=</span> <span class="st">"#BF02AF"</span>, <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#226640"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/dots-1.png" class="r-plt" alt="" width="100%"></p>
+<p><strong>Expected input structure</strong> — long format: one row per
+<code>grouping</code> (variable) × <code>colors</code> (group)
+combination, each with its <code>target</code> value.</p>
+<table class="table">
+<caption>Input data for wjp_dots(): target = trust, grouping =
+institution, colors = country</caption>
+<thead><tr class="header">
+<th align="left">country</th>
+<th align="left">variable</th>
+<th align="right">trust</th>
+<th align="left">institution</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Atlantis</td>
+<td align="left">q1a</td>
+<td align="right">59.75610</td>
+<td align="left">Police</td>
+</tr>
+<tr class="even">
+<td align="left">Atlantis</td>
+<td align="left">q1b</td>
+<td align="right">40.74074</td>
+<td align="left">Courts</td>
+</tr>
+<tr class="odd">
+<td align="left">Atlantis</td>
+<td align="left">q1c</td>
+<td align="right">40.33613</td>
+<td align="left">Parliament</td>
+</tr>
+<tr class="even">
+<td align="left">Atlantis</td>
+<td align="left">q1d</td>
+<td align="right">52.65306</td>
+<td align="left">Government</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </div>
 <div class="section level2">
@@ -344,6 +464,50 @@ points.</p>
 <span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Police"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"Courts"</span> <span class="op">=</span> <span class="st">"#BF02AF"</span>, <span class="st">"Parliament"</span> <span class="op">=</span> <span class="st">"#00A8A5"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/lines-1.png" class="r-plt" alt="" width="100%"></p>
+<p><strong>Expected input structure</strong> — long format: one row per
+<code>grouping</code> (time point) × series. Pass the series vector
+through <code>ngroups</code>.</p>
+<table class="table">
+<caption>Input data for wjp_lines(): target = trust, grouping = year,
+ngroups = institution</caption>
+<thead><tr class="header">
+<th align="left">year</th>
+<th align="left">variable</th>
+<th align="right">trust</th>
+<th align="left">institution</th>
+<th align="left">label</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">2017</td>
+<td align="left">q1a</td>
+<td align="right">62.39316</td>
+<td align="left">Police</td>
+<td align="left">62%</td>
+</tr>
+<tr class="even">
+<td align="left">2017</td>
+<td align="left">q1b</td>
+<td align="right">43.85965</td>
+<td align="left">Courts</td>
+<td align="left">44%</td>
+</tr>
+<tr class="odd">
+<td align="left">2017</td>
+<td align="left">q1c</td>
+<td align="right">40.00000</td>
+<td align="left">Parliament</td>
+<td align="left">40%</td>
+</tr>
+<tr class="even">
+<td align="left">2019</td>
+<td align="left">q1a</td>
+<td align="right">63.51351</td>
+<td align="left">Police</td>
+<td align="left">64%</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </div>
 <div class="section level2">
@@ -375,6 +539,45 @@ points.</p>
 <span>  repel    <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/slope-1.png" class="r-plt" alt="" width="100%"></p>
+<p><strong>Expected input structure</strong> — exactly two
+<code>grouping</code> values (the two time points) per series. Pass the
+series vector through <code>ngroups</code>.</p>
+<table class="table">
+<caption>Input data for wjp_slope(): target = trust, grouping = year,
+ngroups = gender</caption>
+<thead><tr class="header">
+<th align="right">year</th>
+<th align="left">gender</th>
+<th align="right">trust</th>
+<th align="left">label</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">2017</td>
+<td align="left">Female</td>
+<td align="right">60.00000</td>
+<td align="left">60%</td>
+</tr>
+<tr class="even">
+<td align="right">2017</td>
+<td align="left">Male</td>
+<td align="right">58.59873</td>
+<td align="left">59%</td>
+</tr>
+<tr class="odd">
+<td align="right">2019</td>
+<td align="left">Female</td>
+<td align="right">65.90909</td>
+<td align="left">66%</td>
+</tr>
+<tr class="even">
+<td align="right">2019</td>
+<td align="left">Male</td>
+<td align="right">63.46154</td>
+<td align="left">63%</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </div>
 <div class="section level2">
@@ -395,6 +598,50 @@ connected markers.</p>
 <span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"2022"</span> <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/dumbbells-1.png" class="r-plt" alt="" width="100%"></p>
+<p><strong>Expected input structure</strong> — one row per
+<code>grouping</code> × <code>color</code> (the two endpoints).
+<code>cgroups</code> lists the two endpoint values.</p>
+<table class="table">
+<caption>Input data for wjp_dumbbells(): target = trust, grouping =
+institution, color = year</caption>
+<thead><tr class="header">
+<th align="left">year</th>
+<th align="left">variable</th>
+<th align="right">trust</th>
+<th align="left">institution</th>
+<th align="left">label</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">2017</td>
+<td align="left">q1a</td>
+<td align="right">62.39316</td>
+<td align="left">Police</td>
+<td align="left">62%</td>
+</tr>
+<tr class="even">
+<td align="left">2017</td>
+<td align="left">q1b</td>
+<td align="right">43.85965</td>
+<td align="left">Courts</td>
+<td align="left">44%</td>
+</tr>
+<tr class="odd">
+<td align="left">2017</td>
+<td align="left">q1c</td>
+<td align="right">40.00000</td>
+<td align="left">Parliament</td>
+<td align="left">40%</td>
+</tr>
+<tr class="even">
+<td align="left">2022</td>
+<td align="left">q1a</td>
+<td align="right">49.09091</td>
+<td align="left">Police</td>
+<td align="left">49%</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </div>
 <div class="section level2">
@@ -411,6 +658,9 @@ and dots.</p>
 <span>  point_color <span class="op">=</span> <span class="st">"#482d8b"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/lollipops-1.png" class="r-plt" alt="" width="100%"></p>
+<p>Uses the same <code>data_bars</code> structure (one row per category
+with a <code>target</code> value) shown under <strong>Bar
+Charts</strong>.</p>
 <hr>
 </div>
 <div class="section level2">
@@ -427,6 +677,9 @@ edge, ideal for narrow spaces.</p>
 <span>  cvec     <span class="op">=</span> <span class="st">"#2894aa"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/edgebars-1.png" class="r-plt" alt="" width="100%"></p>
+<p>Uses the same <code>data_bars</code> structure shown under
+<strong>Bar Charts</strong>; <code>labels</code> supplies the text drawn
+at the edge of each bar.</p>
 <hr>
 </div>
 <div class="section level2">
@@ -469,6 +722,45 @@ grid.</p>
 <span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/radar-1.png" class="r-plt" alt="" width="100%"></p>
+<p><strong>Expected input structure</strong> — long format: one row per
+<code>axis_var</code> (dimension) × <code>colors</code> (group).
+<code>labels</code> gives the human-readable axis name.</p>
+<table class="table">
+<caption>Input data for wjp_radar(): target = score, axis_var =
+category, colors = gender</caption>
+<thead><tr class="header">
+<th align="left">gender</th>
+<th align="left">category</th>
+<th align="right">score</th>
+<th align="left">label</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Female</td>
+<td align="left">q49a</td>
+<td align="right">51.57480</td>
+<td align="left">Reliable</td>
+</tr>
+<tr class="even">
+<td align="left">Female</td>
+<td align="left">q49b_G1</td>
+<td align="right">42.33577</td>
+<td align="left">Accessible</td>
+</tr>
+<tr class="odd">
+<td align="left">Female</td>
+<td align="left">q49b_G2</td>
+<td align="right">48.36601</td>
+<td align="left">Channels</td>
+</tr>
+<tr class="even">
+<td align="left">Female</td>
+<td align="left">q49c_G1</td>
+<td align="right">48.90511</td>
+<td align="left">Consistent</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </div>
 <div class="section level2">
@@ -489,6 +781,45 @@ multi-dimensional data.</p>
 <span>               <span class="st">"#181878"</span>, <span class="st">"#3366FF"</span>, <span class="st">"#00A8A5"</span>, <span class="st">"#226640"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/rose-1.png" class="r-plt" alt="" width="100%"></p>
+<p><strong>Expected input structure</strong> — a single unit: one row
+per <code>grouping</code> (dimension) with its <code>target</code> value
+and a display <code>label</code>.</p>
+<table class="table">
+<caption>Input data for wjp_rose(): target = score, grouping =
+category</caption>
+<thead><tr class="header">
+<th align="left">gender</th>
+<th align="left">category</th>
+<th align="right">score</th>
+<th align="left">label</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Male</td>
+<td align="left">q49a</td>
+<td align="right">51.64319</td>
+<td align="left">Reliable</td>
+</tr>
+<tr class="even">
+<td align="left">Male</td>
+<td align="left">q49b_G1</td>
+<td align="right">45.66929</td>
+<td align="left">Accessible</td>
+</tr>
+<tr class="odd">
+<td align="left">Male</td>
+<td align="left">q49b_G2</td>
+<td align="right">50.86207</td>
+<td align="left">Channels</td>
+</tr>
+<tr class="even">
+<td align="left">Male</td>
+<td align="left">q49c_G1</td>
+<td align="right">58.59375</td>
+<td align="left">Consistent</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </div>
 <div class="section level2">
@@ -513,6 +844,122 @@ or progress.</p>
 <span>  labels       <span class="op">=</span> <span class="st">"label"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/gauge-1.png" class="r-plt" alt="" width="100%"></p>
+<p><strong>Expected input structure</strong> — one row per slice: a
+<code>colors</code> category, its <code>target</code> value, and a
+display <code>label</code>. <code>factor_order</code> controls the
+drawing order.</p>
+<table class="table">
+<caption>Input data for wjp_gauge(): target = value, colors =
+category</caption>
+<thead><tr class="header">
+<th align="left">category</th>
+<th align="right">value</th>
+<th align="left">label</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Factor 1</td>
+<td align="right">25</td>
+<td align="left">25%</td>
+</tr>
+<tr class="even">
+<td align="left">Factor 2</td>
+<td align="right">35</td>
+<td align="left">35%</td>
+</tr>
+<tr class="odd">
+<td align="left">Factor 3</td>
+<td align="right">25</td>
+<td align="left">25%</td>
+</tr>
+<tr class="even">
+<td align="left">Factor 4</td>
+<td align="right">15</td>
+<td align="left">15%</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="grouped-bars">Grouped Bars<a class="anchor" aria-label="anchor" href="#grouped-bars"></a>
+</h2>
+<p><code><a href="../reference/wjp_groupbars.html">wjp_groupbars()</a></code> - Faceted bars that compare a value
+across demographic groups (one facet per <code>grouping</code>).</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Value by country, plus the same value broken down by gender</span></span>
+<span><span class="va">country_level</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2022</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>q1a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="va">q1a</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>         trust <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">q1a</span> <span class="op">&lt;=</span> <span class="fl">2</span> <span class="op">~</span> <span class="fl">1</span>, <span class="va">q1a</span> <span class="op">&lt;=</span> <span class="fl">4</span> <span class="op">~</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">trust</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">country</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">trust</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Country"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>category <span class="op">=</span> <span class="va">country</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">gender_level</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2022</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>q1a  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="va">q1a</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>         gend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="va">gend</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>         trust  <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">q1a</span> <span class="op">&lt;=</span> <span class="fl">2</span> <span class="op">~</span> <span class="fl">1</span>, <span class="va">q1a</span> <span class="op">&lt;=</span> <span class="fl">4</span> <span class="op">~</span> <span class="fl">0</span><span class="op">)</span>,</span>
+<span>         gender <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">gend</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"Male"</span>, <span class="va">gend</span> <span class="op">==</span> <span class="fl">2</span> <span class="op">~</span> <span class="st">"Female"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">trust</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">gender</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">gender</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">trust</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Gender"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>category <span class="op">=</span> <span class="va">gender</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">data_groupbars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">country_level</span>, <span class="va">gender_level</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/wjp_groupbars.html">wjp_groupbars</a></span><span class="op">(</span></span>
+<span>  <span class="va">data_groupbars</span>,</span>
+<span>  target      <span class="op">=</span> <span class="st">"value"</span>,</span>
+<span>  grouping    <span class="op">=</span> <span class="st">"group"</span>,</span>
+<span>  levels      <span class="op">=</span> <span class="st">"category"</span>,</span>
+<span>  colors      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#482d8b"</span>, <span class="st">"#2894aa"</span><span class="op">)</span>,</span>
+<span>  group_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Country"</span>, <span class="st">"Gender"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="gallery_files/figure-html/groupbars-1.png" class="r-plt" alt="" width="100%"></p>
+<p><strong>Expected input structure</strong> — one row per
+<code>levels</code> category, tagged with the <code>grouping</code>
+(facet) it belongs to and its <code>target</code> value.</p>
+<table class="table">
+<caption>Input data for wjp_groupbars(): target = value, grouping =
+group, levels = category</caption>
+<thead><tr class="header">
+<th align="left">category</th>
+<th align="right">value</th>
+<th align="left">group</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Atlantis</td>
+<td align="right">0.4909091</td>
+<td align="left">Country</td>
+</tr>
+<tr class="even">
+<td align="left">Narnia</td>
+<td align="right">0.4565217</td>
+<td align="left">Country</td>
+</tr>
+<tr class="odd">
+<td align="left">Neverland</td>
+<td align="right">0.6363636</td>
+<td align="left">Country</td>
+</tr>
+<tr class="even">
+<td align="left">Female</td>
+<td align="right">0.5000000</td>
+<td align="left">Gender</td>
+</tr>
+<tr class="odd">
+<td align="left">Male</td>
+<td align="right">0.5675676</td>
+<td align="left">Gender</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </div>
 <div class="section level2">
@@ -589,6 +1036,11 @@ or progress.</p>
 <td>Gauge</td>
 <td><code><a href="../reference/wjp_gauge.html">wjp_gauge()</a></code></td>
 <td>Composition, progress</td>
+</tr>
+<tr class="odd">
+<td>Grouped Bars</td>
+<td><code><a href="../reference/wjp_groupbars.html">wjp_groupbars()</a></code></td>
+<td>Compare a value across demographic groups</td>
 </tr>
 </tbody>
 </table>

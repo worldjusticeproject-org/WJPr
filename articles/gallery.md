@@ -90,6 +90,18 @@ wjp_bars(
 
 ![](gallery_files/figure-html/bars-vertical-1.png)
 
+**Expected input structure** — one row per category, with the value
+column (`target`) and the category column (`grouping`);
+`labels`/`lab_pos` are optional helpers for the data labels.
+
+| country   |    trust | label | label_pos |
+|:----------|---------:|:------|----------:|
+| Atlantis  | 49.09091 | 49%   |  54.09091 |
+| Narnia    | 45.65217 | 46%   |  50.65217 |
+| Neverland | 63.63636 | 64%   |  68.63636 |
+
+Input data for wjp_bars(): target = trust, grouping = country {.table}
+
 ### Horizontal Bars
 
 Set `direction = "horizontal"` for horizontal orientation.
@@ -109,6 +121,9 @@ wjp_bars(
 ```
 
 ![](gallery_files/figure-html/bars-horizontal-1.png)
+
+Uses the same `data_bars` structure shown above — only
+`direction = "horizontal"` changes.
 
 ------------------------------------------------------------------------
 
@@ -148,6 +163,20 @@ wjp_divbars(
 
 ![](gallery_files/figure-html/divbars-1.png)
 
+**Expected input structure** — one row per `grouping` × `diverging`
+combination. Negative values point left, positive values point right
+(`percent` here is signed).
+
+| country  | response |   n |   percent | label |
+|:---------|:---------|----:|----------:|:------|
+| Atlantis | No Trust |  28 | -50.90909 | 51%   |
+| Atlantis | Trust    |  27 |  49.09091 | 49%   |
+| Narnia   | No Trust |  25 | -54.34783 | 54%   |
+| Narnia   | Trust    |  21 |  45.65217 | 46%   |
+
+Input data for wjp_divbars(): target = percent, grouping = country,
+diverging = response {.table}
+
 ------------------------------------------------------------------------
 
 ## Dots Chart
@@ -185,6 +214,19 @@ wjp_dots(
 ```
 
 ![](gallery_files/figure-html/dots-1.png)
+
+**Expected input structure** — long format: one row per `grouping`
+(variable) × `colors` (group) combination, each with its `target` value.
+
+| country  | variable |    trust | institution |
+|:---------|:---------|---------:|:------------|
+| Atlantis | q1a      | 59.75610 | Police      |
+| Atlantis | q1b      | 40.74074 | Courts      |
+| Atlantis | q1c      | 40.33613 | Parliament  |
+| Atlantis | q1d      | 52.65306 | Government  |
+
+Input data for wjp_dots(): target = trust, grouping = institution,
+colors = country {.table}
 
 ------------------------------------------------------------------------
 
@@ -231,6 +273,19 @@ wjp_lines(
 
 ![](gallery_files/figure-html/lines-1.png)
 
+**Expected input structure** — long format: one row per `grouping` (time
+point) × series. Pass the series vector through `ngroups`.
+
+| year | variable |    trust | institution | label |
+|:-----|:---------|---------:|:------------|:------|
+| 2017 | q1a      | 62.39316 | Police      | 62%   |
+| 2017 | q1b      | 43.85965 | Courts      | 44%   |
+| 2017 | q1c      | 40.00000 | Parliament  | 40%   |
+| 2019 | q1a      | 63.51351 | Police      | 64%   |
+
+Input data for wjp_lines(): target = trust, grouping = year, ngroups =
+institution {.table}
+
 ------------------------------------------------------------------------
 
 ## Slope Chart
@@ -266,6 +321,19 @@ wjp_slope(
 
 ![](gallery_files/figure-html/slope-1.png)
 
+**Expected input structure** — exactly two `grouping` values (the two
+time points) per series. Pass the series vector through `ngroups`.
+
+| year | gender |    trust | label |
+|-----:|:-------|---------:|:------|
+| 2017 | Female | 60.00000 | 60%   |
+| 2017 | Male   | 58.59873 | 59%   |
+| 2019 | Female | 65.90909 | 66%   |
+| 2019 | Male   | 63.46154 | 63%   |
+
+Input data for wjp_slope(): target = trust, grouping = year, ngroups =
+gender {.table}
+
 ------------------------------------------------------------------------
 
 ## Dumbbell Chart
@@ -290,6 +358,19 @@ wjp_dumbbells(
 
 ![](gallery_files/figure-html/dumbbells-1.png)
 
+**Expected input structure** — one row per `grouping` × `color` (the two
+endpoints). `cgroups` lists the two endpoint values.
+
+| year | variable |    trust | institution | label |
+|:-----|:---------|---------:|:------------|:------|
+| 2017 | q1a      | 62.39316 | Police      | 62%   |
+| 2017 | q1b      | 43.85965 | Courts      | 44%   |
+| 2017 | q1c      | 40.00000 | Parliament  | 40%   |
+| 2022 | q1a      | 49.09091 | Police      | 49%   |
+
+Input data for wjp_dumbbells(): target = trust, grouping = institution,
+color = year {.table}
+
 ------------------------------------------------------------------------
 
 ## Lollipop Chart
@@ -310,6 +391,9 @@ wjp_lollipops(
 
 ![](gallery_files/figure-html/lollipops-1.png)
 
+Uses the same `data_bars` structure (one row per category with a
+`target` value) shown under **Bar Charts**.
+
 ------------------------------------------------------------------------
 
 ## Edgebars Chart
@@ -329,6 +413,9 @@ wjp_edgebars(
 ```
 
 ![](gallery_files/figure-html/edgebars-1.png)
+
+Uses the same `data_bars` structure shown under **Bar Charts**; `labels`
+supplies the text drawn at the edge of each bar.
 
 ------------------------------------------------------------------------
 
@@ -376,6 +463,20 @@ wjp_radar(
 
 ![](gallery_files/figure-html/radar-1.png)
 
+**Expected input structure** — long format: one row per `axis_var`
+(dimension) × `colors` (group). `labels` gives the human-readable axis
+name.
+
+| gender | category |    score | label      |
+|:-------|:---------|---------:|:-----------|
+| Female | q49a     | 51.57480 | Reliable   |
+| Female | q49b_G1  | 42.33577 | Accessible |
+| Female | q49b_G2  | 48.36601 | Channels   |
+| Female | q49c_G1  | 48.90511 | Consistent |
+
+Input data for wjp_radar(): target = score, axis_var = category, colors
+= gender {.table}
+
 ------------------------------------------------------------------------
 
 ## Rose Chart
@@ -399,6 +500,18 @@ wjp_rose(
 ```
 
 ![](gallery_files/figure-html/rose-1.png)
+
+**Expected input structure** — a single unit: one row per `grouping`
+(dimension) with its `target` value and a display `label`.
+
+| gender | category |    score | label      |
+|:-------|:---------|---------:|:-----------|
+| Male   | q49a     | 51.64319 | Reliable   |
+| Male   | q49b_G1  | 45.66929 | Accessible |
+| Male   | q49b_G2  | 50.86207 | Channels   |
+| Male   | q49c_G1  | 58.59375 | Consistent |
+
+Input data for wjp_rose(): target = score, grouping = category {.table}
 
 ------------------------------------------------------------------------
 
@@ -428,6 +541,80 @@ wjp_gauge(
 
 ![](gallery_files/figure-html/gauge-1.png)
 
+**Expected input structure** — one row per slice: a `colors` category,
+its `target` value, and a display `label`. `factor_order` controls the
+drawing order.
+
+| category | value | label |
+|:---------|------:|:------|
+| Factor 1 |    25 | 25%   |
+| Factor 2 |    35 | 35%   |
+| Factor 3 |    25 | 25%   |
+| Factor 4 |    15 | 15%   |
+
+Input data for wjp_gauge(): target = value, colors = category {.table}
+
+------------------------------------------------------------------------
+
+## Grouped Bars
+
+[`wjp_groupbars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_groupbars.md) -
+Faceted bars that compare a value across demographic groups (one facet
+per `grouping`).
+
+``` r
+
+# Value by country, plus the same value broken down by gender
+country_level <- gpp_data %>%
+  filter(year == 2022) %>%
+  mutate(q1a = as.double(unclass(q1a)),
+         trust = case_when(q1a <= 2 ~ 1, q1a <= 4 ~ 0)) %>%
+  filter(!is.na(trust)) %>%
+  group_by(country) %>%
+  summarise(value = mean(trust, na.rm = TRUE), .groups = "drop") %>%
+  mutate(group = "Country") %>%
+  rename(category = country)
+
+gender_level <- gpp_data %>%
+  filter(year == 2022) %>%
+  mutate(q1a  = as.double(unclass(q1a)),
+         gend = as.double(unclass(gend)),
+         trust  = case_when(q1a <= 2 ~ 1, q1a <= 4 ~ 0),
+         gender = case_when(gend == 1 ~ "Male", gend == 2 ~ "Female")) %>%
+  filter(!is.na(trust), !is.na(gender)) %>%
+  group_by(gender) %>%
+  summarise(value = mean(trust, na.rm = TRUE), .groups = "drop") %>%
+  mutate(group = "Gender") %>%
+  rename(category = gender)
+
+data_groupbars <- bind_rows(country_level, gender_level)
+
+wjp_groupbars(
+  data_groupbars,
+  target      = "value",
+  grouping    = "group",
+  levels      = "category",
+  colors      = c("#482d8b", "#2894aa"),
+  group_order = c("Country", "Gender")
+)
+```
+
+![](gallery_files/figure-html/groupbars-1.png)
+
+**Expected input structure** — one row per `levels` category, tagged
+with the `grouping` (facet) it belongs to and its `target` value.
+
+| category  |     value | group   |
+|:----------|----------:|:--------|
+| Atlantis  | 0.4909091 | Country |
+| Narnia    | 0.4565217 | Country |
+| Neverland | 0.6363636 | Country |
+| Female    | 0.5000000 | Gender  |
+| Male      | 0.5675676 | Gender  |
+
+Input data for wjp_groupbars(): target = value, grouping = group, levels
+= category {.table}
+
 ------------------------------------------------------------------------
 
 ## Quick Reference
@@ -446,3 +633,4 @@ wjp_gauge(
 | Radar | [`wjp_radar()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_radar.md) | Multi-dimensional group comparison |
 | Rose | [`wjp_rose()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_rose.md) | Multi-dimensional single unit |
 | Gauge | [`wjp_gauge()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_gauge.md) | Composition, progress |
+| Grouped Bars | [`wjp_groupbars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_groupbars.md) | Compare a value across demographic groups |
