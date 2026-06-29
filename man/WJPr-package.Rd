@@ -11,9 +11,9 @@ The WJPr package contains the most important data and visualization tools used b
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/ctoruno/WJPr}
-  \item \url{https://ctoruno.github.io/WJPr/}
-  \item Report bugs at \url{https://github.com/ctoruno/WJPr/issues}
+  \item \url{https://github.com/worldjusticeproject-org/WJPr}
+  \item \url{https://worldjusticeproject-org.github.io/WJPr/}
+  \item Report bugs at \url{https://github.com/worldjusticeproject-org/WJPr/issues}
 }
 
 }

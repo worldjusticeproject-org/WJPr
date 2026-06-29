@@ -1,0 +1,186 @@
+---
+title: "Agregar una función nueva"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Agregar una función nueva}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+Esta guía resume el flujo recomendado para insertar una función nueva en WJPr.
+Para detalles más extensos, ver la [guía de desarrollo completa](development-guide.html).
+
+## 1. Crear el archivo
+
+Las funciones de gráficos viven en `R/` y siguen la convención:
+
+- `R/{tipo}Chart.R` para gráficos, por ejemplo `R/waterfallChart.R`.
+- `R/{nombre}.R` para utilidades, validadores o funciones no gráficas.
+
+La función exportada debe usar el prefijo `wjp_`:
+
+```r
+wjp_waterfall <- function(
+    data,
+    target,
+    grouping,
+    colors = NULL,
+    cvec = NULL,
+    labels = NULL,
+    ptheme = WJP_theme()
+) {
+  # implementación
+}
+```
+
+## 2. Documentar con roxygen2
+
+Toda función pública necesita documentación roxygen completa:
+
+```r
+#' Plot a Waterfall Chart following WJP style guidelines
+#'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' `wjp_waterfall()` creates a waterfall chart following WJP style guidelines.
+#'
+#' @param data A data frame containing the data to be plotted.
+#' @param target String. Column name containing numeric values.
+#' @param grouping String. Column name containing categories.
+#' @param colors String. Column name for color groups. Default is NULL.
+#' @param cvec Named vector of colors. Default is NULL.
+#' @param labels String. Column name with labels. Default is NULL.
+#' @param ptheme A ggplot2 theme. Default is WJP_theme().
+#'
+#' @return A ggplot object.
+#' @export
+```
+
+Después de documentar, ejecutar:
+
+```r
+roxygen2::roxygenise()
+```
+
+Esto actualiza `NAMESPACE` y los archivos en `man/`.
+
+## 3. Usar el patrón interno de columnas
+
+Las funciones deben renombrar columnas de entrada a nombres internos estables.
+Esto hace que el código sea consistente entre gráficos:
+
+```r
+data <- data |>
+  dplyr::rename(
+    target_var = dplyr::all_of(target),
+    grouping_var = dplyr::all_of(grouping)
+  )
+
+if (is.null(colors)) {
+  data <- data |>
+    dplyr::mutate(colors_var = grouping_var)
+} else if (colors == grouping) {
+  data <- data |>
+    dplyr::mutate(colors_var = grouping_var)
+} else {
+  data <- data |>
+    dplyr::rename(colors_var = dplyr::all_of(colors))
+}
+```
+
+## 4. Validar entradas importantes
+
+Agregar errores claros para casos que producirían gráficos inválidos:
+
+```r
+if (!is.data.frame(data)) {
+  stop("`data` must be a data frame.", call. = FALSE)
+}
+
+if (any(!is.na(data$target_var) & data$target_var < 0)) {
+  stop("`target` must contain non-negative values.", call. = FALSE)
+}
+```
+
+Para validaciones generales, usar o extender `wjp_check_data()`.
+
+## 5. Aplicar colores y tema
+
+Las funciones deben retornar un objeto `ggplot` y respetar `cvec` y `ptheme`:
+
+```r
+plt <- ggplot2::ggplot(data, ggplot2::aes(grouping_var, target_var)) +
+  ggplot2::geom_col()
+
+if (!is.null(cvec)) {
+  plt <- plt +
+    ggplot2::scale_fill_manual(values = cvec)
+}
+
+plt <- plt + ptheme
+
+return(plt)
+```
+
+No llamar `WJP_theme()` directamente dentro de la función si ya existe un
+argumento `ptheme`.
+
+## 6. Agregar pruebas
+
+Agregar al menos una prueba en `tests/testthat/` que confirme:
+
+- La función devuelve un objeto `ggplot`.
+- `ggplot2::ggplot_build()` no falla.
+- Los argumentos opcionales importantes funcionan.
+- Los errores esperados tienen mensajes claros.
+
+Ejemplo:
+
+```r
+test_that("wjp_waterfall returns a buildable ggplot", {
+  data <- data.frame(
+    category = c("Start", "Gain", "Loss"),
+    value = c(100, 30, -20)
+  )
+
+  plot <- wjp_waterfall(data, target = "value", grouping = "category")
+
+  testthat::expect_s3_class(plot, "ggplot")
+  testthat::expect_no_error(ggplot2::ggplot_build(plot))
+})
+```
+
+## 7. Agregar la función al sitio web
+
+Actualizar `_pkgdown.yml`:
+
+1. Agregar la función en el dropdown `navbar > components > functions`.
+2. Agregarla a la sección correcta en `reference`.
+3. Si corresponde, agregar un ejemplo visual en `vignettes/articles/gallery.Rmd`.
+
+## 8. Verificar antes de subir
+
+Ejecutar:
+
+```r
+testthat::test_dir("tests/testthat")
+pkgdown::build_site()
+```
+
+Y para revisión de paquete:
+
+```bash
+R CMD build --no-build-vignettes .
+R CMD check --no-manual --no-build-vignettes --no-examples WJPr_1.0.1.tar.gz
+```
+
+Si todo pasa, la función está lista para revisión.

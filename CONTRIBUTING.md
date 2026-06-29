@@ -49,7 +49,7 @@ Usamos **renv** para garantizar un entorno de desarrollo reproducible.
 
 ```r
 # 1. Clonar el repositorio
-# git clone https://github.com/ctoruno/WJPr.git
+# git clone https://github.com/worldjusticeproject-org/WJPr.git
 
 # 2. Abrir el proyecto en RStudio o R
 
@@ -422,7 +422,7 @@ Antes de enviar un PR, verifica:
 install.packages(c("devtools", "roxygen2", "testthat"))
 
 # Clonar repositorio
-# git clone https://github.com/ctoruno/WJPr.git
+# git clone https://github.com/worldjusticeproject-org/WJPr.git
 ```
 
 ### 2. Crear Rama
@@ -504,7 +504,7 @@ devtools::load_all()  # Carga funciones sin instalar
 
 ## Contacto
 
-- **Issues**: [GitHub Issues](https://github.com/ctoruno/WJPr/issues)
+- **Issues**: [GitHub Issues](https://github.com/worldjusticeproject-org/WJPr/issues)
 - **Maintainer**: Carlos Toruño
 
 ¡Gracias por contribuir a WJPr!

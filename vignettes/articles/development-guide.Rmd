@@ -33,7 +33,7 @@ install.packages(c(
 ### Clonar el Repositorio
 
 ```{bash}
-git clone https://github.com/ctoruno/WJPr.git
+git clone https://github.com/worldjusticeproject-org/WJPr.git
 cd WJPr
 ```
 

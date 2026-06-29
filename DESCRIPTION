@@ -18,8 +18,8 @@ Description: The WJPr package contains the most important data and
     Additionally, you can find the Rule of Law Index scores data for all
     factors and subfactors as complementary data.
 License: MIT + file LICENSE
-URL: https://github.com/ctoruno/WJPr, https://ctoruno.github.io/WJPr/
-BugReports: https://github.com/ctoruno/WJPr/issues
+URL: https://github.com/worldjusticeproject-org/WJPr, https://worldjusticeproject-org.github.io/WJPr/
+BugReports: https://github.com/worldjusticeproject-org/WJPr/issues
 Depends:
     R (>= 4.1.0)
 Imports:

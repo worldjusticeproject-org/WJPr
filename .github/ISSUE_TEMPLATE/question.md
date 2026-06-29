@@ -23,10 +23,10 @@ What are you trying to accomplish?
 ## Related Documentation
 
 Have you checked:
-- [ ] [Package documentation](https://ctoruno.github.io/WJPr/)
-- [ ] [Data preparation guide](https://ctoruno.github.io/WJPr/articles/data-preparation.html)
-- [ ] [Function help](https://ctoruno.github.io/WJPr/reference/)
-- [ ] [Existing issues](https://github.com/ctoruno/WJPr/issues)
+- [ ] [Package documentation](https://worldjusticeproject-org.github.io/WJPr/)
+- [ ] [Data preparation guide](https://worldjusticeproject-org.github.io/WJPr/articles/data-preparation.html)
+- [ ] [Function help](https://worldjusticeproject-org.github.io/WJPr/reference/)
+- [ ] [Existing issues](https://github.com/worldjusticeproject-org/WJPr/issues)
 
 ## Environment
 

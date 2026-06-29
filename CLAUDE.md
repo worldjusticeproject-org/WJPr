@@ -10,7 +10,7 @@ WJPr is an R package developed by the Data Analytics Unit at The World Justice P
 
 ### Package Installation
 ```r
-devtools::install_github("WJP-DAU/WJPr")
+devtools::install_github("worldjusticeproject-org/WJPr")
 ```
 
 ### Environment Setup (renv)

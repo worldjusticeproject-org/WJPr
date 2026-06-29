@@ -135,6 +135,7 @@ gpp_data <- WJPr::gpp
 
 step1 <- gpp_data %>%
   mutate(
+    q1a = as.double(unclass(q1a)),
     trust = case_when(
       q1a <= 2  ~ 1,
       q1a <= 4  ~ 0,

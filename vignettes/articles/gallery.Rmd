@@ -33,7 +33,7 @@ wjp_fonts()
 gpp_data <- WJPr::gpp
 ```
 
----
+***
 ## Bar Charts
 
 ### Vertical Bars
@@ -42,7 +42,10 @@ gpp_data <- WJPr::gpp
 ```{r bars-vertical, warning=FALSE}
 data_bars <- gpp_data %>%
   filter(year == 2022) %>%
-  mutate(trust = case_when(q1a <= 2 ~ 1, q1a <= 4 ~ 0)) %>%
+  mutate(
+    q1a  = as.double(unclass(q1a)),
+    trust = case_when(q1a <= 2 ~ 1, q1a <= 4 ~ 0)
+  ) %>%
   group_by(country) %>%
   summarise(trust = mean(trust, na.rm = TRUE) * 100, .groups = "drop") %>%
   mutate(label = paste0(round(trust, 0), "%"), label_pos = trust + 5)
@@ -74,7 +77,7 @@ wjp_bars(
 )
 ```
 
----
+***
 
 ## Diverging Bars
 `wjp_divbars()` - Show positive and negative values extending from a center point.
@@ -82,7 +85,10 @@ wjp_bars(
 ```{r divbars, warning=FALSE}
 data_divbars <- gpp_data %>%
   filter(year == 2022) %>%
-  mutate(response = case_when(q1a <= 2 ~ "Trust", q1a <= 4 ~ "No Trust")) %>%
+  mutate(
+    q1a     = as.double(unclass(q1a)),
+    response = case_when(q1a <= 2 ~ "Trust", q1a <= 4 ~ "No Trust")
+  ) %>%
   filter(!is.na(response)) %>%
   group_by(country, response) %>%
   count() %>%
@@ -104,7 +110,7 @@ wjp_divbars(
 )
 ```
 
----
+***
 
 ## Dots Chart
 `wjp_dots()` - Compare multiple variables across groups with dot markers.
@@ -112,7 +118,10 @@ wjp_divbars(
 ```{r dots, warning=FALSE}
 data_dots <- gpp_data %>%
   select(country, q1a, q1b, q1c, q1d) %>%
-  mutate(across(starts_with("q1"), ~ case_when(.x <= 2 ~ 1, .x <= 4 ~ 0))) %>%
+  mutate(
+    across(starts_with("q1"), \(x) as.double(unclass(x))),
+    across(starts_with("q1"), ~ case_when(.x <= 2 ~ 1, .x <= 4 ~ 0))
+  ) %>%
   group_by(country) %>%
   summarise(across(everything(), ~ mean(.x, na.rm = TRUE) * 100), .groups = "drop") %>%
   pivot_longer(-country, names_to = "variable", values_to = "trust") %>%
@@ -134,7 +143,7 @@ wjp_dots(
 )
 ```
 
----
+***
 
 ## Line Chart
 `wjp_lines()` - Display trends over time with connected points.
@@ -146,6 +155,7 @@ data_lines <- gpp_data %>%
   filter(country == "Atlantis") %>%
   select(year, q1a, q1b, q1c) %>%
   mutate(
+    across(starts_with("q1"), \(x) as.double(unclass(x))),
     across(starts_with("q1"), ~ case_when(.x <= 2 ~ 1, .x <= 4 ~ 0)),
     year = as.character(year)
   ) %>%
@@ -173,7 +183,7 @@ wjp_lines(
 )
 ```
 
----
+***
 
 ## Slope Chart
 `wjp_slope()` - Compare values between exactly two time points.
@@ -182,6 +192,8 @@ wjp_lines(
 data_slope <- gpp_data %>%
   filter(year %in% c(2017, 2019)) %>%
   mutate(
+    q1a   = as.double(unclass(q1a)),
+    gend  = as.double(unclass(gend)),
     trust  = case_when(q1a <= 2 ~ 1, q1a <= 4 ~ 0),
     gender = case_when(gend == 1 ~ "Male", gend == 2 ~ "Female")
   ) %>%
@@ -201,7 +213,7 @@ wjp_slope(
 )
 ```
 
----
+***
 
 ## Dumbbell Chart
 `wjp_dumbbells()` - Show change between two points with connected markers.
@@ -220,7 +232,7 @@ wjp_dumbbells(
 )
 ```
 
----
+***
 
 ## Lollipop Chart
 `wjp_lollipops()` - Minimalist bar alternative with stems and dots.
@@ -235,7 +247,7 @@ wjp_lollipops(
 )
 ```
 
----
+***
 
 ## Edgebars Chart
 `wjp_edgebars()` - Horizontal bars with labels at the edge, ideal for narrow spaces.
@@ -250,7 +262,7 @@ wjp_edgebars(
 )
 ```
 
----
+***
 
 ## Radar Chart
 `wjp_radar()` - Compare multiple dimensions on a circular grid.
@@ -259,6 +271,8 @@ wjp_edgebars(
 data_radar <- gpp_data %>%
   select(gend, starts_with("q49")) %>%
   mutate(
+    gend = as.double(unclass(gend)),
+    across(starts_with("q49"), \(x) as.double(unclass(x))),
     gender = case_when(gend == 1 ~ "Male", gend == 2 ~ "Female"),
     across(starts_with("q49"), ~ case_when(.x <= 2 ~ 1, .x <= 99 ~ 0))
   ) %>%
@@ -285,12 +299,11 @@ wjp_radar(
   target   = "score",
   labels   = "label",
   colors   = "gender",
-  maincat  = "Male",
   cvec     = c("Male" = "#1D4E89", "Female" = "#F79256")
 )
 ```
 
----
+***
 
 ## Rose Chart
 `wjp_rose()` - Circular bar chart for single-unit multi-dimensional data.
@@ -309,7 +322,7 @@ wjp_rose(
 )
 ```
 
----
+***
 
 ## Gauge Chart
 `wjp_gauge()` - Semicircular chart for showing composition or progress.
@@ -332,7 +345,7 @@ wjp_gauge(
 )
 ```
 
----
+***
 
 ## Quick Reference
 

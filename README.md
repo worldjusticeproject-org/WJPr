@@ -16,7 +16,7 @@ WJPr is hosted on GitHub. To install the package, ensure you have the `devtools`
 
 ```R
 # Install WJPr from GitHub
-devtools::install_github("WJP-DAU/WJPr")
+devtools::install_github("worldjusticeproject-org/WJPr")
 ```
 
 ## Usage
@@ -86,19 +86,19 @@ WJPr provides 12 chart types for creating publication-ready visualizations:
 | | | |
 |:---:|:---:|:---:|
 | **Bar Chart** | **Dots Chart** | **Line Chart** |
-| <img src="man/figures/example-bars.png" width="200"/> | <img src="man/figures/example-dots.png" width="200"/> | <img src="man/figures/example-lines.png" width="200"/> |
+| <img src="man/figures/example-bars.png" width="200" alt="Example vertical bar chart"/> | <img src="man/figures/example-dots.png" width="200" alt="Example dot chart"/> | <img src="man/figures/example-lines.png" width="200" alt="Example line chart"/> |
 | `wjp_bars()` | `wjp_dots()` | `wjp_lines()` |
 | **Diverging Bars** | **Dumbbells** | **Slope Chart** |
-| <img src="man/figures/example-divbars.png" width="200"/> | <img src="man/figures/example-dumbbells.png" width="200"/> | <img src="man/figures/example-slope.png" width="200"/> |
+| <img src="man/figures/example-divbars.png" width="200" alt="Example diverging bar chart"/> | <img src="man/figures/example-dumbbells.png" width="200" alt="Example dumbbell chart"/> | <img src="man/figures/example-slope.png" width="200" alt="Example slope chart"/> |
 | `wjp_divbars()` | `wjp_dumbbells()` | `wjp_slope()` |
 | **Radar Chart** | **Rose Chart** | **Gauge Chart** |
-| <img src="man/figures/example-radar.png" width="200"/> | <img src="man/figures/example-rose.png" width="200"/> | <img src="man/figures/example-gauge.png" width="200"/> |
+| <img src="man/figures/example-radar.png" width="200" alt="Example radar chart"/> | <img src="man/figures/example-rose.png" width="200" alt="Example rose chart"/> | <img src="man/figures/example-gauge.png" width="200" alt="Example gauge chart"/> |
 | `wjp_radar()` | `wjp_rose()` | `wjp_gauge()` |
 | **Lollipop Chart** | **Edgebars** | **Grouped Bars** |
-| <img src="man/figures/example-lollipops.png" width="200"/> | <img src="man/figures/example-edgebars.png" width="200"/> | <img src="man/figures/example-groupbars.png" width="200"/> |
+| <img src="man/figures/example-lollipops.png" width="200" alt="Example lollipop chart"/> | <img src="man/figures/example-edgebars.png" width="200" alt="Example edge bar chart"/> | <img src="man/figures/example-groupbars.png" width="200" alt="Example grouped bar chart"/> |
 | `wjp_lollipops()` | `wjp_edgebars()` | `wjp_groupbars()` |
 
-For a complete interactive gallery with code examples, see the [Chart Gallery vignette](https://ctoruno.github.io/WJPr/articles/gallery.html).
+For a complete interactive gallery with code examples, see the [Chart Gallery vignette](https://worldjusticeproject-org.github.io/WJPr/articles/gallery.html).
 
 ## Data Structure
 
@@ -138,7 +138,7 @@ wjp_check_data(
 )
 ```
 
-For detailed guidance, see the [Data Preparation vignette](https://ctoruno.github.io/WJPr/articles/data-preparation.html).
+For detailed guidance, see the [Data Preparation vignette](https://worldjusticeproject-org.github.io/WJPr/articles/data-preparation.html).
 
 ## Documentation
 
@@ -192,8 +192,8 @@ wjp_newchart <- function(
 ### Resources
 
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Complete contribution guidelines
-- **[Development Guide](https://ctoruno.github.io/WJPr/articles/development-guide.html)** - Step-by-step tutorial
-- **[Issues](https://github.com/ctoruno/WJPr/issues)** - Report bugs or request features
+- **[Development Guide](https://worldjusticeproject-org.github.io/WJPr/articles/development-guide.html)** - Step-by-step tutorial
+- **[Issues](https://github.com/worldjusticeproject-org/WJPr/issues)** - Report bugs or request features
 
 ## License
 
@@ -202,4 +202,3 @@ This project is licensed under the MIT License. See the `LICENSE.md` file for de
 ## Acknowledgments
 
 WJPr was developed by the Data Analytics Unit at The World Justice Project. Special thanks to the whole team for their invaluable input in creating this package.
-

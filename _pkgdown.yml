@@ -1,6 +1,126 @@
-url: https://ctoruno.github.io/WJPr/
+url: https://worldjusticeproject-org.github.io/WJPr/
 template:
   bootstrap: 5
   bootswatch: flatly
   # light-switch: true
 
+home:
+  title: WJPr
+  description: World Justice Project data and visualization tools.
+
+navbar:
+  structure:
+    left: [intro, reference, functions, articles, development, news]
+    right: [search, github]
+  components:
+    intro:
+      text: Inicio
+      href: index.html
+    reference:
+      text: Referencia
+      href: reference/index.html
+    functions:
+      text: Funciones
+      menu:
+      - text: Barras
+      - text: wjp_bars()
+        href: reference/wjp_bars.html
+      - text: wjp_divbars()
+        href: reference/wjp_divbars.html
+      - text: wjp_groupbars()
+        href: reference/wjp_groupbars.html
+      - text: wjp_edgebars()
+        href: reference/wjp_edgebars.html
+      - text: --------
+      - text: Puntos y líneas
+      - text: wjp_dots()
+        href: reference/wjp_dots.html
+      - text: wjp_lines()
+        href: reference/wjp_lines.html
+      - text: wjp_slope()
+        href: reference/wjp_slope.html
+      - text: wjp_dumbbells()
+        href: reference/wjp_dumbbells.html
+      - text: wjp_lollipops()
+        href: reference/wjp_lollipops.html
+      - text: --------
+      - text: Radiales y especiales
+      - text: wjp_radar()
+        href: reference/wjp_radar.html
+      - text: wjp_rose()
+        href: reference/wjp_rose.html
+      - text: wjp_gauge()
+        href: reference/wjp_gauge.html
+      - text: --------
+      - text: Validación y análisis
+      - text: wjp_check_data()
+        href: reference/wjp_check_data.html
+      - text: wjp_check_deps()
+        href: reference/wjp_check_deps.html
+      - text: diffmeans()
+        href: reference/diffmeans.html
+    articles:
+      text: Guías
+      menu:
+      - text: Galería de gráficos
+        href: articles/gallery.html
+      - text: Preparación de datos
+        href: articles/data-preparation.html
+      - text: Visualización de datos
+        href: articles/dataviz.html
+    development:
+      text: Desarrollo
+      menu:
+      - text: Agregar una función nueva
+        href: articles/add-function.html
+      - text: Guía de desarrollo completa
+        href: articles/development-guide.html
+
+reference:
+- title: Barras
+  desc: Funciones para gráficos de barras verticales, horizontales, divergentes, agrupados y de borde.
+  contents:
+  - wjp_bars
+  - wjp_divbars
+  - wjp_groupbars
+  - wjp_edgebars
+- title: Puntos y líneas
+  desc: Funciones para comparar puntos, tendencias, pendientes, cambios y lollipops.
+  contents:
+  - wjp_dots
+  - wjp_lines
+  - wjp_slope
+  - wjp_dumbbells
+  - wjp_lollipops
+- title: Radiales y especiales
+  desc: Funciones para gráficos radiales, rose charts y gauges.
+  contents:
+  - wjp_radar
+  - wjp_rose
+  - wjp_gauge
+- title: Validación, análisis y estilo
+  desc: Herramientas de soporte para validar datos, revisar dependencias, analizar diferencias y aplicar estilo WJP.
+  contents:
+  - wjp_check_data
+  - wjp_check_deps
+  - diffmeans
+  - wjp_fonts
+  - WJP_theme
+- title: Datos
+  desc: Datasets incluidos en el paquete.
+  contents:
+  - gpp
+  - roli
+
+articles:
+- title: Uso
+  navbar: ~
+  contents:
+  - articles/gallery
+  - articles/data-preparation
+  - articles/dataviz
+- title: Desarrollo
+  navbar: ~
+  contents:
+  - articles/add-function
+  - articles/development-guide

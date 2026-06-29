@@ -60,7 +60,7 @@ data4bars <- gpp_data %>%
   select(country, year, q1a) %>%
   group_by(country, year) %>%
   mutate(
-    q1a = as.double(q1a),
+    q1a = as.double(unclass(q1a)),
     trust = case_when(
       q1a <= 2  ~ 1,
       q1a <= 4  ~ 0,
@@ -185,6 +185,7 @@ data4stackedbars <- gpp_data %>%
   ) %>%
   select(country, q1a) %>%
   mutate(
+    q1a = as.double(unclass(q1a)),
     q1a  = case_when(
       q1a == 1  ~ "A lot",
       q1a == 2  ~ "Some",
@@ -254,6 +255,7 @@ data4divbars <- gpp_data %>%
   ) %>%
   select(country, q1a) %>%
   mutate(
+    q1a = as.double(unclass(q1a)),
     q1a  = case_when(
       q1a <= 2  ~ "Trust",
       q1a <= 4  ~ "No Trust"
@@ -352,7 +354,7 @@ data4lines <- gpp_data %>%
   mutate(
     across(
       !year,
-      \(x) as.double(x)
+      \(x) as.double(unclass(x))
     ),
     across(
       !year,
@@ -479,7 +481,8 @@ data4slopes <- gpp_data %>%
     year %in% c(2017, 2019)
   ) %>%
   mutate(
-    q1a = as.double(q1a),
+    gend = as.double(unclass(gend)),
+    q1a = as.double(unclass(q1a)),
     trust = case_when(
       q1a <= 2  ~ 1,
       q1a <= 4  ~ 0
@@ -545,6 +548,7 @@ Let’s walk through an example where we plot the percentage of people who have 
 data4dots <- gpp_data %>%
   select(country, q1a, q1b, q1c, q1d) %>%
   mutate(
+    across(!country, \(x) as.double(unclass(x))),
     across(
       !country,
       \(x) case_when(
@@ -628,6 +632,7 @@ The `wjp_dots()` function has a special feature that allows us to add confidence
 data4dots_errorbars <- gpp_data %>%
   select(gend, q1a, q1b, q1c, q1d) %>%
   mutate(
+    across(everything(), \(x) as.double(unclass(x))),
     gend = case_when(
       gend == 1 ~ "Male",
       gend == 2 ~ "Female",
@@ -747,6 +752,8 @@ An alternative when trying to compare data points in multiple dimensions across 
 data4radar <- gpp_data %>%
   select(gend, starts_with("q49")) %>%
   mutate(
+    gend = as.double(unclass(gend)),
+    across(starts_with("q49"), \(x) as.double(unclass(x))),
     gender = case_when(
       gend == 1 ~ "Male",
       gend == 2 ~ "Female"
@@ -841,7 +848,6 @@ wjp_radar(
     target      = "percentage",       
     labels      = "axis_label_md",        
     colors      = "gender",
-    maincat     = "Female",
     cvec        = c("Male"   = "#141B41",
                     "Female" = "#306BAC")
 )

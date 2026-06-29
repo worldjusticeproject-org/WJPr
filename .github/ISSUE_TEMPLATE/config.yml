@@ -1,11 +1,11 @@
 blank_issues_enabled: true
 contact_links:
   - name: Documentation
-    url: https://ctoruno.github.io/WJPr/
+    url: https://worldjusticeproject-org.github.io/WJPr/
     about: Check the documentation before opening an issue
   - name: Contributing Guide
-    url: https://github.com/ctoruno/WJPr/blob/main/CONTRIBUTING.md
+    url: https://github.com/worldjusticeproject-org/WJPr/blob/main/CONTRIBUTING.md
     about: Read our contribution guidelines
   - name: Data Preparation Guide
-    url: https://ctoruno.github.io/WJPr/articles/data-preparation.html
+    url: https://worldjusticeproject-org.github.io/WJPr/articles/data-preparation.html
     about: Learn how to prepare data for WJPr functions
