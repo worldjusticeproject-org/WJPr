@@ -228,9 +228,12 @@ figcaption {
   margin-bottom: 2rem;
 }
 
-/* Leave the banner title blank on every page (keeps the gradient + orange rule) */
-.page-header h1 {
-  color: transparent;
+/* White banner titles on every page so they read on the violet gradient */
+.page-header h1,
+.page-header h2,
+.page-header h3,
+.page-header .page-header__title {
+  color: #ffffff !important;
 }
 
 .page-header h1 a,
