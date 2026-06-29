@@ -8,15 +8,20 @@
 <title>Chart Gallery • WJPr</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Lato-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Fira_Code-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Chart Gallery">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<meta property="og:title" content="Chart Gallery">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">WJPr</a>
 
@@ -102,9 +107,53 @@
 
     
     
-<p>This gallery showcases all chart types available in the WJPr package.
-Click on any chart name to jump to its detailed documentation.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<p>This gallery showcases all chart types available in the WJPr package
+using the official <strong>World Justice Project color palette</strong>.
+Each example demonstrates how to create publication-ready charts
+following WJP style guidelines.</p>
+<div class="section level2">
+<h2 id="wjp-color-palette">WJP Color Palette<a class="anchor" aria-label="anchor" href="#wjp-color-palette"></a>
+</h2>
+<p>The WJPr package uses colors from the official WJP Brand Standards
+Manual:</p>
+<table class="table">
+<colgroup>
+<col width="41%">
+<col width="34%">
+<col width="24%">
+</colgroup>
+<thead><tr class="header">
+<th>Color Name</th>
+<th>Hex Code</th>
+<th>Usage</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Violet (Primary)</td>
+<td><code>#482d8b</code></td>
+<td>Main brand color, headers, primary elements</td>
+</tr>
+<tr class="even">
+<td>Teal-Blue</td>
+<td><code>#2894aa</code></td>
+<td>Secondary elements, alternative to violet</td>
+</tr>
+<tr class="odd">
+<td>Orange</td>
+<td><code>#f26b21</code></td>
+<td>Accent color, highlights, calls to action</td>
+</tr>
+<tr class="even">
+<td>Cool Gray</td>
+<td><code>#555659</code></td>
+<td>Body text, subtle elements</td>
+</tr>
+</tbody>
+</table>
+<p>For categorical data visualizations, use these colors in
+sequence:</p>
+<pre><code><span><span class="co">#181878, #BF02AF, #3366FF, #FF4D6A, #9C89ED, #226640, #FFB52B, #00A8A5</span></span></code></pre>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
@@ -114,8 +163,30 @@ Click on any chart name to jump to its detailed documentation.</p>
 <span><span class="fu"><a href="../reference/wjp_fonts.html">wjp_fonts</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Load sample data</span></span>
-<span><span class="va">gpp_data</span> <span class="op">&lt;-</span> <span class="fu">WJPr</span><span class="fu">::</span><span class="va"><a href="../reference/gpp.html">gpp</a></span></span></code></pre></div>
+<span><span class="va">gpp_data</span> <span class="op">&lt;-</span> <span class="fu">WJPr</span><span class="fu">::</span><span class="va"><a href="../reference/gpp.html">gpp</a></span></span>
+<span></span>
+<span><span class="co"># WJP Color Palettes</span></span>
+<span><span class="va">wjp_categorical</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"#181878"</span>, <span class="st">"#BF02AF"</span>, <span class="st">"#3366FF"</span>, <span class="st">"#FF4D6A"</span>,</span>
+<span>  <span class="st">"#9C89ED"</span>, <span class="st">"#226640"</span>, <span class="st">"#FFB52B"</span>, <span class="st">"#00A8A5"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Colors for contrasting two groups</span></span>
+<span><span class="va">wjp_contrast</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#181878"</span>, <span class="st">"#FF4D6A"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Factor colors (Rule of Law Index)</span></span>
+<span><span class="va">wjp_factors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"Constraints"</span> <span class="op">=</span> <span class="st">"#137b3f"</span>,</span>
+<span>  <span class="st">"Corruption"</span>  <span class="op">=</span> <span class="st">"#869d3b"</span>,</span>
+<span>  <span class="st">"Open Gov"</span>    <span class="op">=</span> <span class="st">"#0f9581"</span>,</span>
+<span>  <span class="st">"Rights"</span>      <span class="op">=</span> <span class="st">"#1a74b6"</span>,</span>
+<span>  <span class="st">"Security"</span>    <span class="op">=</span> <span class="st">"#413179"</span>,</span>
+<span>  <span class="st">"Regulatory"</span>  <span class="op">=</span> <span class="st">"#8f2e8c"</span>,</span>
+<span>  <span class="st">"Civil"</span>       <span class="op">=</span> <span class="st">"#89191c"</span>,</span>
+<span>  <span class="st">"Criminal"</span>    <span class="op">=</span> <span class="st">"#f07623"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <hr>
+</div>
 <div class="section level2">
 <h2 id="bar-charts">Bar Charts<a class="anchor" aria-label="anchor" href="#bar-charts"></a>
 </h2>
@@ -124,7 +195,7 @@ Click on any chart name to jump to its detailed documentation.</p>
 </h3>
 <p><code><a href="../reference/wjp_bars.html">wjp_bars()</a></code> - Standard vertical bar chart for comparing
 values across categories.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_bars</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2022</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -142,7 +213,7 @@ values across categories.</p>
 <span>  colors   <span class="op">=</span> <span class="st">"country"</span>,</span>
 <span>  labels   <span class="op">=</span> <span class="st">"label"</span>,</span>
 <span>  lab_pos  <span class="op">=</span> <span class="st">"label_pos"</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span> <span class="op">=</span> <span class="st">"#2E4057"</span>, <span class="st">"Narnia"</span> <span class="op">=</span> <span class="st">"#083D77"</span>, <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#F4D35E"</span><span class="op">)</span></span>
+<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"Narnia"</span> <span class="op">=</span> <span class="st">"#3366FF"</span>, <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#00A8A5"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/bars-vertical-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
@@ -151,7 +222,7 @@ values across categories.</p>
 </h3>
 <p>Set <code>direction = "horizontal"</code> for horizontal
 orientation.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/wjp_bars.html">wjp_bars</a></span><span class="op">(</span></span>
 <span>  <span class="va">data_bars</span>,</span>
 <span>  target    <span class="op">=</span> <span class="st">"trust"</span>,</span>
@@ -159,7 +230,7 @@ orientation.</p>
 <span>  colors    <span class="op">=</span> <span class="st">"country"</span>,</span>
 <span>  labels    <span class="op">=</span> <span class="st">"label"</span>,</span>
 <span>  lab_pos   <span class="op">=</span> <span class="st">"label_pos"</span>,</span>
-<span>  cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span> <span class="op">=</span> <span class="st">"#2E4057"</span>, <span class="st">"Narnia"</span> <span class="op">=</span> <span class="st">"#083D77"</span>, <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#F4D35E"</span><span class="op">)</span>,</span>
+<span>  cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"Narnia"</span> <span class="op">=</span> <span class="st">"#3366FF"</span>, <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#00A8A5"</span><span class="op">)</span>,</span>
 <span>  direction <span class="op">=</span> <span class="st">"horizontal"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/bars-horizontal-1.png" class="r-plt" alt="" width="100%"></p>
@@ -171,7 +242,7 @@ orientation.</p>
 </h2>
 <p><code><a href="../reference/wjp_divbars.html">wjp_divbars()</a></code> - Show positive and negative values
 extending from a center point.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_divbars</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2022</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -195,7 +266,7 @@ extending from a center point.</p>
 <span>  diverging <span class="op">=</span> <span class="st">"response"</span>,</span>
 <span>  negative  <span class="op">=</span> <span class="st">"negative"</span>,</span>
 <span>  labels    <span class="op">=</span> <span class="st">"label"</span>,</span>
-<span>  cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Trust"</span> <span class="op">=</span> <span class="st">"#4F518C"</span>, <span class="st">"No Trust"</span> <span class="op">=</span> <span class="st">"#2C2A4A"</span><span class="op">)</span></span>
+<span>  cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Trust"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"No Trust"</span> <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/divbars-1.png" class="r-plt" alt="" width="100%"></p>
 <hr>
@@ -205,7 +276,7 @@ extending from a center point.</p>
 </h2>
 <p><code><a href="../reference/wjp_dots.html">wjp_dots()</a></code> - Compare multiple variables across groups
 with dot markers.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_dots</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">country</span>, <span class="va">q1a</span>, <span class="va">q1b</span>, <span class="va">q1c</span>, <span class="va">q1d</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -229,7 +300,7 @@ with dot markers.</p>
 <span>  target   <span class="op">=</span> <span class="st">"trust"</span>,</span>
 <span>  grouping <span class="op">=</span> <span class="st">"institution"</span>,</span>
 <span>  colors   <span class="op">=</span> <span class="st">"country"</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span> <span class="op">=</span> <span class="st">"#08605F"</span>, <span class="st">"Narnia"</span> <span class="op">=</span> <span class="st">"#9E6240"</span>, <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#2E0E02"</span><span class="op">)</span></span>
+<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"Narnia"</span> <span class="op">=</span> <span class="st">"#BF02AF"</span>, <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#226640"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/dots-1.png" class="r-plt" alt="" width="100%"></p>
 <hr>
@@ -239,7 +310,7 @@ with dot markers.</p>
 </h2>
 <p><code><a href="../reference/wjp_lines.html">wjp_lines()</a></code> - Display trends over time with connected
 points.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggrepel.slowkow.com/" class="external-link">ggrepel</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data_lines</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -270,7 +341,7 @@ points.</p>
 <span>  colors   <span class="op">=</span> <span class="st">"institution"</span>,</span>
 <span>  labels   <span class="op">=</span> <span class="st">"label"</span>,</span>
 <span>  repel    <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Police"</span> <span class="op">=</span> <span class="st">"#08605F"</span>, <span class="st">"Courts"</span> <span class="op">=</span> <span class="st">"#9E6240"</span>, <span class="st">"Parliament"</span> <span class="op">=</span> <span class="st">"#2E0E02"</span><span class="op">)</span></span>
+<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Police"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"Courts"</span> <span class="op">=</span> <span class="st">"#BF02AF"</span>, <span class="st">"Parliament"</span> <span class="op">=</span> <span class="st">"#00A8A5"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/lines-1.png" class="r-plt" alt="" width="100%"></p>
 <hr>
@@ -280,7 +351,7 @@ points.</p>
 </h2>
 <p><code><a href="../reference/wjp_slope.html">wjp_slope()</a></code> - Compare values between exactly two time
 points.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_slope</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2017</span>, <span class="fl">2019</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -300,7 +371,7 @@ points.</p>
 <span>  ngroups  <span class="op">=</span> <span class="va">data_slope</span><span class="op">$</span><span class="va">gender</span>,</span>
 <span>  colors   <span class="op">=</span> <span class="st">"gender"</span>,</span>
 <span>  labels   <span class="op">=</span> <span class="st">"label"</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span> <span class="op">=</span> <span class="st">"#08605F"</span>, <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#9E6240"</span><span class="op">)</span>,</span>
+<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span>,</span>
 <span>  repel    <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/slope-1.png" class="r-plt" alt="" width="100%"></p>
@@ -311,7 +382,7 @@ points.</p>
 </h2>
 <p><code><a href="../reference/wjp_dumbbells.html">wjp_dumbbells()</a></code> - Show change between two points with
 connected markers.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_dumbbells</span> <span class="op">&lt;-</span> <span class="va">data_lines</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span>, <span class="st">"2022"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -321,7 +392,7 @@ connected markers.</p>
 <span>  grouping <span class="op">=</span> <span class="st">"institution"</span>,</span>
 <span>  color    <span class="op">=</span> <span class="st">"year"</span>,</span>
 <span>  cgroups  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span>, <span class="st">"2022"</span><span class="op">)</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span> <span class="op">=</span> <span class="st">"#08605F"</span>, <span class="st">"2022"</span> <span class="op">=</span> <span class="st">"#9E6240"</span><span class="op">)</span></span>
+<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"2022"</span> <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/dumbbells-1.png" class="r-plt" alt="" width="100%"></p>
 <hr>
@@ -331,13 +402,13 @@ connected markers.</p>
 </h2>
 <p><code><a href="../reference/wjp_lollipops.html">wjp_lollipops()</a></code> - Minimalist bar alternative with stems
 and dots.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/wjp_lollipops.html">wjp_lollipops</a></span><span class="op">(</span></span>
 <span>  <span class="va">data_bars</span>,</span>
 <span>  target      <span class="op">=</span> <span class="st">"trust"</span>,</span>
 <span>  grouping    <span class="op">=</span> <span class="st">"country"</span>,</span>
-<span>  line_color  <span class="op">=</span> <span class="st">"#c4c4c4"</span>,</span>
-<span>  point_color <span class="op">=</span> <span class="st">"#2a2a94"</span></span>
+<span>  line_color  <span class="op">=</span> <span class="st">"#555659"</span>,</span>
+<span>  point_color <span class="op">=</span> <span class="st">"#482d8b"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/lollipops-1.png" class="r-plt" alt="" width="100%"></p>
 <hr>
@@ -347,13 +418,13 @@ and dots.</p>
 </h2>
 <p><code><a href="../reference/wjp_edgebars.html">wjp_edgebars()</a></code> - Horizontal bars with labels at the
 edge, ideal for narrow spaces.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/wjp_edgebars.html">wjp_edgebars</a></span><span class="op">(</span></span>
 <span>  <span class="va">data_bars</span>,</span>
 <span>  target   <span class="op">=</span> <span class="st">"trust"</span>,</span>
 <span>  grouping <span class="op">=</span> <span class="st">"country"</span>,</span>
 <span>  labels   <span class="op">=</span> <span class="st">"country"</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="st">"#F6D8AE"</span></span>
+<span>  cvec     <span class="op">=</span> <span class="st">"#2894aa"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/edgebars-1.png" class="r-plt" alt="" width="100%"></p>
 <hr>
@@ -363,7 +434,7 @@ edge, ideal for narrow spaces.</p>
 </h2>
 <p><code><a href="../reference/wjp_radar.html">wjp_radar()</a></code> - Compare multiple dimensions on a circular
 grid.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_radar</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">gend</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"q49"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -395,7 +466,7 @@ grid.</p>
 <span>  target   <span class="op">=</span> <span class="st">"score"</span>,</span>
 <span>  labels   <span class="op">=</span> <span class="st">"label"</span>,</span>
 <span>  colors   <span class="op">=</span> <span class="st">"gender"</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span> <span class="op">=</span> <span class="st">"#1D4E89"</span>, <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#F79256"</span><span class="op">)</span></span>
+<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/radar-1.png" class="r-plt" alt="" width="100%"></p>
 <hr>
@@ -405,7 +476,7 @@ grid.</p>
 </h2>
 <p><code><a href="../reference/wjp_rose.html">wjp_rose()</a></code> - Circular bar chart for single-unit
 multi-dimensional data.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_rose</span> <span class="op">&lt;-</span> <span class="va">data_radar</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">gender</span> <span class="op">==</span> <span class="st">"Male"</span><span class="op">)</span></span>
 <span></span>
@@ -414,8 +485,8 @@ multi-dimensional data.</p>
 <span>  target   <span class="op">=</span> <span class="st">"score"</span>,</span>
 <span>  grouping <span class="op">=</span> <span class="st">"category"</span>,</span>
 <span>  labels   <span class="op">=</span> <span class="st">"label"</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#FDF1E7"</span>, <span class="st">"#FBE2CF"</span>, <span class="st">"#F7C59F"</span>, <span class="st">"#E7C1A3"</span>, <span class="st">"#759EB8"</span>,</span>
-<span>               <span class="st">"#7498B8"</span>, <span class="st">"#7392B7"</span>, <span class="st">"#4F6281"</span>, <span class="st">"#2A324B"</span><span class="op">)</span></span>
+<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#CCCCFF"</span>, <span class="st">"#AEAEFF"</span>, <span class="st">"#8F8FFF"</span>, <span class="st">"#7373E5"</span>, <span class="st">"#5E5ECC"</span>,</span>
+<span>               <span class="st">"#181878"</span>, <span class="st">"#3366FF"</span>, <span class="st">"#00A8A5"</span>, <span class="st">"#226640"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/rose-1.png" class="r-plt" alt="" width="100%"></p>
 <hr>
@@ -425,7 +496,7 @@ multi-dimensional data.</p>
 </h2>
 <p><code><a href="../reference/wjp_gauge.html">wjp_gauge()</a></code> - Semicircular chart for showing composition
 or progress.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_gauge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Factor 1"</span>, <span class="st">"Factor 2"</span>, <span class="st">"Factor 3"</span>, <span class="st">"Factor 4"</span><span class="op">)</span>,</span>
 <span>  value    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">35</span>, <span class="fl">25</span>, <span class="fl">15</span><span class="op">)</span>,</span>
@@ -436,8 +507,8 @@ or progress.</p>
 <span>  <span class="va">data_gauge</span>,</span>
 <span>  target       <span class="op">=</span> <span class="st">"value"</span>,</span>
 <span>  colors       <span class="op">=</span> <span class="st">"category"</span>,</span>
-<span>  cvec         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Factor 1"</span> <span class="op">=</span> <span class="st">"#2E4057"</span>, <span class="st">"Factor 2"</span> <span class="op">=</span> <span class="st">"#048A81"</span>,</span>
-<span>                   <span class="st">"Factor 3"</span> <span class="op">=</span> <span class="st">"#54C6EB"</span>, <span class="st">"Factor 4"</span> <span class="op">=</span> <span class="st">"#8EE3EF"</span><span class="op">)</span>,</span>
+<span>  cvec         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Factor 1"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>, <span class="st">"Factor 2"</span> <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
+<span>                   <span class="st">"Factor 3"</span> <span class="op">=</span> <span class="st">"#f26b21"</span>, <span class="st">"Factor 4"</span> <span class="op">=</span> <span class="st">"#555659"</span><span class="op">)</span>,</span>
 <span>  factor_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Factor 1"</span>, <span class="st">"Factor 2"</span>, <span class="st">"Factor 3"</span>, <span class="st">"Factor 4"</span><span class="op">)</span>,</span>
 <span>  labels       <span class="op">=</span> <span class="st">"label"</span></span>
 <span><span class="op">)</span></span></code></pre></div>

@@ -109,7 +109,7 @@ Colors can be customized using the `colors` and `cvec` parameters. The
 groups, while `cvec` is a named vector that maps specific values to
 specific colors. For example, to give all bars a consistent cool gray
 color, we can use the “year” column for `colors` and map the year “2002”
-to the color code “#8789C0”.
+to the color code “#482d8b”.
 
 ``` r
 
@@ -118,7 +118,7 @@ wjp_bars(
     target    = "trust",        
     grouping  = "country",
     colors    = "year",
-    cvec      = c("2022" = "#8789C0")
+    cvec      = c("2022" = "#482d8b")
 )
 ```
 
@@ -141,9 +141,9 @@ wjp_bars(
     target    = "trust",        
     grouping  = "country",
     colors    = "color_variable",
-    cvec      = c("Atlantis"  = "#2E4057",
-                  "Narnia"    = "#083D77",
-                  "Neverland" = "#F4D35E")
+    cvec      = c("Atlantis"  = "#181878",
+                  "Narnia"    = "#3366FF",
+                  "Neverland" = "#00A8A5")
 )
 ```
 
@@ -180,9 +180,9 @@ wjp_bars(
     labels    = "value_label",
     lab_pos   = "label_position",
     colors    = "color_variable",
-    cvec      = c("Atlantis"  = "#2E4057",
-                  "Narnia"    = "#083D77",
-                  "Neverland" = "#F4D35E")
+    cvec      = c("Atlantis"  = "#181878",
+                  "Narnia"    = "#3366FF",
+                  "Neverland" = "#00A8A5")
 )
 ```
 
@@ -203,9 +203,9 @@ wjp_bars(
     labels    = "value_label",
     lab_pos   = "label_position",
     colors    = "color_variable",
-    cvec      = c("Atlantis"  = "#2E4057",
-                  "Narnia"    = "#083D77",
-                  "Neverland" = "#F4D35E"),
+    cvec      = c("Atlantis"  = "#181878",
+                  "Narnia"    = "#3366FF",
+                  "Neverland" = "#00A8A5"),
     direction = "horizontal"
 )
 ```
@@ -293,11 +293,11 @@ stacked_bar <- wjp_bars(
     labels    = "value_label",
     lab_pos   = "label_position",
     colors    = "q1a",
-    cvec      = c("A lot"     = "#32382E",
-                  "Some"      = "#899878",
-                  "Little"    = "#E4E6C3",
-                  "None"      = "#BF4342",
-                  "No answer" = "#858585"),
+    cvec      = c("A lot"     = "#181878",
+                  "Some"      = "#3366FF",
+                  "Little"    = "#9C89ED",
+                  "None"      = "#FF4D6A",
+                  "No answer" = "#555659"),
     direction = "horizontal",
     stacked   = TRUE
 )
@@ -419,8 +419,8 @@ wjp_divbars(
     grouping    = "country",         
     diverging   = "q1a",     
     negative    = "negative",   
-    cvec        = c("Trust"     = "#4F518C",
-                    "No Trust"  = "#2C2A4A"),
+    cvec        = c("Trust"     = "#181878",
+                    "No Trust"  = "#FF4D6A"),
     labels      = "value_label"
 )
 ```
@@ -442,7 +442,7 @@ wjp_edgebars(
     target    = "trust",        
     grouping  = "country",
     labels    = "color_variable",
-    cvec      = "#F6D8AE"
+    cvec      = "#2894aa"
 )
 ```
 
@@ -565,7 +565,7 @@ wjp_lines(
     grouping       = "year",
     ngroups        = 1,                 
     colors         = "institution",
-    cvec           = c("Institution A" = "#08605F"),
+    cvec           = c("Institution A" = "#181878"),
     labels         = "value_label"
 )
 ```
@@ -586,9 +586,9 @@ wjp_lines(
     grouping       = "year",
     ngroups        = data4lines$institution,                 
     colors         = "institution",
-    cvec           = c("Institution A" = "#08605F",
-                       "Institution B" = "#9E6240",
-                       "Institution C" = "#2E0E02"),
+    cvec           = c("Institution A" = "#181878",
+                       "Institution B" = "#BF02AF",
+                       "Institution C" = "#00A8A5"),
     labels         = "value_label",
     repel          = TRUE
 )
@@ -616,9 +616,9 @@ wjp_lines(
     grouping       = "year",
     ngroups        = data4lines$institution,                 
     colors         = "institution",
-    cvec           = c("Institution A" = "#08605F",
-                       "Institution B" = "#9E6240",
-                       "Institution C" = "#2E0E02"),
+    cvec           = c("Institution A" = "#181878",
+                       "Institution B" = "#BF02AF",
+                       "Institution C" = "#00A8A5"),
     labels         = "value_label",
     repel          = TRUE,
     transparency   = TRUE,
@@ -720,8 +720,8 @@ wjp_slope(
     ngroups   = data4slopes$gender,                 
     labels    = "value_label",
     colors    = "gender",
-    cvec      = c("Male"   = "#08605F",
-                  "Female" = "#9E6240"),
+    cvec      = c("Male"   = "#181878",
+                  "Female" = "#FF4D6A"),
     repel     = TRUE
 )
 ```
@@ -814,9 +814,9 @@ wjp_dots(
     target      = "percentage",
     grouping    = "institution",  
     colors      = "country",  
-    cvec        = c("Atlantis"  = "#08605F",
-                    "Narnia"    = "#9E6240",
-                    "Neverland" = "#2E0E02")
+    cvec        = c("Atlantis"  = "#181878",
+                    "Narnia"    = "#BF02AF",
+                    "Neverland" = "#226640")
 )
 ```
 
@@ -843,9 +843,9 @@ wjp_dots(
     target      = "percentage",
     grouping    = "institution",  
     colors      = "country",  
-    cvec        = c("Atlantis"  = "#08605F",
-                    "Narnia"    = "#9E6240",
-                    "Neverland" = "#2E0E02"),
+    cvec        = c("Atlantis"  = "#181878",
+                    "Narnia"    = "#BF02AF",
+                    "Neverland" = "#226640"),
     diffOpac    = TRUE,
     opacities   = c("Atlantis"  = 0.3,
                     "Narnia"    = 1.0,
@@ -957,8 +957,8 @@ wjp_dots(
     target      = "mean",
     grouping    = "institution",  
     colors      = "gend",  
-    cvec        = c("Male"   = "#08605F",
-                    "Female" = "#9E6240"),
+    cvec        = c("Male"   = "#181878",
+                    "Female" = "#FF4D6A"),
     draw_ci     = TRUE,
     sd          = "sd",
     sample_size = "n"
@@ -988,8 +988,8 @@ wjp_dumbbells(
     target    = "percentage",
     grouping  = "institution",
     color     = "year",
-    cvec      = c("2017" = "#08605F",
-                  "2022" = "#9E6240"),
+    cvec      = c("2017" = "#181878",
+                  "2022" = "#FF4D6A"),
     cgroups   = c("2017", "2022")
 )
 ```
@@ -1013,8 +1013,8 @@ wjp_dumbbells(
     grouping  = "institution",
     color     = "year",
     cgroups   = c("2017", "2022"),
-    cvec      = c("2017" = "#08605F",
-                  "2022" = "#9E6240"),
+    cvec      = c("2017" = "#181878",
+                  "2022" = "#FF4D6A"),
     labels    = "value_label",
     labpos    = "lab_position"
 )
@@ -1163,21 +1163,21 @@ data4radar_md <- data4radar %>%
     female_value   = paste0(format(round(female_value, 0), nsmall=0), "%"),
     
     axis_label_md = paste0(
-      "<span style='color:#49178e;font-size:4.217518mm'>",male_value,"</span>",
-      "<span style='color:#524F4C;font-size:4.217518mm'> | </span>",
-      "<span style='color:#dd58b1;font-size:4.217518mm'>",female_value,"</span><br>",
-      "<span style='color:#524F4C;font-size:3.514598mm;font-weight:bold'>",axis_label,"</span>"
+      "<span style='color:#181878;font-size:4.217518mm'>",male_value,"</span>",
+      "<span style='color:#555659;font-size:4.217518mm'> | </span>",
+      "<span style='color:#FF4D6A;font-size:4.217518mm'>",female_value,"</span><br>",
+      "<span style='color:#555659;font-size:3.514598mm;font-weight:bold'>",axis_label,"</span>"
     )
   )
 
 wjp_radar(
     data        = data4radar_md,
     axis_var    = "category",
-    target      = "percentage",       
-    labels      = "axis_label_md",        
+    target      = "percentage",
+    labels      = "axis_label_md",
     colors      = "gender",
-    cvec        = c("Male"   = "#141B41",
-                    "Female" = "#306BAC")
+    cvec        = c("Male"   = "#181878",
+                    "Female" = "#FF4D6A")
 )
 ```
 
@@ -1212,13 +1212,13 @@ data4rose = data4radar %>%
   filter(gender == "Female")
 
 wjp_rose(
-    data4rose,             
-    target    = "percentage",       
-    grouping  = "category",    
+    data4rose,
+    target    = "percentage",
+    grouping  = "category",
     labels    = "axis_label",
-    cvec      = c("#FDF1E7", "#FBE2CF", "#F7C59F", 
-                  "#E7C1A3", "#759EB8", "#7498B8", 
-                  "#7392B7", "#4F6281", "#2A324B") 
+    cvec      = c("#CCCCFF", "#AEAEFF", "#8F8FFF",
+                  "#7373E5", "#5E5ECC", "#181878",
+                  "#3366FF", "#00A8A5", "#226640")
 )
 ```
 
@@ -1252,8 +1252,8 @@ wjp_divbars(
     grouping     = "country",         
     diverging    = "q1a",     
     negative     = "negative",   
-    cvec         = c("Trust"     = "#4F518C",
-                     "No Trust"  = "#2C2A4A"),
+    cvec         = c("Trust"     = "#181878",
+                     "No Trust"  = "#FF4D6A"),
     labels       = "value_label",
     custom_order = TRUE,
     order        = "order_no" 
@@ -1281,9 +1281,9 @@ wjp_dots(
     target      = "percentage",
     grouping    = "institution",  
     colors      = "country",  
-    cvec        = c("Atlantis"  = "#08605F",
-                    "Narnia"    = "#9E6240",
-                    "Neverland" = "#2E0E02"),
+    cvec        = c("Atlantis"  = "#181878",
+                    "Narnia"    = "#BF02AF",
+                    "Neverland" = "#226640"),
     order       = "order_no"
 )
 ```

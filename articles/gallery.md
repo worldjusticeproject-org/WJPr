@@ -1,7 +1,25 @@
 # Chart Gallery
 
-This gallery showcases all chart types available in the WJPr package.
-Click on any chart name to jump to its detailed documentation.
+This gallery showcases all chart types available in the WJPr package
+using the official **World Justice Project color palette**. Each example
+demonstrates how to create publication-ready charts following WJP style
+guidelines.
+
+## WJP Color Palette
+
+The WJPr package uses colors from the official WJP Brand Standards
+Manual:
+
+| Color Name       | Hex Code  | Usage                                       |
+|------------------|-----------|---------------------------------------------|
+| Violet (Primary) | `#482d8b` | Main brand color, headers, primary elements |
+| Teal-Blue        | `#2894aa` | Secondary elements, alternative to violet   |
+| Orange           | `#f26b21` | Accent color, highlights, calls to action   |
+| Cool Gray        | `#555659` | Body text, subtle elements                  |
+
+For categorical data visualizations, use these colors in sequence:
+
+    #181878, #BF02AF, #3366FF, #FF4D6A, #9C89ED, #226640, #FFB52B, #00A8A5
 
 ``` r
 
@@ -15,6 +33,27 @@ wjp_fonts()
 
 # Load sample data
 gpp_data <- WJPr::gpp
+
+# WJP Color Palettes
+wjp_categorical <- c(
+  "#181878", "#BF02AF", "#3366FF", "#FF4D6A",
+  "#9C89ED", "#226640", "#FFB52B", "#00A8A5"
+)
+
+# Colors for contrasting two groups
+wjp_contrast <- c("#181878", "#FF4D6A")
+
+# Factor colors (Rule of Law Index)
+wjp_factors <- c(
+  "Constraints" = "#137b3f",
+  "Corruption"  = "#869d3b",
+  "Open Gov"    = "#0f9581",
+  "Rights"      = "#1a74b6",
+  "Security"    = "#413179",
+  "Regulatory"  = "#8f2e8c",
+  "Civil"       = "#89191c",
+  "Criminal"    = "#f07623"
+)
 ```
 
 ------------------------------------------------------------------------
@@ -45,7 +84,7 @@ wjp_bars(
   colors   = "country",
   labels   = "label",
   lab_pos  = "label_pos",
-  cvec     = c("Atlantis" = "#2E4057", "Narnia" = "#083D77", "Neverland" = "#F4D35E")
+  cvec     = c("Atlantis" = "#181878", "Narnia" = "#3366FF", "Neverland" = "#00A8A5")
 )
 ```
 
@@ -64,7 +103,7 @@ wjp_bars(
   colors    = "country",
   labels    = "label",
   lab_pos   = "label_pos",
-  cvec      = c("Atlantis" = "#2E4057", "Narnia" = "#083D77", "Neverland" = "#F4D35E"),
+  cvec      = c("Atlantis" = "#181878", "Narnia" = "#3366FF", "Neverland" = "#00A8A5"),
   direction = "horizontal"
 )
 ```
@@ -103,7 +142,7 @@ wjp_divbars(
   diverging = "response",
   negative  = "negative",
   labels    = "label",
-  cvec      = c("Trust" = "#4F518C", "No Trust" = "#2C2A4A")
+  cvec      = c("Trust" = "#181878", "No Trust" = "#FF4D6A")
 )
 ```
 
@@ -141,7 +180,7 @@ wjp_dots(
   target   = "trust",
   grouping = "institution",
   colors   = "country",
-  cvec     = c("Atlantis" = "#08605F", "Narnia" = "#9E6240", "Neverland" = "#2E0E02")
+  cvec     = c("Atlantis" = "#181878", "Narnia" = "#BF02AF", "Neverland" = "#226640")
 )
 ```
 
@@ -186,7 +225,7 @@ wjp_lines(
   colors   = "institution",
   labels   = "label",
   repel    = TRUE,
-  cvec     = c("Police" = "#08605F", "Courts" = "#9E6240", "Parliament" = "#2E0E02")
+  cvec     = c("Police" = "#181878", "Courts" = "#BF02AF", "Parliament" = "#00A8A5")
 )
 ```
 
@@ -220,7 +259,7 @@ wjp_slope(
   ngroups  = data_slope$gender,
   colors   = "gender",
   labels   = "label",
-  cvec     = c("Male" = "#08605F", "Female" = "#9E6240"),
+  cvec     = c("Male" = "#181878", "Female" = "#FF4D6A"),
   repel    = TRUE
 )
 ```
@@ -245,7 +284,7 @@ wjp_dumbbells(
   grouping = "institution",
   color    = "year",
   cgroups  = c("2017", "2022"),
-  cvec     = c("2017" = "#08605F", "2022" = "#9E6240")
+  cvec     = c("2017" = "#181878", "2022" = "#FF4D6A")
 )
 ```
 
@@ -264,8 +303,8 @@ wjp_lollipops(
   data_bars,
   target      = "trust",
   grouping    = "country",
-  line_color  = "#c4c4c4",
-  point_color = "#2a2a94"
+  line_color  = "#555659",
+  point_color = "#482d8b"
 )
 ```
 
@@ -285,7 +324,7 @@ wjp_edgebars(
   target   = "trust",
   grouping = "country",
   labels   = "country",
-  cvec     = "#F6D8AE"
+  cvec     = "#2894aa"
 )
 ```
 
@@ -331,7 +370,7 @@ wjp_radar(
   target   = "score",
   labels   = "label",
   colors   = "gender",
-  cvec     = c("Male" = "#1D4E89", "Female" = "#F79256")
+  cvec     = c("Male" = "#181878", "Female" = "#FF4D6A")
 )
 ```
 
@@ -354,8 +393,8 @@ wjp_rose(
   target   = "score",
   grouping = "category",
   labels   = "label",
-  cvec     = c("#FDF1E7", "#FBE2CF", "#F7C59F", "#E7C1A3", "#759EB8",
-               "#7498B8", "#7392B7", "#4F6281", "#2A324B")
+  cvec     = c("#CCCCFF", "#AEAEFF", "#8F8FFF", "#7373E5", "#5E5ECC",
+               "#181878", "#3366FF", "#00A8A5", "#226640")
 )
 ```
 
@@ -380,8 +419,8 @@ wjp_gauge(
   data_gauge,
   target       = "value",
   colors       = "category",
-  cvec         = c("Factor 1" = "#2E4057", "Factor 2" = "#048A81",
-                   "Factor 3" = "#54C6EB", "Factor 4" = "#8EE3EF"),
+  cvec         = c("Factor 1" = "#482d8b", "Factor 2" = "#2894aa",
+                   "Factor 3" = "#f26b21", "Factor 4" = "#555659"),
   factor_order = c("Factor 1", "Factor 2", "Factor 3", "Factor 4"),
   labels       = "label"
 )

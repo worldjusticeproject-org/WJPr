@@ -1,0 +1,293 @@
+/* WJP Brand Colors Custom Theme
+   Based on World Justice Project Brand Standards Manual 2021
+   Primary: Pantone Violet C (#482d8b)
+   Secondary: Teal-Blue (#2894aa), Orange (#f26b21)
+   Gray: Cool Gray (#555659)
+*/
+
+/* CSS Variables for WJP Colors */
+:root {
+  --wjp-violet: #482d8b;
+  --wjp-violet-light: #6b4eb0;
+  --wjp-violet-dark: #2e1c5c;
+  --wjp-teal: #2894aa;
+  --wjp-teal-light: #4bb0c6;
+  --wjp-teal-dark: #1a6b7a;
+  --wjp-orange: #f26b21;
+  --wjp-orange-light: #f7944f;
+  --wjp-orange-dark: #c4520f;
+  --wjp-gray: #555659;
+  --wjp-gray-light: #8a8a8d;
+  --wjp-cream: #fdf8f3;
+}
+
+/* Typography - Lato font family */
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&display=swap');
+
+body {
+  font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--wjp-gray);
+}
+
+/* Navbar styling */
+.navbar {
+  background-color: var(--wjp-violet) !important;
+  border-bottom: 3px solid var(--wjp-orange);
+}
+
+.navbar-brand {
+  font-weight: 900;
+  color: white !important;
+}
+
+.navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 400;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-nav .nav-link.active {
+  color: white !important;
+  font-weight: 700;
+}
+
+.dropdown-menu {
+  border: 1px solid var(--wjp-violet-light);
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: rgba(72, 45, 139, 0.1);
+  color: var(--wjp-violet);
+}
+
+/* Page headers */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  color: var(--wjp-violet);
+}
+
+h1 {
+  border-bottom: 3px solid var(--wjp-orange);
+  padding-bottom: 0.5rem;
+}
+
+/* Links */
+a {
+  color: var(--wjp-violet);
+}
+
+a:hover {
+  color: var(--wjp-teal);
+}
+
+/* Code styling */
+pre {
+  background-color: #f8f9fa;
+  border-left: 4px solid var(--wjp-violet);
+  border-radius: 0 4px 4px 0;
+}
+
+code {
+  color: var(--wjp-violet-dark);
+  background-color: rgba(72, 45, 139, 0.08);
+}
+
+pre code {
+  background-color: transparent;
+}
+
+/* Function reference cards */
+.card {
+  border: 1px solid rgba(72, 45, 139, 0.2);
+  border-radius: 8px;
+}
+
+.card:hover {
+  border-color: var(--wjp-violet);
+  box-shadow: 0 4px 12px rgba(72, 45, 139, 0.15);
+}
+
+.card-header {
+  background-color: rgba(72, 45, 139, 0.05);
+  border-bottom: 1px solid rgba(72, 45, 139, 0.1);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--wjp-violet);
+  border-color: var(--wjp-violet);
+}
+
+.btn-primary:hover {
+  background-color: var(--wjp-violet-dark);
+  border-color: var(--wjp-violet-dark);
+}
+
+.btn-secondary {
+  background-color: var(--wjp-teal);
+  border-color: var(--wjp-teal);
+}
+
+.btn-secondary:hover {
+  background-color: var(--wjp-teal-dark);
+  border-color: var(--wjp-teal-dark);
+}
+
+/* Tables */
+.table thead th {
+  background-color: var(--wjp-violet);
+  color: white;
+  border-color: var(--wjp-violet-dark);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(72, 45, 139, 0.03);
+}
+
+/* Sidebar / TOC */
+.sidebar .nav-link {
+  color: var(--wjp-gray);
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  color: var(--wjp-violet);
+  border-left: 3px solid var(--wjp-orange);
+}
+
+/* Footer */
+footer {
+  background-color: var(--wjp-violet);
+  color: white;
+}
+
+footer a {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+footer a:hover {
+  color: white;
+}
+
+/* Badges */
+.badge {
+  font-weight: 700;
+}
+
+.badge-primary,
+.bg-primary {
+  background-color: var(--wjp-violet) !important;
+}
+
+/* Reference page styling */
+.ref-description {
+  border-left: 4px solid var(--wjp-teal);
+  padding-left: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Search */
+.aa-DetachedSearchButton {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Alert styling */
+.alert-info {
+  background-color: rgba(40, 148, 170, 0.1);
+  border-color: var(--wjp-teal);
+  color: var(--wjp-teal-dark);
+}
+
+.alert-warning {
+  background-color: rgba(242, 107, 33, 0.1);
+  border-color: var(--wjp-orange);
+  color: var(--wjp-orange-dark);
+}
+
+/* Figure captions */
+figcaption {
+  font-style: italic;
+  color: var(--wjp-gray-light);
+  font-size: 0.9em;
+}
+
+/* Home page hero section */
+.page-header {
+  background: linear-gradient(135deg, var(--wjp-violet) 0%, var(--wjp-violet-dark) 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+/* Quick reference table on gallery */
+.table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Horizontal rule styling */
+hr {
+  border-top: 2px solid rgba(72, 45, 139, 0.2);
+}
+
+/* Block quotes */
+blockquote {
+  border-left: 4px solid var(--wjp-orange);
+  padding-left: 1rem;
+  font-style: italic;
+  color: var(--wjp-gray);
+}
+
+/* Section dividers like WJP reports */
+.section-divider {
+  background-color: var(--wjp-violet);
+  color: white;
+  padding: 1rem;
+  margin: 2rem 0;
+  border-radius: 4px;
+}
+
+/* Logo and branding adjustments */
+.navbar-brand img {
+  max-height: 40px;
+}
+
+/* Improve readability */
+p, li {
+  line-height: 1.7;
+}
+
+/* Article headers */
+article h2 {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(72, 45, 139, 0.1);
+}
+
+article h2:first-of-type {
+  border-top: none;
+  margin-top: 0;
+}
+
+/* Chart container styling */
+.figure {
+  background-color: white;
+  padding: 1rem;
+  border: 1px solid rgba(72, 45, 139, 0.1);
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.figure img {
+  max-width: 100%;
+  height: auto;
+}
