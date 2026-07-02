@@ -192,6 +192,23 @@
 #'   strip_position    = "top"
 #' )
 #'
+#' # Using national_var and national_level for inline national average formatting
+#' data_disagg <- data.frame(
+#'   disaggregation = c("general", "Age Group", "Age Group", "Gender", "Gender"),
+#'   demographics   = c("National Average", "18-29", "50+", "Male", "Female"),
+#'   pct_weighted   = c(0.75, 0.72, 0.78, 0.77, 0.73)
+#' )
+#'
+#' wjp_groupbars(
+#'   data_disagg,
+#'   target         = "pct_weighted",
+#'   grouping       = "disaggregation",
+#'   levels         = "demographics",
+#'   group_order    = c(" ", "Age Group", "Gender"),
+#'   national_var   = "general",
+#'   national_level = "National Average"
+#' )
+#'
 
 wjp_groupbars <- function(
     data,
@@ -733,7 +750,7 @@ wjp_groupbars <- function(
         fontface = "bold",
         color    = if (label_position == "inside") "#ffffff" else colors[1],
         hjust    = if (label_position == "inside") 1 else 0,
-        size     = 6.5,
+        size     = 4.2,
         na.rm    = TRUE
       )
   }
@@ -760,7 +777,7 @@ wjp_groupbars <- function(
           fill          = NA,
           label.color   = NA,
           label.padding = grid::unit(c(1.5, 1.5, 1.5, 1.5), "mm"),
-          size          = 3.2,
+          size          = 2.5,
           vjust         = 0.5
         )
     } else {
@@ -777,7 +794,7 @@ wjp_groupbars <- function(
           family      = "Lato Full",
           fontface    = "plain",
           color       = colors[1],
-          size        = 3.2,
+          size        = 2.5,
           vjust       = 0.5
         )
     }
@@ -831,7 +848,7 @@ wjp_groupbars <- function(
           vjust       = 0.5,
           fill        = NA,
           label.color = NA,
-          size        = 6.5,
+          size        = 3.3,
           family      = "Lato Full"
         )
     }
@@ -860,7 +877,7 @@ wjp_groupbars <- function(
   if (show_axis) {
     theme_axis <- ggplot2::theme(
       axis.text.x = ggplot2::element_text(
-        size   = 9,
+        size   = 6.5,
         family = "Lato Full",
         face   = "plain",
         color  = "#4a4a4a"
@@ -878,7 +895,7 @@ wjp_groupbars <- function(
   if (!is.null(national_bar_label) && requireNamespace("ggtext", quietly = TRUE)) {
     theme_axis_y <- ggplot2::theme(
       axis.text.y = ggtext::element_markdown(
-        size   = 18,
+        size   = 10.5,
         hjust  = 1,
         family = "Lato Full"
       )
@@ -886,7 +903,7 @@ wjp_groupbars <- function(
   } else {
     theme_axis_y <- ggplot2::theme(
       axis.text.y = ggplot2::element_text(
-        size   = 18,
+        size   = 10.5,
         hjust  = 1,
         family = "Lato Full",
         face   = "plain"
@@ -898,7 +915,7 @@ wjp_groupbars <- function(
   if (strip_position == "top") {
     theme_strip <- ggplot2::theme(
       strip.text.y = ggplot2::element_text(
-        size   = 18,
+        size   = 10.5,
         color  = colors[1],
         hjust  = 0,
         family = "Lato Full",
@@ -910,7 +927,7 @@ wjp_groupbars <- function(
     theme_strip <- ggplot2::theme(
       strip.text.y.left = ggplot2::element_text(
         angle  = 0,
-        size   = 18,
+        size   = 10.5,
         color  = colors[1],
         hjust  = 0,
         vjust  = 1,
