@@ -13,3 +13,11 @@
 ^\.github$
 ^LICENSE\.md$
 ^vignettes/articles$
+^CLAUDE\.md$
+^CODE_OF_CONDUCT\.md$
+^CONTRIBUTING\.md$
+^SECURITY\.md$
+^SUPPORT\.md$
+^design$
+^dev$
+^Rplots\.pdf$
