@@ -913,7 +913,7 @@ wjp_groupbars <- function(
         size   = 11,
         color  = colors[1],
         hjust  = 1,
-        vjust  = 0.5,
+        vjust  = 1,
         family = "Lato Full",
         face   = "bold",
         margin = ggplot2::margin(0, 0, 0, 0)
