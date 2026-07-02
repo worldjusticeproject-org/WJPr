@@ -144,7 +144,9 @@ rows.</p>
 <span>  facet_ncol <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  bar_width <span class="op">=</span> <span class="fl">0.7</span>,</span>
 <span>  show_axis <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  strip_position <span class="op">=</span> <span class="st">"left"</span></span>
+<span>  strip_position <span class="op">=</span> <span class="st">"left"</span>,</span>
+<span>  national_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  national_level <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -291,6 +293,19 @@ places labels after the upper CI bound when available. Default is TRUE.</p></dd>
 <dd><p>String. Position of facet strip labels: "left" places them
 vertically on the left side, "top" places them horizontally above each group.
 Default is "left".</p></dd>
+
+
+<dt id="arg-national-var">national_var<a class="anchor" aria-label="anchor" href="#arg-national-var"></a></dt>
+<dd><p>String. Value in the <code>grouping</code> column that identifies
+the national average row (e.g., "general", "Overall"). When specified, this row
+is displayed with a special formatted label (bold, italic, colored) using
+<code><a href="https://wilkelab.org/ggtext/reference/geom_richtext.html" class="external-link">geom_richtext()</a></code>. Default is NULL.</p></dd>
+
+
+<dt id="arg-national-level">national_level<a class="anchor" aria-label="anchor" href="#arg-national-level"></a></dt>
+<dd><p>String. Value in the <code>levels</code> column corresponding to
+the national average label (e.g., "National Average"). Required when
+<code>national_var</code> is specified. Default is NULL.</p></dd>
 
 </dl></div>
     <div class="section level2">

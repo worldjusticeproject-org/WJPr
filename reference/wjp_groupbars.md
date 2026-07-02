@@ -49,7 +49,9 @@ wjp_groupbars(
   facet_ncol = 1,
   bar_width = 0.7,
   show_axis = FALSE,
-  strip_position = "left"
+  strip_position = "left",
+  national_var = NULL,
+  national_level = NULL
 )
 ```
 
@@ -199,6 +201,20 @@ wjp_groupbars(
   String. Position of facet strip labels: "left" places them vertically
   on the left side, "top" places them horizontally above each group.
   Default is "left".
+
+- national_var:
+
+  String. Value in the `grouping` column that identifies the national
+  average row (e.g., "general", "Overall"). When specified, this row is
+  displayed with a special formatted label (bold, italic, colored) using
+  [`geom_richtext()`](https://wilkelab.org/ggtext/reference/geom_richtext.html).
+  Default is NULL.
+
+- national_level:
+
+  String. Value in the `levels` column corresponding to the national
+  average label (e.g., "National Average"). Required when `national_var`
+  is specified. Default is NULL.
 
 ## Value
 
