@@ -382,6 +382,41 @@ wjp_groupbars <- function(
     return(label_df)
   }
 
+  # ===========================================================================
+  # HELPER FUNCTION: Calculate centered strip label positions
+  # ===========================================================================
+
+  calculate_centered_strip_positions <- function(data2plot, group_levels, level_order,
+                                                  colors_primary, national_group = " ") {
+    # For each group, find the middle y_id to center the strip label
+    strip_data <- data2plot %>%
+      dplyr::filter(color_type == "primary", grouping_var != national_group) %>%
+      dplyr::group_by(grouping_var) %>%
+      dplyr::summarise(
+        y_ids = list(unique(as.character(y_id))),
+        n_bars = dplyr::n(),
+        .groups = "drop"
+      ) %>%
+      dplyr::rowwise() %>%
+      dplyr::mutate(
+        middle_idx = ceiling(length(y_ids) / 2),
+        center_y_id = y_ids[middle_idx],
+        label = paste0("<b><span style='color:", colors_primary, "'>",
+                       as.character(grouping_var), "</span></b>")
+      ) %>%
+      dplyr::ungroup() %>%
+      dplyr::select(grouping_var, center_y_id, label)
+
+    strip_data <- strip_data %>%
+      dplyr::mutate(
+        grouping_var = factor(grouping_var, levels = group_levels),
+        y_id = factor(center_y_id, levels = level_order),
+        x = -8
+      )
+
+    return(strip_data)
+  }
+
   national_value_pct <- NULL
   national_ci_lower_pct <- NULL
   national_ci_upper_pct <- NULL
@@ -835,6 +870,30 @@ wjp_groupbars <- function(
           family      = "Lato Full"
         )
     }
+
+    # Add centered strip labels via geom_richtext
+    strip_labels_df <- calculate_centered_strip_positions(
+      data2plot      = data2plot,
+      group_levels   = group_levels_vec,
+      level_order    = level_order_vec,
+      colors_primary = colors[1],
+      national_group = national_group_empty
+    )
+
+    if (nrow(strip_labels_df) > 0) {
+      plt <- plt +
+        ggtext::geom_richtext(
+          data        = strip_labels_df,
+          ggplot2::aes(x = x, y = y_id, label = label),
+          inherit.aes = FALSE,
+          hjust       = 1,
+          vjust       = 0.5,
+          fill        = NA,
+          label.color = NA,
+          size        = 3.5,
+          family      = "Lato Full"
+        )
+    }
   }
 
   # ===========================================================================
@@ -894,7 +953,7 @@ wjp_groupbars <- function(
     )
   }
 
-  # Strip styling based on strip_position
+  # Strip styling based on strip_position and national_var usage
   if (strip_position == "top") {
     theme_strip <- ggplot2::theme(
       strip.text.y = ggplot2::element_text(
@@ -905,6 +964,13 @@ wjp_groupbars <- function(
         face   = "plain"
       ),
       plot.margin = ggplot2::margin(10, 30, 10, 10)
+    )
+  } else if (use_national_richtext) {
+    # Hide native strip labels when using geom_richtext for centered strip labels
+    theme_strip <- ggplot2::theme(
+      strip.text.y.left = ggplot2::element_blank(),
+      strip.switch.pad.grid = grid::unit(0, "mm"),
+      plot.margin = ggplot2::margin(10, 30, 10, 120)
     )
   } else {
     theme_strip <- ggplot2::theme(
