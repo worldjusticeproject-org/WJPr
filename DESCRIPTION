@@ -33,6 +33,7 @@ Imports:
     magrittr (>= 2.0.0),
     purrr (>= 1.0.0),
     rlang (>= 1.0.0),
+    scales,
     showtext (>= 0.9.0),
     sysfonts (>= 0.8.0),
     stats,
