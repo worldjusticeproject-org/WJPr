@@ -72,6 +72,13 @@
 #' @param strip_position String. Position of facet strip labels: "left" places them
 #'   vertically on the left side, "top" places them horizontally above each group.
 #'   Default is "left".
+#' @param national_var String. Value in the \code{grouping} column that identifies
+#'   the national average row (e.g., "general", "Overall"). When specified, this row
+#'   is displayed with a special formatted label (bold, italic, colored) using
+#'   \code{geom_richtext()}. Default is NULL.
+#' @param national_level String. Value in the \code{levels} column corresponding to
+#'   the national average label (e.g., "National Average"). Required when
+#'   \code{national_var} is specified. Default is NULL.
 #'
 #' @return A ggplot object representing the grouped stacked bar chart.
 #' @export
@@ -215,7 +222,9 @@ wjp_groupbars <- function(
     facet_ncol     = 1,
     bar_width      = 0.7,
     show_axis      = FALSE,
-    strip_position = "left"
+    strip_position = "left",
+    national_var   = NULL,
+    national_level = NULL
 ) {
 
   # ===========================================================================
@@ -228,6 +237,21 @@ wjp_groupbars <- function(
       grouping_var = dplyr::all_of(grouping),
       levels_var   = dplyr::all_of(levels)
     )
+
+  # Handle national_var: convert national grouping to empty space for facet
+  use_national_richtext <- !is.null(national_var) && !is.null(national_level)
+  national_group_empty <- " "
+
+  if (use_national_richtext) {
+    data <- data %>%
+      dplyr::mutate(
+        grouping_var = dplyr::if_else(
+          grouping_var == national_var,
+          national_group_empty,
+          as.character(grouping_var)
+        )
+      )
+  }
 
   numeric_arg <- function(x, arg) {
     raw_na <- is.na(x)
@@ -312,6 +336,50 @@ wjp_groupbars <- function(
   }
   if (!strip_position %in% c("left", "top")) {
     stop('`strip_position` must be one of "left" or "top".', call. = FALSE)
+  }
+  if (!is.null(national_var) && is.null(national_level)) {
+    stop("`national_level` must be provided when `national_var` is specified.", call. = FALSE)
+  }
+  if (is.null(national_var) && !is.null(national_level)) {
+    stop("`national_var` must be provided when `national_level` is specified.", call. = FALSE)
+  }
+
+  # ===========================================================================
+  # HELPER FUNCTION: Calculate position for national average label
+
+  # ===========================================================================
+
+  calculate_national_label_position <- function(data2plot,
+                                                 national_group,
+                                                 national_level_val,
+                                                 group_levels,
+                                                 level_order,
+                                                 colors_primary,
+                                                 label_text) {
+    # Build the y_id for national average
+    national_y_id <- paste(national_group, national_level_val, sep = " | ")
+
+    # Check if it exists in the data
+    if (!national_y_id %in% level_order) {
+      warning("National average level not found in data")
+      return(NULL)
+    }
+
+    # Create data.frame for geom_richtext
+    # x = 0 (start of bar)
+    # y = the corresponding factor level
+    # hjust = 1.02 so text ends just before the bar
+    label_df <- data.frame(
+      grouping_var = factor(national_group, levels = group_levels),
+      x = 0,
+      y_id = factor(national_y_id, levels = level_order),
+      label = paste0(
+        "<b><i><span style='color:", colors_primary, "'>", label_text, "</span></i></b>"
+      ),
+      stringsAsFactors = FALSE
+    )
+
+    return(label_df)
   }
 
   national_value_pct <- NULL
@@ -605,12 +673,17 @@ wjp_groupbars <- function(
       limits   = c(0, if (show_axis) 100 else 115),
       breaks   = if (show_axis) c(0, 25, 50, 75, 100) else ggplot2::waiver(),
       labels   = if (show_axis) function(x) paste0(x, "%") else ggplot2::waiver(),
-      position = if (show_axis) "bottom" else "top"
+      position = if (show_axis) "bottom" else "top",
+      oob      = scales::oob_keep
     ) +
     ggplot2::scale_y_discrete(
       labels = function(x) {
         label <- sub("^.* \\| ", "", x)
         label <- ifelse(label == ".national_average", "", label)
+        # Hide national_level when using national_var (will be shown via geom_richtext)
+        if (use_national_richtext) {
+          label <- ifelse(label == national_level, "", label)
+        }
         # Color national bar label with primary color if ggtext is available
         if (!is.null(national_bar_label) && requireNamespace("ggtext", quietly = TRUE)) {
           label <- ifelse(
@@ -725,6 +798,45 @@ wjp_groupbars <- function(
       )
   }
 
+  # Add richtext label for national average when national_var is specified
+  if (use_national_richtext && requireNamespace("ggtext", quietly = TRUE)) {
+    # Get group levels and level order from the plot data
+    group_levels_vec <- levels(data2plot$grouping_var)
+    if (is.null(group_levels_vec)) {
+      group_levels_vec <- unique(as.character(data2plot$grouping_var))
+    }
+    level_order_vec <- levels(data2plot$y_id)
+    if (is.null(level_order_vec)) {
+      level_order_vec <- unique(as.character(data2plot$y_id))
+    }
+
+    # Calculate position for national label
+    national_richtext_df <- calculate_national_label_position(
+      data2plot         = data2plot,
+      national_group    = national_group_empty,
+      national_level_val = national_level,
+      group_levels      = group_levels_vec,
+      level_order       = level_order_vec,
+      colors_primary    = colors[1],
+      label_text        = national_level
+    )
+
+    if (!is.null(national_richtext_df)) {
+      plt <- plt +
+        ggtext::geom_richtext(
+          data        = national_richtext_df,
+          ggplot2::aes(x = x, y = y_id, label = label),
+          inherit.aes = FALSE,
+          hjust       = 1.02,
+          vjust       = 0.5,
+          fill        = NA,
+          label.color = NA,
+          size        = 3.5,
+          family      = "Lato Full"
+        )
+    }
+  }
+
   # ===========================================================================
   # 6. APPLY THEME
   # ===========================================================================
@@ -801,12 +913,12 @@ wjp_groupbars <- function(
         size   = 11,
         color  = colors[1],
         hjust  = 1,
-        vjust  = 1,
+        vjust  = 0.5,
         family = "Lato Full",
         face   = "bold",
-        margin = ggplot2::margin(-15, -25, 0, 40)
+        margin = ggplot2::margin(0, 0, 0, 0)
       ),
-      strip.switch.pad.grid = grid::unit(-25, "mm"),
+      strip.switch.pad.grid = grid::unit(0, "mm"),
       plot.margin = ggplot2::margin(10, 30, 10, 40)
     )
   }

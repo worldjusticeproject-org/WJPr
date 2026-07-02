@@ -33,7 +33,9 @@ wjp_groupbars(
   facet_ncol = 1,
   bar_width = 0.7,
   show_axis = FALSE,
-  strip_position = "left"
+  strip_position = "left",
+  national_var = NULL,
+  national_level = NULL
 )
 }
 \arguments{
@@ -119,6 +121,15 @@ places labels after the upper CI bound when available. Default is TRUE.}
 \item{strip_position}{String. Position of facet strip labels: "left" places them
 vertically on the left side, "top" places them horizontally above each group.
 Default is "left".}
+
+\item{national_var}{String. Value in the \code{grouping} column that identifies
+the national average row (e.g., "general", "Overall"). When specified, this row
+is displayed with a special formatted label (bold, italic, colored) using
+\code{geom_richtext()}. Default is NULL.}
+
+\item{national_level}{String. Value in the \code{levels} column corresponding to
+the national average label (e.g., "National Average"). Required when
+\code{national_var} is specified. Default is NULL.}
 }
 \value{
 A ggplot object representing the grouped stacked bar chart.
