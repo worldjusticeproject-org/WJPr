@@ -38,8 +38,8 @@ template:
 home:
   title: WJPr - World Justice Project R Package
   description: >
-    Herramientas de visualizacion y datos del Rule of Law Index del World Justice Project.
-    Funciones para crear graficos siguiendo las guias de estilo WJP.
+    Visualization tools and Rule of Law Index data from the World Justice Project.
+    Functions for creating charts following WJP style guidelines.
 
 navbar:
   structure:
@@ -47,15 +47,15 @@ navbar:
     right: [search, github]
   components:
     intro:
-      text: Inicio
+      text: Home
       href: index.html
     reference:
-      text: Referencia
+      text: Reference
       href: reference/index.html
     functions:
-      text: Funciones
+      text: Functions
       menu:
-      - text: Barras
+      - text: Bars
       - text: wjp_bars()
         href: reference/wjp_bars.html
       - text: wjp_divbars()
@@ -65,7 +65,7 @@ navbar:
       - text: wjp_edgebars()
         href: reference/wjp_edgebars.html
       - text: --------
-      - text: Puntos y líneas
+      - text: Dots and Lines
       - text: wjp_dots()
         href: reference/wjp_dots.html
       - text: wjp_lines()
@@ -77,7 +77,7 @@ navbar:
       - text: wjp_lollipops()
         href: reference/wjp_lollipops.html
       - text: --------
-      - text: Radiales y especiales
+      - text: Radial and Special
       - text: wjp_radar()
         href: reference/wjp_radar.html
       - text: wjp_rose()
@@ -85,7 +85,7 @@ navbar:
       - text: wjp_gauge()
         href: reference/wjp_gauge.html
       - text: --------
-      - text: Validación y análisis
+      - text: Validation and Analysis
       - text: wjp_check_data()
         href: reference/wjp_check_data.html
       - text: wjp_check_deps()
@@ -93,66 +93,66 @@ navbar:
       - text: diffmeans()
         href: reference/diffmeans.html
     articles:
-      text: Guías
+      text: Guides
       menu:
-      - text: Galería de gráficos
+      - text: Chart Gallery
         href: articles/gallery.html
-      - text: Preparación de datos
+      - text: Data Preparation
         href: articles/data-preparation.html
-      - text: Visualización de datos
+      - text: Data Visualization
         href: articles/dataviz.html
     development:
-      text: Desarrollo
+      text: Development
       menu:
-      - text: Agregar una función nueva
+      - text: Adding a New Function
         href: articles/add-function.html
-      - text: Guía de desarrollo completa
+      - text: Complete Development Guide
         href: articles/development-guide.html
 
 reference:
-- title: Barras
-  desc: Funciones para gráficos de barras verticales, horizontales, divergentes, agrupados y de borde.
+- title: Bars
+  desc: Functions for vertical, horizontal, diverging, grouped, and edge bar charts.
   contents:
   - wjp_bars
   - wjp_divbars
   - wjp_groupbars
   - wjp_edgebars
-- title: Puntos y líneas
-  desc: Funciones para comparar puntos, tendencias, pendientes, cambios y lollipops.
+- title: Dots and Lines
+  desc: Functions for comparing points, trends, slopes, changes, and lollipops.
   contents:
   - wjp_dots
   - wjp_lines
   - wjp_slope
   - wjp_dumbbells
   - wjp_lollipops
-- title: Radiales y especiales
-  desc: Funciones para gráficos radiales, rose charts y gauges.
+- title: Radial and Special
+  desc: Functions for radial charts, rose charts, and gauges.
   contents:
   - wjp_radar
   - wjp_rose
   - wjp_gauge
-- title: Validación, análisis y estilo
-  desc: Herramientas de soporte para validar datos, revisar dependencias, analizar diferencias y aplicar estilo WJP.
+- title: Validation, Analysis, and Styling
+  desc: Support tools for validating data, checking dependencies, analyzing differences, and applying WJP styling.
   contents:
   - wjp_check_data
   - wjp_check_deps
   - diffmeans
   - wjp_fonts
   - WJP_theme
-- title: Datos
-  desc: Datasets incluidos en el paquete.
+- title: Data
+  desc: Datasets included in the package.
   contents:
   - gpp
   - roli
 
 articles:
-- title: Uso
+- title: Usage
   navbar: ~
   contents:
   - articles/gallery
   - articles/data-preparation
   - articles/dataviz
-- title: Desarrollo
+- title: Development
   navbar: ~
   contents:
   - articles/add-function
