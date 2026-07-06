@@ -49,7 +49,7 @@ wjp_check_deps()
 #>   dplyr        [OK] v1.2.1
 #>   tidyr        [OK] v1.3.2
 #>   magrittr     [OK] v2.0.5
-#>   rlang        [OK] v1.2.0
+#>   rlang        [OK] v1.3.0
 #>   tibble       [OK] v3.3.1
 #>   sysfonts     [OK] v0.8.9
 #>   showtext     [OK] v0.9.8

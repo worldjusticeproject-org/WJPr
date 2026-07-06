@@ -1,6 +1,6 @@
 # Articles
 
-### Uso
+### Usage
 
 - [Chart
   Gallery](https://worldjusticeproject-org.github.io/WJPr/articles/gallery.md):
@@ -9,7 +9,7 @@
 - [Data Visualization with
   WJPr](https://worldjusticeproject-org.github.io/WJPr/articles/dataviz.md):
 
-### Desarrollo
+### Development
 
 - [Agregar una función
   nueva](https://worldjusticeproject-org.github.io/WJPr/articles/add-function.md):

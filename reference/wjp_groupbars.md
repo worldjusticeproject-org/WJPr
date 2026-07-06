@@ -336,4 +336,22 @@ wjp_groupbars(
   strip_position    = "top"
 )
 
+
+# Using national_var and national_level for inline national average formatting
+data_disagg <- data.frame(
+  disaggregation = c("general", "Age Group", "Age Group", "Gender", "Gender"),
+  demographics   = c("National Average", "18-29", "50+", "Male", "Female"),
+  pct_weighted   = c(0.75, 0.72, 0.78, 0.77, 0.73)
+)
+
+wjp_groupbars(
+  data_disagg,
+  target         = "pct_weighted",
+  grouping       = "disaggregation",
+  levels         = "demographics",
+  group_order    = c(" ", "Age Group", "Gender"),
+  national_var   = "general",
+  national_level = "National Average"
+)
+
 ```

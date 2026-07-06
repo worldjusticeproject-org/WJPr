@@ -1,9 +1,9 @@
 # Package index
 
-## Barras
+## Bars
 
-Funciones para gráficos de barras verticales, horizontales, divergentes,
-agrupados y de borde.
+Functions for vertical, horizontal, diverging, grouped, and edge bar
+charts.
 
 - [`wjp_bars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_bars.md)
   **\[experimental\]** : Plot a Bar Chart following WJP style guidelines
@@ -17,10 +17,9 @@ agrupados y de borde.
   **\[experimental\]** : Plot a Horizontal Edgebars Chart following WJP
   style guidelines
 
-## Puntos y líneas
+## Dots and Lines
 
-Funciones para comparar puntos, tendencias, pendientes, cambios y
-lollipops.
+Functions for comparing points, trends, slopes, changes, and lollipops.
 
 - [`wjp_dots()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dots.md)
   **\[experimental\]** : Plot a Dots Chart following WJP style
@@ -38,9 +37,9 @@ lollipops.
   **\[experimental\]** : Plot a Lollipop Chart following WJP style
   guidelines
 
-## Radiales y especiales
+## Radial and Special
 
-Funciones para gráficos radiales, rose charts y gauges.
+Functions for radial charts, rose charts, and gauges.
 
 - [`wjp_radar()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_radar.md)
   **\[experimental\]** : Plot a Radar Chart following WJP style
@@ -52,10 +51,10 @@ Funciones para gráficos radiales, rose charts y gauges.
   **\[experimental\]** : Plot a Gauge Chart following WJP style
   guidelines
 
-## Validación, análisis y estilo
+## Validation, Analysis, and Styling
 
-Herramientas de soporte para validar datos, revisar dependencias,
-analizar diferencias y aplicar estilo WJP.
+Support tools for validating data, checking dependencies, analyzing
+differences, and applying WJP styling.
 
 - [`wjp_check_data()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_check_data.md)
   : Validate Data Structure for WJPr Charts
@@ -68,9 +67,9 @@ analizar diferencias y aplicar estilo WJP.
 - [`WJP_theme()`](https://worldjusticeproject-org.github.io/WJPr/reference/WJP_theme.md)
   : WJP ggplot2 Theme
 
-## Datos
+## Data
 
-Datasets incluidos en el paquete.
+Datasets included in the package.
 
 - [`gpp`](https://worldjusticeproject-org.github.io/WJPr/reference/gpp.md)
   : GPP Sample Data
