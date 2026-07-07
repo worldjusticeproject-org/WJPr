@@ -203,8 +203,8 @@ wjp_dumbbells <- function(
         y    = start,
         yend = end
       ),
-      color  = cvec[2],
-      linewidth = 1.5 
+      color  = "#BFBFBF",
+      linewidth = 2.5
     ) +
     geom_point(
       data = data_wider,
@@ -213,7 +213,7 @@ wjp_dumbbells <- function(
         y     = start
       ),
       color = cvec[1],
-      size  = 3
+      size  = 4.5
     ) +
     geom_point(
       data = data_wider,
@@ -222,7 +222,7 @@ wjp_dumbbells <- function(
         y     = end
       ),
       color = cvec[2],
-      size  = 3
+      size  = 4.5
     ) 
   
   if (!is.null(labels)) {
