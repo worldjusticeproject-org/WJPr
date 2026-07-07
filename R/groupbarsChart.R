@@ -705,7 +705,7 @@ wjp_groupbars <- function(
         if (!is.null(national_bar_label) && requireNamespace("ggtext", quietly = TRUE)) {
           label <- ifelse(
             label == national_bar_label,
-            paste0("<span style='color:", colors[1], "'>", label, "</span>"),
+            paste0("<b><span style='color:", colors[1], "'>", label, "</span></b>"),
             label
           )
         }
@@ -750,7 +750,7 @@ wjp_groupbars <- function(
         fontface = "bold",
         color    = if (label_position == "inside") "#ffffff" else colors[1],
         hjust    = if (label_position == "inside") 1 else 0,
-        size     = 4.2,
+        size     = 5,
         na.rm    = TRUE
       )
   }
@@ -777,7 +777,7 @@ wjp_groupbars <- function(
           fill          = NA,
           label.color   = NA,
           label.padding = grid::unit(c(1.5, 1.5, 1.5, 1.5), "mm"),
-          size          = 2.5,
+          size          = 3.5,
           vjust         = 0.5
         )
     } else {
@@ -794,7 +794,7 @@ wjp_groupbars <- function(
           family      = "Lato Full",
           fontface    = "plain",
           color       = colors[1],
-          size        = 2.5,
+          size        = 3.5,
           vjust       = 0.5
         )
     }
@@ -848,7 +848,7 @@ wjp_groupbars <- function(
           vjust       = 0.5,
           fill        = NA,
           label.color = NA,
-          size        = 3.3,
+          size        = 4.5,
           family      = "Lato Full"
         )
     }
@@ -895,7 +895,7 @@ wjp_groupbars <- function(
   if (!is.null(national_bar_label) && requireNamespace("ggtext", quietly = TRUE)) {
     theme_axis_y <- ggplot2::theme(
       axis.text.y = ggtext::element_markdown(
-        size   = 10.5,
+        size   = 13,
         hjust  = 1,
         family = "Lato Full"
       )
@@ -903,7 +903,7 @@ wjp_groupbars <- function(
   } else {
     theme_axis_y <- ggplot2::theme(
       axis.text.y = ggplot2::element_text(
-        size   = 10.5,
+        size   = 13,
         hjust  = 1,
         family = "Lato Full",
         face   = "plain"
@@ -915,19 +915,19 @@ wjp_groupbars <- function(
   if (strip_position == "top") {
     theme_strip <- ggplot2::theme(
       strip.text.y = ggplot2::element_text(
-        size   = 10.5,
+        size   = 13,
         color  = colors[1],
         hjust  = 0,
         family = "Lato Full",
         face   = "plain"
       ),
-      plot.margin = ggplot2::margin(10, 30, 10, 10)
+      plot.margin = ggplot2::margin(10, 35, 10, 10)
     )
   } else {
     theme_strip <- ggplot2::theme(
       strip.text.y.left = ggplot2::element_text(
         angle  = 0,
-        size   = 10.5,
+        size   = 12,
         color  = colors[1],
         hjust  = 0,
         vjust  = 1,
@@ -935,8 +935,8 @@ wjp_groupbars <- function(
         face   = "bold",
         margin = ggplot2::margin(0, -15, 0, 0)
       ),
-      strip.switch.pad.grid = grid::unit(-5, "mm"),
-      plot.margin = ggplot2::margin(10, 30, 10, 10)
+      strip.switch.pad.grid = grid::unit(-6, "mm"),
+      plot.margin = ggplot2::margin(10, 35, 10, 10)
     )
   }
 
