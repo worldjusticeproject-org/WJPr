@@ -933,9 +933,9 @@ wjp_groupbars <- function(
         vjust  = 1,
         family = "Lato Full",
         face   = "bold",
-        margin = ggplot2::margin(0, 0, 0, 0)
+        margin = ggplot2::margin(0, -15, 0, 0)
       ),
-      strip.switch.pad.grid = grid::unit(0, "mm"),
+      strip.switch.pad.grid = grid::unit(-5, "mm"),
       plot.margin = ggplot2::margin(10, 30, 10, 10)
     )
   }
