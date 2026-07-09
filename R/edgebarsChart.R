@@ -72,7 +72,7 @@
 #'   target    = "trust",        
 #'   grouping  = "country",
 #'   labels    = "color_variable",
-#'   cvec      = "#F6D8AE"
+#'   cvec      = "#2894aa"
 #' )
 #' 
 
@@ -92,7 +92,7 @@ wjp_edgebars <- function(
   
   # Renaming variables in the data frame to match the function naming
   if (is.null(cvec)) {
-    cvec <- c("anchor" = "#2a2a94")
+    cvec <- c("anchor" = "#482d8b")
   } else {
     cvec <- c("anchor" = cvec)
   }

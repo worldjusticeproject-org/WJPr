@@ -119,8 +119,8 @@ filter(
     target    = "percentage",
     grouping  = "institution",
     color     = "year",
-    cvec      = c("2017" = "#08605F",
-                  "2022" = "#9E6240"),
+    cvec      = c("2017" = "#2894aa",
+                  "2022" = "#482d8b"),
     cgroups   = c("2017", "2022")
  )
  

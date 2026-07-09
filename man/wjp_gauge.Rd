@@ -57,10 +57,10 @@ data4gauge <- data.frame(
 
 # Define colors for each segment
 gauge_colors <- c(
-  "Category A" = "#2a2a94",
-  "Category B" = "#4a4a94",
-  "Category C" = "#7a7ab4",
-  "Category D" = "#9a9ad4"
+  "Category A" = "#482d8b",
+  "Category B" = "#2894aa",
+  "Category C" = "#f26b21",
+  "Category D" = "#555659"
 )
 
 # Plotting chart

@@ -9,7 +9,7 @@ wjp_groupbars(
   target,
   grouping,
   levels,
-  colors = c("#575796", "#e5e8e8"),
+  colors = c("#482d8b", "#e5e8e8"),
   labels = NULL,
   group_order = NULL,
   level_order = NULL,
@@ -49,7 +49,7 @@ can be proportions (0-1) or percentages (0-100).}
 \item{levels}{String. Column name for the categories within each group (e.g., "Male", "Female").}
 
 \item{colors}{Character vector of length 2 with hex colors for primary and secondary bars.
-Default is c("#575796", "#e5e8e8").}
+Default is c("#482d8b", "#e5e8e8").}
 
 \item{labels}{String. Column name containing custom labels. If NULL, percentages are auto-generated.
 Default is NULL.}
@@ -58,7 +58,9 @@ Default is NULL.}
 Default is NULL (uses data order).}
 
 \item{level_order}{Named list where names are group values and values are character vectors
-specifying the order of levels within each group. Default is NULL (uses data order).}
+specifying the order of levels within each group. Default is NULL (uses data order).
+For horizontal bars, ggplot2 draws the first discrete y-axis level at the
+bottom, so list levels accordingly when controlling the visual order.}
 
 \item{show_national}{Logical. If TRUE, adds a vertical national average line
 and a rich text annotation by default, or a national average bar when
@@ -180,7 +182,7 @@ wjp_groupbars(
   target      = "value",
   grouping    = "group",
   levels      = "category",
-  colors      = c("#2a2a94", "#d0d1d3"),
+  colors      = c("#482d8b", "#e5e8e8"),
   group_order = c("Gender", "Age")
 )
 
@@ -205,11 +207,11 @@ wjp_groupbars(
 
 # Percentage-scale input with precomputed confidence intervals and a general line
 data_pct <- data.frame(
-  group    = c("Gender", "Gender", "Age", "Age"),
-  category = c("Male", "Female", "18-29", "50+"),
-  value    = c(74.4, 70.3, 72.1, 73.0),
-  lower    = c(72.4, 68.4, 70.1, 70.8),
-  upper    = c(76.4, 72.1, 74.5, 75.2)
+  group    = c("Gender", "Gender", "Age", "Age", "Age"),
+  category = c("Men", "Women", "18-24", "25-54", "55+"),
+  value    = c(74.4, 70.3, 72.1, 73.1, 73.0),
+  lower    = c(72.4, 68.4, 70.1, 71.0, 70.8),
+  upper    = c(76.4, 72.1, 74.5, 75.2, 75.2)
 )
 
 wjp_groupbars(
@@ -217,6 +219,11 @@ wjp_groupbars(
   target         = "value",
   grouping       = "group",
   levels         = "category",
+  group_order    = c("Gender", "Age"),
+  level_order    = list(
+    Gender = c("Women", "Men"),
+    Age    = c("55+", "25-54", "18-24")
+  ),
   draw_ci        = TRUE,
   ci_lower       = "lower",
   ci_upper       = "upper",
@@ -231,6 +238,12 @@ wjp_groupbars(
   target            = "value",
   grouping          = "group",
   levels            = "category",
+  colors            = c("#482d8b", "#e5e8e8"),
+  group_order       = c("Gender", "Age"),
+  level_order       = list(
+    Gender = c("Women", "Men"),
+    Age    = c("55+", "25-54", "18-24")
+  ),
   draw_ci           = TRUE,
   ci_lower          = "lower",
   ci_upper          = "upper",
@@ -242,12 +255,18 @@ wjp_groupbars(
   national_ci_upper = 74.6
 )
 
-# With visible X axis and strip labels on top (publication-style layout)
+# With visible X axis (publication-style layout)
 wjp_groupbars(
   data_pct,
   target            = "value",
   grouping          = "group",
   levels            = "category",
+  colors            = c("#482d8b", "#e5e8e8"),
+  group_order       = c("Gender", "Age"),
+  level_order       = list(
+    Gender = c("Women", "Men"),
+    Age    = c("55+", "25-54", "18-24")
+  ),
   draw_ci           = TRUE,
   ci_lower          = "lower",
   ci_upper          = "upper",
@@ -257,8 +276,7 @@ wjp_groupbars(
   national_label    = "National Average",
   national_ci_lower = 70.0,
   national_ci_upper = 74.6,
-  show_axis         = TRUE,
-  strip_position    = "top"
+  show_axis         = TRUE
 )
 
 # Using national_var and national_level for inline national average formatting

@@ -301,9 +301,9 @@ El parámetro `cvec` SIEMPRE debe ser un vector nombrado:
 
 ```r
 cvec <- c(
-  "Category A" = "#2a2a94",
-  "Category B" = "#4a4a94",
-  "Category C" = "#7a7ab4"
+  "Category A" = "#482d8b",
+  "Category B" = "#2894aa",
+  "Category C" = "#f26b21"
 )
 ```
 
@@ -347,11 +347,12 @@ Colores WJP estándar para referencia:
 
 ```r
 # Primarios
-"#2a2a94"  # Azul WJP
-"#a90099"  # Magenta WJP
+"#482d8b"  # Violeta WJP
+"#2894aa"  # Teal-blue WJP
+"#f26b21"  # Naranja WJP
 
 # Grises
-"#4a4a49"  # Texto oscuro
+"#555659"  # Texto y elementos de apoyo
 "#D0D1D3"  # Líneas de grilla
 
 # Texto en fondos oscuros

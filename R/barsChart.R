@@ -75,9 +75,9 @@
 #'   labels    = "value_label",
 #'   lab_pos   = "label_position",
 #'   colors    = "color_variable",
-#'   cvec      = c("Atlantis"  = "#2E4057",
-#'                 "Narnia"    = "#083D77",
-#'                 "Neverland" = "#F4D35E")
+#'   cvec      = c("Atlantis"  = "#482d8b",
+#'                 "Narnia"    = "#2894aa",
+#'                 "Neverland" = "#f26b21")
 #'   )
 #'
 

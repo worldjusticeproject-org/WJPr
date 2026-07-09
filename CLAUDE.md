@@ -75,7 +75,7 @@ All visualization functions follow a consistent pattern:
 
 ### Styling Conventions
 - Font: Lato (loaded via Google Fonts using sysfonts/showtext)
-- WJP color palette uses hex codes (e.g., `#2E4057`, `#083D77`, `#F4D35E`)
+- WJP color palette uses hex codes such as `#482d8b`, `#2894aa`, `#f26b21`, and `#555659`
 - Colors are passed via named vectors (`cvec`) where names match grouping variable values
 - Always call `wjp_fonts()` before plotting to ensure fonts are available
 

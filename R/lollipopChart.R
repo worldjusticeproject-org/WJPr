@@ -12,8 +12,8 @@
 #' @param order A string specifying the column name of the variable that contains the custom order for displaying categories. Default is NULL (uses row order).
 #' @param line_size A numeric value specifying the thickness of the lines. Default is 3.
 #' @param point_size A numeric value specifying the size of the points. Default is 4.
-#' @param line_color A string specifying the hex color code for the lines. Default is "#c4c4c4".
-#' @param point_color A string specifying the hex color code for the points. Default is "#2a2a94".
+#' @param line_color A string specifying the hex color code for the lines. Default is "#d9dde3".
+#' @param point_color A string specifying the hex color code for the points. Default is "#482d8b".
 #'
 #' @return A ggplot object representing the lollipop chart.
 #' @export
@@ -66,8 +66,8 @@
 #'   data4lollipops,
 #'   target      = "percentage",
 #'   grouping    = "institution",
-#'   line_color  = "#c4c4c4",
-#'   point_color = "#2a2a94"
+#'   line_color  = "#d9dde3",
+#'   point_color = "#482d8b"
 #' )
 #'
 wjp_lollipops <- function(
@@ -77,8 +77,8 @@ wjp_lollipops <- function(
     order         = NULL,
     line_size     = 3,
     point_size    = 4,
-    line_color    = "#c4c4c4",
-    point_color   = "#2a2a94"
+    line_color    = "#d9dde3",
+    point_color   = "#482d8b"
 ) {
   
   # Renaming variables in the data frame to match the function naming

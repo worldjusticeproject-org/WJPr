@@ -34,10 +34,10 @@
 #'
 #' # Define colors for each segment
 #' gauge_colors <- c(
-#'   "Category A" = "#2a2a94",
-#'   "Category B" = "#4a4a94",
-#'   "Category C" = "#7a7ab4",
-#'   "Category D" = "#9a9ad4"
+#'   "Category A" = "#482d8b",
+#'   "Category B" = "#2894aa",
+#'   "Category C" = "#f26b21",
+#'   "Category D" = "#555659"
 #' )
 #'
 #' # Plotting chart
@@ -141,7 +141,7 @@ wjp_gauge <- function(
   if (!is.null(cvec)) {
     cvec <- c(cvec, "___padding___" = "transparent")
   } else {
-    palette <- c("#2a2a94", "#575796", "#7b7db8", "#a6a8cf", "#d0d1e8")
+    palette <- c("#482d8b", "#2894aa", "#f26b21", "#0f9581", "#555659")
     cvec <- stats::setNames(rep(palette, length.out = length(unique(data$colors_var))), unique(data$colors_var))
     cvec <- c(cvec, "___padding___" = "transparent")
   }

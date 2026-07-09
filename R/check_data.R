@@ -49,7 +49,7 @@
 #'   target   = "trust",
 #'   grouping = "country",
 #'   colors   = "country",
-#'   cvec     = c("Atlantis" = "#FF0000", "Narnia" = "#00FF00")
+#'   cvec     = c("Atlantis" = "#482d8b", "Narnia" = "#2894aa")
 #' )
 #'
 wjp_check_data <- function(
@@ -187,7 +187,7 @@ valid_types <- c("bars", "dots", "lines", "slope", "dumbbells",
       if (!is.null(cvec)) {
         if (!is.vector(cvec) || is.null(names(cvec))) {
           errors <- c(errors,
-            "Parameter 'cvec' must be a named vector (e.g., c('A' = '#FF0000'))."
+            "Parameter 'cvec' must be a named vector (e.g., c('A' = '#482d8b'))."
           )
         } else {
           # Check if all color values have a mapping

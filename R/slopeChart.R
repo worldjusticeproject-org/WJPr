@@ -72,8 +72,8 @@
 #'   ngroups   = data4slopes$gender,                 
 #'   labels    = "value_label",
 #'   colors    = "gender",
-#'   cvec      = c("Male"   = "#08605F",
-#'                 "Female" = "#9E6240"),
+#'   cvec      = c("Male"   = "#482d8b",
+#'                 "Female" = "#f26b21"),
 #'   repel     = TRUE
 #' )
 
@@ -114,7 +114,7 @@ wjp_slope <- function(
     )
   
   if (is.null(cvec)){
-    default_colors <- c("#F79256", "#1D4E89", "#FBD1A2", "#3CBBB1", "#394648")
+    default_colors <- c("#482d8b", "#2894aa", "#f26b21", "#0f9581", "#555659")
     nitems <- length(unique(ngroups))
     cvec   <- default_colors[1:nitems]
   }

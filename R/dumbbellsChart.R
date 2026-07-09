@@ -92,8 +92,8 @@
 #'     target    = "percentage",
 #'     grouping  = "institution",
 #'     color     = "year",
-#'     cvec      = c("2017" = "#08605F",
-#'                   "2022" = "#9E6240"),
+#'     cvec      = c("2017" = "#2894aa",
+#'                   "2022" = "#482d8b"),
 #'     cgroups   = c("2017", "2022")
 #'  )
 #'  
@@ -113,7 +113,7 @@ wjp_dumbbells <- function(
   
   # Default colors
   if (is.null(cvec)){
-    cvec   <- c("#1D4E89", "#FBD1A2")
+    cvec   <- c("#2894aa", "#482d8b")
   }
   
   # Renaming variables in the data frame to match the function naming

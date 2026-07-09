@@ -101,7 +101,7 @@ wjp_edgebars(
   target    = "trust",        
   grouping  = "country",
   labels    = "color_variable",
-  cvec      = "#F6D8AE"
+  cvec      = "#2894aa"
 )
 
 }

@@ -98,7 +98,7 @@
 #'   grouping       = "year",
 #'   ngroups        = 1,                 
 #'   colors         = "institution",
-#'   cvec           = c("Institution A" = "#08605F"),
+#'   cvec           = c("Institution A" = "#482d8b"),
 #'   labels         = "value_label"
 #'  )
 

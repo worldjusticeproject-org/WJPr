@@ -1,14 +1,15 @@
 # WJPr
 
-WJPr is an R package developed to streamline data analysis and visualization for the Data Analytics Unit at The World Justice Project (WJP). This package includes essential data and tools for replicating visualizations from WJP Country Reports and analyzing Rule of Law Index scores.
+WJPr is an R package from the World Justice Project Data Analytics Unit for producing WJP-style graphics and working with Rule of Law Index data. It is designed for analysts who need publication-ready charts, reproducible examples, and consistent visual language across country-report and research workflows.
 
 ## Features
 
-**Version 1.0.0** of WJPr offers:
+WJPr provides:
 
-- A wide range of visualization functions to recreate WJP Country Report charts, such as bar plots, line graphs, and radar charts.
-- Access to Rule of Law Index scores data, including detailed information for all factors and subfactors.
-- Streamlined tools for generating publication-ready graphics.
+- Chart functions for bars, diverging bars, grouped bars, dots, lines, slopes, dumbbells, lollipops, radar, rose, and gauge visualizations.
+- Built-in sample datasets for Rule of Law Index and General Population Poll workflows.
+- A shared WJP theme, fonts, and color guidance for consistent report graphics.
+- Validation helpers for checking chart-ready data before plotting.
 
 ## Installation
 
@@ -38,10 +39,10 @@ head(WJPr::roli)
 
 ### Example: Creating a Visualization
 
-Here is an example of how to use WJPr to create a bar chart:
+Create a simple WJP-style bar chart:
 
 ```R
-# Always load the WJP fonts if not passing a custom theme to function
+# Load WJP fonts when using the default theme
 wjp_fonts()
 
 # Loading data
@@ -75,28 +76,76 @@ wjp_bars(
     target    = "trust",        
     grouping  = "country",
     colors    = "year",
-    cvec      = c("2022" = "#8789C0")
+    cvec      = c("2022" = "#482d8b")
 )
 ```
 
 ## Chart Gallery
 
-WJPr provides 12 chart types for creating publication-ready visualizations:
+WJPr includes focused chart functions for common WJP reporting patterns:
 
-| | | |
-|:---:|:---:|:---:|
-| **Bar Chart** | **Dots Chart** | **Line Chart** |
-| <img src="man/figures/example-bars.png" width="200" alt="Example vertical bar chart"/> | <img src="man/figures/example-dots.png" width="200" alt="Example dot chart"/> | <img src="man/figures/example-lines.png" width="200" alt="Example line chart"/> |
-| `wjp_bars()` | `wjp_dots()` | `wjp_lines()` |
-| **Diverging Bars** | **Dumbbells** | **Slope Chart** |
-| <img src="man/figures/example-divbars.png" width="200" alt="Example diverging bar chart"/> | <img src="man/figures/example-dumbbells.png" width="200" alt="Example dumbbell chart"/> | <img src="man/figures/example-slope.png" width="200" alt="Example slope chart"/> |
-| `wjp_divbars()` | `wjp_dumbbells()` | `wjp_slope()` |
-| **Radar Chart** | **Rose Chart** | **Gauge Chart** |
-| <img src="man/figures/example-radar.png" width="200" alt="Example radar chart"/> | <img src="man/figures/example-rose.png" width="200" alt="Example rose chart"/> | <img src="man/figures/example-gauge.png" width="200" alt="Example gauge chart"/> |
-| `wjp_radar()` | `wjp_rose()` | `wjp_gauge()` |
-| **Lollipop Chart** | **Edgebars** | **Grouped Bars** |
-| <img src="man/figures/example-lollipops.png" width="200" alt="Example lollipop chart"/> | <img src="man/figures/example-edgebars.png" width="200" alt="Example edge bar chart"/> | <img src="man/figures/example-groupbars.png" width="200" alt="Example grouped bar chart"/> |
-| `wjp_lollipops()` | `wjp_edgebars()` | `wjp_groupbars()` |
+<div class="wjp-gallery-grid">
+  <a class="wjp-gallery-card" href="reference/wjp_bars.html">
+    <img src="man/figures/example-bars.png" alt="Example vertical bar chart">
+    <strong>Bar Chart</strong>
+    <code>wjp_bars()</code>
+  </a>
+  <a class="wjp-gallery-card" href="reference/wjp_dots.html">
+    <img src="man/figures/example-dots.png" alt="Example dot chart with confidence intervals">
+    <strong>Dots Chart</strong>
+    <code>wjp_dots()</code>
+  </a>
+  <a class="wjp-gallery-card" href="reference/wjp_lines.html">
+    <img src="man/figures/example-lines.png" alt="Example line chart">
+    <strong>Line Chart</strong>
+    <code>wjp_lines()</code>
+  </a>
+  <a class="wjp-gallery-card" href="reference/wjp_divbars.html">
+    <img src="man/figures/example-divbars.png" alt="Example diverging bar chart">
+    <strong>Diverging Bars</strong>
+    <code>wjp_divbars()</code>
+  </a>
+  <a class="wjp-gallery-card" href="reference/wjp_dumbbells.html">
+    <img src="man/figures/example-dumbbells.png" alt="Example dumbbell chart">
+    <strong>Dumbbells</strong>
+    <code>wjp_dumbbells()</code>
+  </a>
+  <a class="wjp-gallery-card" href="reference/wjp_slope.html">
+    <img src="man/figures/example-slope.png" alt="Example slope chart">
+    <strong>Slope Chart</strong>
+    <code>wjp_slope()</code>
+  </a>
+  <a class="wjp-gallery-card" href="reference/wjp_radar.html">
+    <img src="man/figures/example-radar.png" alt="Example radar chart">
+    <strong>Radar Chart</strong>
+    <code>wjp_radar()</code>
+  </a>
+  <a class="wjp-gallery-card" href="reference/wjp_rose.html">
+    <img src="man/figures/example-rose.png" alt="Example rose chart">
+    <strong>Rose Chart</strong>
+    <code>wjp_rose()</code>
+  </a>
+  <a class="wjp-gallery-card" href="reference/wjp_gauge.html">
+    <img src="man/figures/example-gauge.png" alt="Example gauge chart">
+    <strong>Gauge Chart</strong>
+    <code>wjp_gauge()</code>
+  </a>
+  <a class="wjp-gallery-card" href="reference/wjp_lollipops.html">
+    <img src="man/figures/example-lollipops.png" alt="Example lollipop chart">
+    <strong>Lollipop Chart</strong>
+    <code>wjp_lollipops()</code>
+  </a>
+  <a class="wjp-gallery-card" href="reference/wjp_edgebars.html">
+    <img src="man/figures/example-edgebars.png" alt="Example edge bar chart">
+    <strong>Edgebars</strong>
+    <code>wjp_edgebars()</code>
+  </a>
+  <a class="wjp-gallery-card" href="reference/wjp_groupbars.html">
+    <img src="man/figures/example-groupbars.png" alt="Example grouped bar chart with confidence intervals">
+    <strong>Grouped Bars</strong>
+    <code>wjp_groupbars()</code>
+  </a>
+</div>
 
 For a complete interactive gallery with code examples, see the [Chart Gallery vignette](https://worldjusticeproject-org.github.io/WJPr/articles/gallery.html).
 
@@ -129,31 +178,38 @@ All WJPr visualization functions expect data in **long (tidy) format**:
 
 ```R
 groupbars <- data.frame(
-  disaggregation = c("age", "age", "profile_gender", "profile_gender"),
-  demographics   = c("18-24", "55+", "Men", "Women"),
-  pct_weighted   = c(72.1, 73.0, 74.4, 70.3),
-  ci_lower       = c(70.1, 70.8, 72.4, 68.4),
-  ci_upper       = c(74.5, 75.2, 76.4, 72.1)
+  group    = c("Gender", "Gender", "Age", "Age", "Age"),
+  category = c("Men", "Women", "18-24", "25-54", "55+"),
+  value    = c(74.4, 70.3, 72.1, 73.1, 73.0),
+  lower    = c(72.4, 68.4, 70.1, 71.0, 70.8),
+  upper    = c(76.4, 72.1, 74.5, 75.2, 75.2)
 )
 
 wjp_groupbars(
   groupbars,
-  target            = "pct_weighted",
-  grouping          = "disaggregation",
-  levels            = "demographics",
+  target            = "value",
+  grouping          = "group",
+  levels            = "category",
+  colors            = c("#482d8b", "#e5e8e8"),
+  group_order       = c("Gender", "Age"),
+  level_order       = list(
+    Gender = c("Women", "Men"),
+    Age    = c("55+", "25-54", "18-24")
+  ),
   draw_ci           = TRUE,
-  ci_lower          = "ci_lower",
-  ci_upper          = "ci_upper",
+  ci_lower          = "lower",
+  ci_upper          = "upper",
   show_national     = TRUE,
   national_value    = 72.3,
   national_style    = "bar",
   national_label    = "National Average",
   national_ci_lower = 70.0,
-  national_ci_upper = 74.6
+  national_ci_upper = 74.6,
+  show_axis         = TRUE
 )
 ```
 
-Confidence intervals can also be calculated by passing `sd` and `sample_size` instead of precomputed `ci_lower` and `ci_upper`. Use `national_style = "bar"` when the national value should appear as its own bar above or below the disaggregations; use `national_style = "line"` when it should be a dashed vertical reference line.
+Confidence intervals can also be calculated by passing `sd` and `sample_size` instead of precomputed `ci_lower` and `ci_upper`. Use `national_style = "bar"` when the national value should appear as its own bar above or below the disaggregations; use `national_style = "line"` when it should be a dashed vertical reference line. The second color is the complement to 100%, so WJP examples usually use a neutral gray for that segment.
 
 ### Validate Your Data
 
@@ -166,7 +222,7 @@ wjp_check_data(
   target   = "value",
   grouping = "category",
   colors   = "group",
-  cvec     = c("Group 1" = "#2E4057", "Group 2" = "#F4D35E")
+  cvec     = c("Group 1" = "#482d8b", "Group 2" = "#2894aa")
 )
 ```
 

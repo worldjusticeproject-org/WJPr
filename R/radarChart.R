@@ -123,9 +123,9 @@ wjp_radar <- function(
   
   # Default colors
   if (is.null(cvec)){
-    cvec   <- c("#1D4E89", "#F79256")
+    cvec   <- c("#482d8b", "#f26b21")
   }
-  cvec <- c(cvec, "#7D787D")
+  cvec <- c(cvec, "#555659")
     
   # Counting number of axis for the radar
   nvertix <- length(unique(data$axis_var))

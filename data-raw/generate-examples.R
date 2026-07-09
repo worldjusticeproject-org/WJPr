@@ -21,23 +21,23 @@ library(grid)
 # Load WJPr - try multiple methods
 wjpr_loaded <- FALSE
 
-# Method 1: Try loading installed package
+# Method 1: Try devtools::load_all() so examples use the local source tree
 tryCatch({
-  library(WJPr)
+  devtools::load_all()
   wjpr_loaded <- TRUE
-  message("Loaded WJPr from installed package")
+  message("Loaded WJPr with devtools::load_all()")
 }, error = function(e) {
-  message("WJPr not installed as package")
+  message("devtools::load_all() not available")
 })
 
-# Method 2: Try devtools::load_all()
+# Method 2: Try loading installed package
 if (!wjpr_loaded) {
   tryCatch({
-    devtools::load_all()
+    library(WJPr)
     wjpr_loaded <- TRUE
-    message("Loaded WJPr with devtools::load_all()")
+    message("Loaded WJPr from installed package")
   }, error = function(e) {
-    message("devtools not available")
+    message("WJPr not installed as package")
   })
 }
 
@@ -367,7 +367,6 @@ plot_radar <- wjp_radar(
   target   = "score",
   labels   = "label",
   colors   = "gender",
-  maincat  = "Male",
   cvec     = c("Male" = "#482d8b", "Female" = "#f26b21")
 )
 
@@ -386,9 +385,8 @@ plot_rose <- wjp_rose(
   target   = "score",
   grouping = "category",
   labels   = "label",
-  cvec     = c("#eae4f2", "#d2c6e6", "#baa8da",
-               "#a28ace", "#8a6cc2", "#6f52a8",
-               "#56407f", "#3d2e5c", "#2e1c5c")
+  cvec     = c("#482d8b", "#2894aa", "#f26b21", "#137b3f", "#869d3b",
+               "#0f9581", "#1a74b6", "#8f2e8c", "#555659")
 )
 
 save_example(plot_rose, "rose", width = 6, height = 5)
@@ -404,7 +402,7 @@ plot_lollipop <- wjp_lollipops(
   data_lollipop,
   target      = "trust",
   grouping    = "country",
-  line_color  = "#c4c4c4",
+  line_color  = "#d9dde3",
   point_color = "#482d8b"
 )
 
@@ -441,7 +439,7 @@ tryCatch({
     "Factor 1" = "#482d8b",
     "Factor 2" = "#2894aa",
     "Factor 3" = "#f26b21",
-    "Factor 4" = "#f7944f"
+    "Factor 4" = "#555659"
   )
 
   plot_gauge <- wjp_gauge(
@@ -464,81 +462,38 @@ tryCatch({
 # =============================================================================
 message("13. Generating grouped bars chart example...")
 
-# Create data with demographic breakdowns
-data_groupbars <- gpp_data %>%
-  filter(year == 2022) %>%
-  select(country, gend, q1a) %>%
-  mutate(
-    gender = case_when(
-      gend == 1 ~ "Male",
-      gend == 2 ~ "Female",
-      TRUE ~ NA_character_
-    ),
-    trust = case_when(
-      q1a <= 2 ~ 1,
-      q1a <= 4 ~ 0,
-      TRUE ~ NA_real_
-    )
-  ) %>%
-  filter(!is.na(gender), !is.na(trust)) %>%
-  # Calculate by country (keep sd + n for the confidence interval)
-  group_by(country) %>%
-  summarise(
-    value = mean(trust, na.rm = TRUE),
-    sd    = sd(trust, na.rm = TRUE),
-    n     = n(),
-    .groups = "drop"
-  ) %>%
-  mutate(group = "Country") %>%
-  rename(category = country) %>%
-  # Add gender breakdown
-  bind_rows(
-    gpp_data %>%
-      filter(year == 2022) %>%
-      select(gend, q1a) %>%
-      mutate(
-        gender = case_when(
-          gend == 1 ~ "Male",
-          gend == 2 ~ "Female",
-          TRUE ~ NA_character_
-        ),
-        trust = case_when(
-          q1a <= 2 ~ 1,
-          q1a <= 4 ~ 0,
-          TRUE ~ NA_real_
-        )
-      ) %>%
-      filter(!is.na(gender), !is.na(trust)) %>%
-      group_by(gender) %>%
-      summarise(
-        value = mean(trust, na.rm = TRUE),
-        sd    = sd(trust, na.rm = TRUE),
-        n     = n(),
-        .groups = "drop"
-      ) %>%
-      mutate(group = "Gender") %>%
-      rename(category = gender)
-  )
-
-national_groupbars <- data_groupbars %>%
-  filter(group == "Country") %>%
-  summarise(value = mean(value, na.rm = TRUE)) %>%
-  pull(value)
+# Use percentage-scale input with precomputed confidence intervals so the
+# thumbnail shows the grouped-bar geometry without relying on vignette data.
+data_groupbars <- data.frame(
+  group    = c("Gender", "Gender", "Age", "Age", "Age"),
+  category = c("Men", "Women", "18-24", "25-54", "55+"),
+  value    = c(74.4, 70.3, 72.1, 73.1, 73.0),
+  lower    = c(72.4, 68.4, 70.1, 71.0, 70.8),
+  upper    = c(76.4, 72.1, 74.5, 75.2, 75.2),
+  stringsAsFactors = FALSE
+)
 
 plot_groupbars <- wjp_groupbars(
   data_groupbars,
-  target         = "value",
-  grouping       = "group",
-  levels         = "category",
-  colors         = c("#482d8b", "#2894aa"),
-  group_order    = c("Country", "Gender"),
-  draw_ci        = TRUE,
-  sd             = "sd",
-  sample_size    = "n",
-  show_national  = TRUE,
-  national_value = national_groupbars,
-  national_style = "bar",
-  national_label = "General"
+  target            = "value",
+  grouping          = "group",
+  levels            = "category",
+  colors            = c("#482d8b", "#e5e8e8"),
+  group_order       = c("Gender", "Age"),
+  level_order       = list(
+    Gender = c("Women", "Men"),
+    Age    = c("55+", "25-54", "18-24")
+  ),
+  draw_ci           = TRUE,
+  ci_lower          = "lower",
+  ci_upper          = "upper",
+  show_national     = TRUE,
+  national_value    = 72.3,
+  national_style    = "bar",
+  national_label    = "National Average",
+  national_ci_lower = 70.0,
+  national_ci_upper = 74.6,
+  show_axis         = TRUE
 )
 
 save_example(plot_groupbars, "groupbars", width = 6, height = 5)
