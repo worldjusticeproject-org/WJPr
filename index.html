@@ -14,9 +14,9 @@
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="WJPr - World Justice Project R Package">
-<meta name="description" content="Visualization tools and Rule of Law Index data from the World Justice Project. Functions for creating charts following WJP style guidelines.
+<meta name="description" content="Data and visualization tools for building World Justice Project charts, country-report graphics, and Rule of Law Index analysis in R.
 ">
-<meta property="og:description" content="Visualization tools and Rule of Law Index data from the World Justice Project. Functions for creating charts following WJP style guidelines.
+<meta property="og:description" content="Data and visualization tools for building World Justice Project charts, country-report graphics, and Rule of Law Index analysis in R.
 ">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,15 +99,16 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="wjpr">WJPr<a class="anchor" aria-label="anchor" href="#wjpr"></a>
 </h1></div>
-<p>WJPr is an R package developed to streamline data analysis and visualization for the Data Analytics Unit at The World Justice Project (WJP). This package includes essential data and tools for replicating visualizations from WJP Country Reports and analyzing Rule of Law Index scores.</p>
+<p>WJPr is an R package from the World Justice Project Data Analytics Unit for producing WJP-style graphics and working with Rule of Law Index data. It is designed for analysts who need publication-ready charts, reproducible examples, and consistent visual language across country-report and research workflows.</p>
 <div class="section level2">
 <h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
 </h2>
-<p><strong>Version 1.0.0</strong> of WJPr offers:</p>
+<p>WJPr provides:</p>
 <ul>
-<li>A wide range of visualization functions to recreate WJP Country Report charts, such as bar plots, line graphs, and radar charts.</li>
-<li>Access to Rule of Law Index scores data, including detailed information for all factors and subfactors.</li>
-<li>Streamlined tools for generating publication-ready graphics.</li>
+<li>Chart functions for bars, diverging bars, grouped bars, dots, lines, slopes, dumbbells, lollipops, radar, rose, and gauge visualizations.</li>
+<li>Built-in sample datasets for Rule of Law Index and General Population Poll workflows.</li>
+<li>A shared WJP theme, fonts, and color guidance for consistent report graphics.</li>
+<li>Validation helpers for checking chart-ready data before plotting.</li>
 </ul>
 </div>
 <div class="section level2">
@@ -135,9 +136,9 @@
 <div class="section level3">
 <h3 id="example-creating-a-visualization">Example: Creating a Visualization<a class="anchor" aria-label="anchor" href="#example-creating-a-visualization"></a>
 </h3>
-<p>Here is an example of how to use WJPr to create a bar chart:</p>
+<p>Create a simple WJP-style bar chart:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Always load the WJP fonts if not passing a custom theme to function</span></span>
+<code class="sourceCode R"><span><span class="co"># Load WJP fonts when using the default theme</span></span>
 <span><span class="fu"><a href="reference/wjp_fonts.html">wjp_fonts</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Loading data</span></span>
@@ -171,83 +172,17 @@
 <span>    target    <span class="op">=</span> <span class="st">"trust"</span>,        </span>
 <span>    grouping  <span class="op">=</span> <span class="st">"country"</span>,</span>
 <span>    colors    <span class="op">=</span> <span class="st">"year"</span>,</span>
-<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022"</span> <span class="op">=</span> <span class="st">"#8789C0"</span><span class="op">)</span></span>
+<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022"</span> <span class="op">=</span> <span class="st">"#482d8b"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="chart-gallery">Chart Gallery<a class="anchor" aria-label="anchor" href="#chart-gallery"></a>
 </h2>
-<p>WJPr provides 12 chart types for creating publication-ready visualizations:</p>
-<table class="table">
-<colgroup>
-<col width="33%">
-<col width="33%">
-<col width="33%">
-</colgroup>
-<tbody>
-<tr>
-<td align="center"><strong>Bar Chart</strong></td>
-<td align="center"><strong>Dots Chart</strong></td>
-<td align="center"><strong>Line Chart</strong></td>
-</tr>
-<tr>
-<td align="center"><img src="reference/figures/example-bars.png" width="200" alt="Example vertical bar chart"></td>
-<td align="center"><img src="reference/figures/example-dots.png" width="200" alt="Example dot chart"></td>
-<td align="center"><img src="reference/figures/example-lines.png" width="200" alt="Example line chart"></td>
-</tr>
-<tr>
-<td align="center"><code><a href="reference/wjp_bars.html">wjp_bars()</a></code></td>
-<td align="center"><code><a href="reference/wjp_dots.html">wjp_dots()</a></code></td>
-<td align="center"><code><a href="reference/wjp_lines.html">wjp_lines()</a></code></td>
-</tr>
-<tr>
-<td align="center"><strong>Diverging Bars</strong></td>
-<td align="center"><strong>Dumbbells</strong></td>
-<td align="center"><strong>Slope Chart</strong></td>
-</tr>
-<tr>
-<td align="center"><img src="reference/figures/example-divbars.png" width="200" alt="Example diverging bar chart"></td>
-<td align="center"><img src="reference/figures/example-dumbbells.png" width="200" alt="Example dumbbell chart"></td>
-<td align="center"><img src="reference/figures/example-slope.png" width="200" alt="Example slope chart"></td>
-</tr>
-<tr>
-<td align="center"><code><a href="reference/wjp_divbars.html">wjp_divbars()</a></code></td>
-<td align="center"><code><a href="reference/wjp_dumbbells.html">wjp_dumbbells()</a></code></td>
-<td align="center"><code><a href="reference/wjp_slope.html">wjp_slope()</a></code></td>
-</tr>
-<tr>
-<td align="center"><strong>Radar Chart</strong></td>
-<td align="center"><strong>Rose Chart</strong></td>
-<td align="center"><strong>Gauge Chart</strong></td>
-</tr>
-<tr>
-<td align="center"><img src="reference/figures/example-radar.png" width="200" alt="Example radar chart"></td>
-<td align="center"><img src="reference/figures/example-rose.png" width="200" alt="Example rose chart"></td>
-<td align="center"><img src="reference/figures/example-gauge.png" width="200" alt="Example gauge chart"></td>
-</tr>
-<tr>
-<td align="center"><code><a href="reference/wjp_radar.html">wjp_radar()</a></code></td>
-<td align="center"><code><a href="reference/wjp_rose.html">wjp_rose()</a></code></td>
-<td align="center"><code><a href="reference/wjp_gauge.html">wjp_gauge()</a></code></td>
-</tr>
-<tr>
-<td align="center"><strong>Lollipop Chart</strong></td>
-<td align="center"><strong>Edgebars</strong></td>
-<td align="center"><strong>Grouped Bars</strong></td>
-</tr>
-<tr>
-<td align="center"><img src="reference/figures/example-lollipops.png" width="200" alt="Example lollipop chart"></td>
-<td align="center"><img src="reference/figures/example-edgebars.png" width="200" alt="Example edge bar chart"></td>
-<td align="center"><img src="reference/figures/example-groupbars.png" width="200" alt="Example grouped bar chart"></td>
-</tr>
-<tr>
-<td align="center"><code><a href="reference/wjp_lollipops.html">wjp_lollipops()</a></code></td>
-<td align="center"><code><a href="reference/wjp_edgebars.html">wjp_edgebars()</a></code></td>
-<td align="center"><code><a href="reference/wjp_groupbars.html">wjp_groupbars()</a></code></td>
-</tr>
-</tbody>
-</table>
+<p>WJPr includes focused chart functions for common WJP reporting patterns:</p>
+<div class="wjp-gallery-grid">
+<p><a class="wjp-gallery-card" href="reference/wjp_bars.html"> <img src="reference/figures/example-bars.png" alt="Example vertical bar chart"><strong>Bar Chart</strong> <code>wjp_bars()</code> </a> <a class="wjp-gallery-card" href="reference/wjp_dots.html"> <img src="reference/figures/example-dots.png" alt="Example dot chart with confidence intervals"><strong>Dots Chart</strong> <code>wjp_dots()</code> </a> <a class="wjp-gallery-card" href="reference/wjp_lines.html"> <img src="reference/figures/example-lines.png" alt="Example line chart"><strong>Line Chart</strong> <code>wjp_lines()</code> </a> <a class="wjp-gallery-card" href="reference/wjp_divbars.html"> <img src="reference/figures/example-divbars.png" alt="Example diverging bar chart"><strong>Diverging Bars</strong> <code>wjp_divbars()</code> </a> <a class="wjp-gallery-card" href="reference/wjp_dumbbells.html"> <img src="reference/figures/example-dumbbells.png" alt="Example dumbbell chart"><strong>Dumbbells</strong> <code>wjp_dumbbells()</code> </a> <a class="wjp-gallery-card" href="reference/wjp_slope.html"> <img src="reference/figures/example-slope.png" alt="Example slope chart"><strong>Slope Chart</strong> <code>wjp_slope()</code> </a> <a class="wjp-gallery-card" href="reference/wjp_radar.html"> <img src="reference/figures/example-radar.png" alt="Example radar chart"><strong>Radar Chart</strong> <code>wjp_radar()</code> </a> <a class="wjp-gallery-card" href="reference/wjp_rose.html"> <img src="reference/figures/example-rose.png" alt="Example rose chart"><strong>Rose Chart</strong> <code>wjp_rose()</code> </a> <a class="wjp-gallery-card" href="reference/wjp_gauge.html"> <img src="reference/figures/example-gauge.png" alt="Example gauge chart"><strong>Gauge Chart</strong> <code>wjp_gauge()</code> </a> <a class="wjp-gallery-card" href="reference/wjp_lollipops.html"> <img src="reference/figures/example-lollipops.png" alt="Example lollipop chart"><strong>Lollipop Chart</strong> <code>wjp_lollipops()</code> </a> <a class="wjp-gallery-card" href="reference/wjp_edgebars.html"> <img src="reference/figures/example-edgebars.png" alt="Example edge bar chart"><strong>Edgebars</strong> <code>wjp_edgebars()</code> </a> <a class="wjp-gallery-card" href="reference/wjp_groupbars.html"> <img src="reference/figures/example-groupbars.png" alt="Example grouped bar chart with confidence intervals"><strong>Grouped Bars</strong> <code>wjp_groupbars()</code> </a></p>
+</div>
 <p>For a complete interactive gallery with code examples, see the <a href="https://worldjusticeproject-org.github.io/WJPr/articles/gallery.html">Chart Gallery vignette</a>.</p>
 </div>
 <div class="section level2">
@@ -301,29 +236,36 @@
 <p><code><a href="reference/wjp_groupbars.html">wjp_groupbars()</a></code> compares a percentage across demographic groups in separate facets. The <code>target</code> column can be supplied as proportions (<code>0-1</code>) or percentages (<code>0-100</code>); the function plots both on a 0-100 percentage scale.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">groupbars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  disaggregation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"age"</span>, <span class="st">"profile_gender"</span>, <span class="st">"profile_gender"</span><span class="op">)</span>,</span>
-<span>  demographics   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"18-24"</span>, <span class="st">"55+"</span>, <span class="st">"Men"</span>, <span class="st">"Women"</span><span class="op">)</span>,</span>
-<span>  pct_weighted   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">72.1</span>, <span class="fl">73.0</span>, <span class="fl">74.4</span>, <span class="fl">70.3</span><span class="op">)</span>,</span>
-<span>  ci_lower       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">70.1</span>, <span class="fl">70.8</span>, <span class="fl">72.4</span>, <span class="fl">68.4</span><span class="op">)</span>,</span>
-<span>  ci_upper       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">74.5</span>, <span class="fl">75.2</span>, <span class="fl">76.4</span>, <span class="fl">72.1</span><span class="op">)</span></span>
+<span>  group    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="st">"Gender"</span>, <span class="st">"Age"</span>, <span class="st">"Age"</span>, <span class="st">"Age"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Men"</span>, <span class="st">"Women"</span>, <span class="st">"18-24"</span>, <span class="st">"25-54"</span>, <span class="st">"55+"</span><span class="op">)</span>,</span>
+<span>  value    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">74.4</span>, <span class="fl">70.3</span>, <span class="fl">72.1</span>, <span class="fl">73.1</span>, <span class="fl">73.0</span><span class="op">)</span>,</span>
+<span>  lower    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">72.4</span>, <span class="fl">68.4</span>, <span class="fl">70.1</span>, <span class="fl">71.0</span>, <span class="fl">70.8</span><span class="op">)</span>,</span>
+<span>  upper    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">76.4</span>, <span class="fl">72.1</span>, <span class="fl">74.5</span>, <span class="fl">75.2</span>, <span class="fl">75.2</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/wjp_groupbars.html">wjp_groupbars</a></span><span class="op">(</span></span>
 <span>  <span class="va">groupbars</span>,</span>
-<span>  target            <span class="op">=</span> <span class="st">"pct_weighted"</span>,</span>
-<span>  grouping          <span class="op">=</span> <span class="st">"disaggregation"</span>,</span>
-<span>  levels            <span class="op">=</span> <span class="st">"demographics"</span>,</span>
+<span>  target            <span class="op">=</span> <span class="st">"value"</span>,</span>
+<span>  grouping          <span class="op">=</span> <span class="st">"group"</span>,</span>
+<span>  levels            <span class="op">=</span> <span class="st">"category"</span>,</span>
+<span>  colors            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#482d8b"</span>, <span class="st">"#e5e8e8"</span><span class="op">)</span>,</span>
+<span>  group_order       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="st">"Age"</span><span class="op">)</span>,</span>
+<span>  level_order       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    Gender <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Women"</span>, <span class="st">"Men"</span><span class="op">)</span>,</span>
+<span>    Age    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"55+"</span>, <span class="st">"25-54"</span>, <span class="st">"18-24"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
 <span>  draw_ci           <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  ci_lower          <span class="op">=</span> <span class="st">"ci_lower"</span>,</span>
-<span>  ci_upper          <span class="op">=</span> <span class="st">"ci_upper"</span>,</span>
+<span>  ci_lower          <span class="op">=</span> <span class="st">"lower"</span>,</span>
+<span>  ci_upper          <span class="op">=</span> <span class="st">"upper"</span>,</span>
 <span>  show_national     <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  national_value    <span class="op">=</span> <span class="fl">72.3</span>,</span>
 <span>  national_style    <span class="op">=</span> <span class="st">"bar"</span>,</span>
 <span>  national_label    <span class="op">=</span> <span class="st">"National Average"</span>,</span>
 <span>  national_ci_lower <span class="op">=</span> <span class="fl">70.0</span>,</span>
-<span>  national_ci_upper <span class="op">=</span> <span class="fl">74.6</span></span>
+<span>  national_ci_upper <span class="op">=</span> <span class="fl">74.6</span>,</span>
+<span>  show_axis         <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Confidence intervals can also be calculated by passing <code>sd</code> and <code>sample_size</code> instead of precomputed <code>ci_lower</code> and <code>ci_upper</code>. Use <code>national_style = "bar"</code> when the national value should appear as its own bar above or below the disaggregations; use <code>national_style = "line"</code> when it should be a dashed vertical reference line.</p>
+<p>Confidence intervals can also be calculated by passing <code>sd</code> and <code>sample_size</code> instead of precomputed <code>ci_lower</code> and <code>ci_upper</code>. Use <code>national_style = "bar"</code> when the national value should appear as its own bar above or below the disaggregations; use <code>national_style = "line"</code> when it should be a dashed vertical reference line. The second color is the complement to 100%, so WJP examples usually use a neutral gray for that segment.</p>
 </div>
 <div class="section level3">
 <h3 id="validate-your-data">Validate Your Data<a class="anchor" aria-label="anchor" href="#validate-your-data"></a>
@@ -336,7 +278,7 @@
 <span>  target   <span class="op">=</span> <span class="st">"value"</span>,</span>
 <span>  grouping <span class="op">=</span> <span class="st">"category"</span>,</span>
 <span>  colors   <span class="op">=</span> <span class="st">"group"</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Group 1"</span> <span class="op">=</span> <span class="st">"#2E4057"</span>, <span class="st">"Group 2"</span> <span class="op">=</span> <span class="st">"#F4D35E"</span><span class="op">)</span></span>
+<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Group 1"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>, <span class="st">"Group 2"</span> <span class="op">=</span> <span class="st">"#2894aa"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>For detailed guidance, see the <a href="https://worldjusticeproject-org.github.io/WJPr/articles/data-preparation.html">Data Preparation vignette</a>.</p>
 </div>
@@ -474,7 +416,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

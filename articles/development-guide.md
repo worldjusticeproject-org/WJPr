@@ -85,9 +85,9 @@ file.create("R/waterfallChart.R")
 #'   target   = "value",
 #'   grouping = "category",
 #'   colors   = "type",
-#'   cvec     = c("total" = "#2a2a94",
-#'                "positive" = "#08605F",
-#'                "negative" = "#9E6240")
+#'   cvec     = c("total" = "#482d8b",
+#'                "positive" = "#0f9581",
+#'                "negative" = "#f26b21")
 #' )
 
 wjp_waterfall <- function(
@@ -273,8 +273,8 @@ if (is.null(colors)) {
 
 # Los nombres deben coincidir EXACTAMENTE con valores de la variable colors
 cvec <- c(
-  "Trust"    = "#4F518C",
-  "No Trust" = "#2C2A4A"
+  "Trust"    = "#482d8b",
+  "No Trust" = "#f26b21"
 )
 
 # En la función, aplicar solo si no es NULL
@@ -368,9 +368,9 @@ plot_waterfall <- wjp_waterfall(
   target = "value",
   grouping = "category",
   colors = "type",
-  cvec = c("total" = "#2a2a94",
-           "gain"  = "#08605F",
-           "loss"  = "#9E6240")
+  cvec = c("total" = "#482d8b",
+           "gain"  = "#0f9581",
+           "loss"  = "#f26b21")
 )
 
 save_example(plot_waterfall, "waterfall")

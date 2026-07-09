@@ -120,7 +120,7 @@ rows.</p>
 <span>  <span class="va">target</span>,</span>
 <span>  <span class="va">grouping</span>,</span>
 <span>  <span class="va">levels</span>,</span>
-<span>  colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#575796"</span>, <span class="st">"#e5e8e8"</span><span class="op">)</span>,</span>
+<span>  colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#482d8b"</span>, <span class="st">"#e5e8e8"</span><span class="op">)</span>,</span>
 <span>  labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  group_order <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  level_order <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -173,7 +173,7 @@ can be proportions (0-1) or percentages (0-100).</p></dd>
 
 <dt id="arg-colors">colors<a class="anchor" aria-label="anchor" href="#arg-colors"></a></dt>
 <dd><p>Character vector of length 2 with hex colors for primary and secondary bars.
-Default is c("#575796", "#e5e8e8").</p></dd>
+Default is c("#482d8b", "#e5e8e8").</p></dd>
 
 
 <dt id="arg-labels">labels<a class="anchor" aria-label="anchor" href="#arg-labels"></a></dt>
@@ -188,7 +188,9 @@ Default is NULL (uses data order).</p></dd>
 
 <dt id="arg-level-order">level_order<a class="anchor" aria-label="anchor" href="#arg-level-order"></a></dt>
 <dd><p>Named list where names are group values and values are character vectors
-specifying the order of levels within each group. Default is NULL (uses data order).</p></dd>
+specifying the order of levels within each group. Default is NULL (uses data order).
+For horizontal bars, ggplot2 draws the first discrete y-axis level at the
+bottom, so list levels accordingly when controlling the visual order.</p></dd>
 
 
 <dt id="arg-show-national">show_national<a class="anchor" aria-label="anchor" href="#arg-show-national"></a></dt>
@@ -343,7 +345,7 @@ the national average label (e.g., "National Average"). Required when
 <span class="r-in"><span>  target      <span class="op">=</span> <span class="st">"value"</span>,</span></span>
 <span class="r-in"><span>  grouping    <span class="op">=</span> <span class="st">"group"</span>,</span></span>
 <span class="r-in"><span>  levels      <span class="op">=</span> <span class="st">"category"</span>,</span></span>
-<span class="r-in"><span>  colors      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#2a2a94"</span>, <span class="st">"#d0d1d3"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  colors      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#482d8b"</span>, <span class="st">"#e5e8e8"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  group_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="st">"Age"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="wjp_groupbars-2.png" alt="" width="700" height="433"></span>
@@ -370,11 +372,11 @@ the national average label (e.g., "National Average"). Required when
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Percentage-scale input with precomputed confidence intervals and a general line</span></span></span>
 <span class="r-in"><span><span class="va">data_pct</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  group    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="st">"Gender"</span>, <span class="st">"Age"</span>, <span class="st">"Age"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span>, <span class="st">"Female"</span>, <span class="st">"18-29"</span>, <span class="st">"50+"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  value    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">74.4</span>, <span class="fl">70.3</span>, <span class="fl">72.1</span>, <span class="fl">73.0</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  lower    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">72.4</span>, <span class="fl">68.4</span>, <span class="fl">70.1</span>, <span class="fl">70.8</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  upper    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">76.4</span>, <span class="fl">72.1</span>, <span class="fl">74.5</span>, <span class="fl">75.2</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  group    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="st">"Gender"</span>, <span class="st">"Age"</span>, <span class="st">"Age"</span>, <span class="st">"Age"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Men"</span>, <span class="st">"Women"</span>, <span class="st">"18-24"</span>, <span class="st">"25-54"</span>, <span class="st">"55+"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  value    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">74.4</span>, <span class="fl">70.3</span>, <span class="fl">72.1</span>, <span class="fl">73.1</span>, <span class="fl">73.0</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  lower    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">72.4</span>, <span class="fl">68.4</span>, <span class="fl">70.1</span>, <span class="fl">71.0</span>, <span class="fl">70.8</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  upper    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">76.4</span>, <span class="fl">72.1</span>, <span class="fl">74.5</span>, <span class="fl">75.2</span>, <span class="fl">75.2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">wjp_groupbars</span><span class="op">(</span></span></span>
@@ -382,6 +384,11 @@ the national average label (e.g., "National Average"). Required when
 <span class="r-in"><span>  target         <span class="op">=</span> <span class="st">"value"</span>,</span></span>
 <span class="r-in"><span>  grouping       <span class="op">=</span> <span class="st">"group"</span>,</span></span>
 <span class="r-in"><span>  levels         <span class="op">=</span> <span class="st">"category"</span>,</span></span>
+<span class="r-in"><span>  group_order    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="st">"Age"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  level_order    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    Gender <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Women"</span>, <span class="st">"Men"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    Age    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"55+"</span>, <span class="st">"25-54"</span>, <span class="st">"18-24"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
 <span class="r-in"><span>  draw_ci        <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  ci_lower       <span class="op">=</span> <span class="st">"lower"</span>,</span></span>
 <span class="r-in"><span>  ci_upper       <span class="op">=</span> <span class="st">"upper"</span>,</span></span>
@@ -397,6 +404,12 @@ the national average label (e.g., "National Average"). Required when
 <span class="r-in"><span>  target            <span class="op">=</span> <span class="st">"value"</span>,</span></span>
 <span class="r-in"><span>  grouping          <span class="op">=</span> <span class="st">"group"</span>,</span></span>
 <span class="r-in"><span>  levels            <span class="op">=</span> <span class="st">"category"</span>,</span></span>
+<span class="r-in"><span>  colors            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#482d8b"</span>, <span class="st">"#e5e8e8"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  group_order       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="st">"Age"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  level_order       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    Gender <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Women"</span>, <span class="st">"Men"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    Age    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"55+"</span>, <span class="st">"25-54"</span>, <span class="st">"18-24"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
 <span class="r-in"><span>  draw_ci           <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  ci_lower          <span class="op">=</span> <span class="st">"lower"</span>,</span></span>
 <span class="r-in"><span>  ci_upper          <span class="op">=</span> <span class="st">"upper"</span>,</span></span>
@@ -409,12 +422,18 @@ the national average label (e.g., "National Average"). Required when
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="wjp_groupbars-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># With visible X axis and strip labels on top (publication-style layout)</span></span></span>
+<span class="r-in"><span><span class="co"># With visible X axis (publication-style layout)</span></span></span>
 <span class="r-in"><span><span class="fu">wjp_groupbars</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">data_pct</span>,</span></span>
 <span class="r-in"><span>  target            <span class="op">=</span> <span class="st">"value"</span>,</span></span>
 <span class="r-in"><span>  grouping          <span class="op">=</span> <span class="st">"group"</span>,</span></span>
 <span class="r-in"><span>  levels            <span class="op">=</span> <span class="st">"category"</span>,</span></span>
+<span class="r-in"><span>  colors            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#482d8b"</span>, <span class="st">"#e5e8e8"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  group_order       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="st">"Age"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  level_order       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    Gender <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Women"</span>, <span class="st">"Men"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    Age    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"55+"</span>, <span class="st">"25-54"</span>, <span class="st">"18-24"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
 <span class="r-in"><span>  draw_ci           <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  ci_lower          <span class="op">=</span> <span class="st">"lower"</span>,</span></span>
 <span class="r-in"><span>  ci_upper          <span class="op">=</span> <span class="st">"upper"</span>,</span></span>
@@ -424,8 +443,7 @@ the national average label (e.g., "National Average"). Required when
 <span class="r-in"><span>  national_label    <span class="op">=</span> <span class="st">"National Average"</span>,</span></span>
 <span class="r-in"><span>  national_ci_lower <span class="op">=</span> <span class="fl">70.0</span>,</span></span>
 <span class="r-in"><span>  national_ci_upper <span class="op">=</span> <span class="fl">74.6</span>,</span></span>
-<span class="r-in"><span>  show_axis         <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  strip_position    <span class="op">=</span> <span class="st">"top"</span></span></span>
+<span class="r-in"><span>  show_axis         <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="wjp_groupbars-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
@@ -458,7 +476,7 @@ the national average label (e.g., "National Average"). Required when
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

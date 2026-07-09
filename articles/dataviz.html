@@ -108,10 +108,9 @@
     
     
 <p>This vignette demonstrates how to use the data visualization
-functions included in the <code>WJPr</code> package with a fictional
-dataset called <code>GPP</code>, which is bundled with the package.
-Version 1.0.0 of <code>WJPr</code> comes with ten plotting functions,
-enabling the creation of the following chart types:</p>
+functions included in the <code>WJPr</code> package with the sample
+<code>gpp</code> dataset bundled with the package. WJPr includes
+functions for the following chart types:</p>
 <ol style="list-style-type: decimal">
 <li>Bar (Horizontal/Vertical/Stacked)</li>
 <li>Diverging Bars</li>
@@ -122,6 +121,8 @@ enabling the creation of the following chart types:</p>
 <li>Radar</li>
 <li>Rose</li>
 <li>Edgebars</li>
+<li>Lollipops</li>
+<li>Grouped Bars</li>
 <li>Gauge</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -131,7 +132,7 @@ enabling the creation of the following chart types:</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://haven.tidyverse.org" class="external-link">haven</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/ggtext/" class="external-link">ggtext</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://haozhu233.github.io/kableExtra/" class="external-link">kableExtra</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://haozhu233.github.io/kableExtra/" class="external-link">kableExtra</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/worldjusticeproject-org/WJPr" class="external-link">WJPr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Always load the WJP fonts if not passing a custom theme to function</span></span>
@@ -236,9 +237,13 @@ names of the columns that contain the values to be plotted on the Y-axis
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/wjp_bars.html">wjp_bars</a></span><span class="op">(</span></span>
 <span>    <span class="va">data4bars</span>,              </span>
 <span>    target    <span class="op">=</span> <span class="st">"trust"</span>,        </span>
-<span>    grouping  <span class="op">=</span> <span class="st">"country"</span>    </span>
+<span>    grouping  <span class="op">=</span> <span class="st">"country"</span>,</span>
+<span>    colors    <span class="op">=</span> <span class="st">"country"</span>,</span>
+<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
+<span>                  <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
+<span>                  <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="controlling-color">Controlling color<a class="anchor" aria-label="anchor" href="#controlling-color"></a>
@@ -247,9 +252,9 @@ names of the columns that contain the values to be plotted on the Y-axis
 <code>cvec</code> parameters. The <code>colors</code> parameter
 specifies the column used to distinguish color groups, while
 <code>cvec</code> is a named vector that maps specific values to
-specific colors. For example, to give all bars a consistent cool gray
-color, we can use the “year” column for <code>colors</code> and map the
-year “2002” to the color code “#482d8b”.</p>
+specific colors. For example, to give all bars a consistent primary
+violet color, we can use the “year” column for <code>colors</code> and
+map the year “2022” to the color code <code>#482d8b</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/wjp_bars.html">wjp_bars</a></span><span class="op">(</span></span>
 <span>    <span class="va">data4bars</span>,              </span>
@@ -258,7 +263,7 @@ year “2002” to the color code “#482d8b”.</p>
 <span>    colors    <span class="op">=</span> <span class="st">"year"</span>,</span>
 <span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2022"</span> <span class="op">=</span> <span class="st">"#482d8b"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="100%"></p>
 <p>If you prefer to assign a unique color to each country, you’ll need
 to create a new column because the <code>grouping</code> parameter is
 already using the “country” column. In the example below, we create a
@@ -275,11 +280,11 @@ column:</p>
 <span>    target    <span class="op">=</span> <span class="st">"trust"</span>,        </span>
 <span>    grouping  <span class="op">=</span> <span class="st">"country"</span>,</span>
 <span>    colors    <span class="op">=</span> <span class="st">"color_variable"</span>,</span>
-<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="st">"#181878"</span>,</span>
-<span>                  <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="st">"#3366FF"</span>,</span>
-<span>                  <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#00A8A5"</span><span class="op">)</span></span>
+<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
+<span>                  <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
+<span>                  <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="adding-value-labels">Adding value labels<a class="anchor" aria-label="anchor" href="#adding-value-labels"></a>
@@ -313,11 +318,11 @@ above the tops of the bars:</p>
 <span>    labels    <span class="op">=</span> <span class="st">"value_label"</span>,</span>
 <span>    lab_pos   <span class="op">=</span> <span class="st">"label_position"</span>,</span>
 <span>    colors    <span class="op">=</span> <span class="st">"color_variable"</span>,</span>
-<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="st">"#181878"</span>,</span>
-<span>                  <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="st">"#3366FF"</span>,</span>
-<span>                  <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#00A8A5"</span><span class="op">)</span></span>
+<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
+<span>                  <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
+<span>                  <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="switch-to-horizontal-bars">Switch to horizontal bars<a class="anchor" aria-label="anchor" href="#switch-to-horizontal-bars"></a>
@@ -333,12 +338,12 @@ parameter to “horizontal”.</p>
 <span>    labels    <span class="op">=</span> <span class="st">"value_label"</span>,</span>
 <span>    lab_pos   <span class="op">=</span> <span class="st">"label_position"</span>,</span>
 <span>    colors    <span class="op">=</span> <span class="st">"color_variable"</span>,</span>
-<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="st">"#181878"</span>,</span>
-<span>                  <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="st">"#3366FF"</span>,</span>
-<span>                  <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#00A8A5"</span><span class="op">)</span>,</span>
+<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
+<span>                  <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
+<span>                  <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span>,</span>
 <span>    direction <span class="op">=</span> <span class="st">"horizontal"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 </div>
 <div class="section level2">
@@ -492,10 +497,10 @@ function again, this time setting the <code>stacked</code> parameter to
 <span>    labels    <span class="op">=</span> <span class="st">"value_label"</span>,</span>
 <span>    lab_pos   <span class="op">=</span> <span class="st">"label_position"</span>,</span>
 <span>    colors    <span class="op">=</span> <span class="st">"q1a"</span>,</span>
-<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A lot"</span>     <span class="op">=</span> <span class="st">"#181878"</span>,</span>
-<span>                  <span class="st">"Some"</span>      <span class="op">=</span> <span class="st">"#3366FF"</span>,</span>
-<span>                  <span class="st">"Little"</span>    <span class="op">=</span> <span class="st">"#9C89ED"</span>,</span>
-<span>                  <span class="st">"None"</span>      <span class="op">=</span> <span class="st">"#FF4D6A"</span>,</span>
+<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A lot"</span>     <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
+<span>                  <span class="st">"Some"</span>      <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
+<span>                  <span class="st">"Little"</span>    <span class="op">=</span> <span class="st">"#869d3b"</span>,</span>
+<span>                  <span class="st">"None"</span>      <span class="op">=</span> <span class="st">"#f26b21"</span>,</span>
 <span>                  <span class="st">"No answer"</span> <span class="op">=</span> <span class="st">"#555659"</span><span class="op">)</span>,</span>
 <span>    direction <span class="op">=</span> <span class="st">"horizontal"</span>,</span>
 <span>    stacked   <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -751,11 +756,11 @@ groups within the data.</p>
 <span>    grouping    <span class="op">=</span> <span class="st">"country"</span>,         </span>
 <span>    diverging   <span class="op">=</span> <span class="st">"q1a"</span>,     </span>
 <span>    negative    <span class="op">=</span> <span class="st">"negative"</span>,   </span>
-<span>    cvec        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Trust"</span>     <span class="op">=</span> <span class="st">"#181878"</span>,</span>
-<span>                    <span class="st">"No Trust"</span>  <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span>,</span>
+<span>    cvec        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Trust"</span>     <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
+<span>                    <span class="st">"No Trust"</span>  <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span>,</span>
 <span>    labels      <span class="op">=</span> <span class="st">"value_label"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="edgebars">Edgebars<a class="anchor" aria-label="anchor" href="#edgebars"></a>
@@ -774,7 +779,7 @@ previous examples.</p>
 <span>    labels    <span class="op">=</span> <span class="st">"color_variable"</span>,</span>
 <span>    cvec      <span class="op">=</span> <span class="st">"#2894aa"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="line-chart">Line Chart<a class="anchor" aria-label="anchor" href="#line-chart"></a>
@@ -1053,10 +1058,10 @@ below, set ngroups = 1.</li>
 <span>    grouping       <span class="op">=</span> <span class="st">"year"</span>,</span>
 <span>    ngroups        <span class="op">=</span> <span class="fl">1</span>,                 </span>
 <span>    colors         <span class="op">=</span> <span class="st">"institution"</span>,</span>
-<span>    cvec           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Institution A"</span> <span class="op">=</span> <span class="st">"#181878"</span><span class="op">)</span>,</span>
+<span>    cvec           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Institution A"</span> <span class="op">=</span> <span class="st">"#482d8b"</span><span class="op">)</span>,</span>
 <span>    labels         <span class="op">=</span> <span class="st">"value_label"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" alt="" width="100%"></p>
 <ol start="2" style="list-style-type: decimal">
 <li>For multiple lines: When plotting multiple lines, specify the column
 containing the group identifiers. In this case, also consider setting
@@ -1071,13 +1076,13 @@ package must be loaded for this feature to work.</li>
 <span>    grouping       <span class="op">=</span> <span class="st">"year"</span>,</span>
 <span>    ngroups        <span class="op">=</span> <span class="va">data4lines</span><span class="op">$</span><span class="va">institution</span>,                 </span>
 <span>    colors         <span class="op">=</span> <span class="st">"institution"</span>,</span>
-<span>    cvec           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Institution A"</span> <span class="op">=</span> <span class="st">"#181878"</span>,</span>
-<span>                       <span class="st">"Institution B"</span> <span class="op">=</span> <span class="st">"#BF02AF"</span>,</span>
-<span>                       <span class="st">"Institution C"</span> <span class="op">=</span> <span class="st">"#00A8A5"</span><span class="op">)</span>,</span>
+<span>    cvec           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Institution A"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
+<span>                       <span class="st">"Institution B"</span> <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
+<span>                       <span class="st">"Institution C"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span>,</span>
 <span>    labels         <span class="op">=</span> <span class="st">"value_label"</span>,</span>
 <span>    repel          <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" alt="" width="100%"></p>
 <div class="section level3">
 <h3 id="controlling-opacities">Controlling opacities<a class="anchor" aria-label="anchor" href="#controlling-opacities"></a>
 </h3>
@@ -1096,9 +1101,9 @@ opacities with the corresponding lines.</p>
 <span>    grouping       <span class="op">=</span> <span class="st">"year"</span>,</span>
 <span>    ngroups        <span class="op">=</span> <span class="va">data4lines</span><span class="op">$</span><span class="va">institution</span>,                 </span>
 <span>    colors         <span class="op">=</span> <span class="st">"institution"</span>,</span>
-<span>    cvec           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Institution A"</span> <span class="op">=</span> <span class="st">"#181878"</span>,</span>
-<span>                       <span class="st">"Institution B"</span> <span class="op">=</span> <span class="st">"#BF02AF"</span>,</span>
-<span>                       <span class="st">"Institution C"</span> <span class="op">=</span> <span class="st">"#00A8A5"</span><span class="op">)</span>,</span>
+<span>    cvec           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Institution A"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
+<span>                       <span class="st">"Institution B"</span> <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
+<span>                       <span class="st">"Institution C"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span>,</span>
 <span>    labels         <span class="op">=</span> <span class="st">"value_label"</span>,</span>
 <span>    repel          <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>    transparency   <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -1106,7 +1111,7 @@ opacities with the corresponding lines.</p>
 <span>                       <span class="st">"Institution B"</span> <span class="op">=</span> <span class="fl">0.25</span>,</span>
 <span>                       <span class="st">"Institution C"</span> <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-17-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-17-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 </div>
 <div class="section level2">
@@ -1267,11 +1272,11 @@ and visual appeal.</p>
 <span>    ngroups   <span class="op">=</span> <span class="va">data4slopes</span><span class="op">$</span><span class="va">gender</span>,                 </span>
 <span>    labels    <span class="op">=</span> <span class="st">"value_label"</span>,</span>
 <span>    colors    <span class="op">=</span> <span class="st">"gender"</span>,</span>
-<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span>   <span class="op">=</span> <span class="st">"#181878"</span>,</span>
-<span>                  <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span>,</span>
+<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span>   <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
+<span>                  <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span>,</span>
 <span>    repel     <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-19-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-19-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="dots-chart">Dots Chart<a class="anchor" aria-label="anchor" href="#dots-chart"></a>
@@ -1531,11 +1536,11 @@ corresponding color codes.</li>
 <span>    target      <span class="op">=</span> <span class="st">"percentage"</span>,</span>
 <span>    grouping    <span class="op">=</span> <span class="st">"institution"</span>,  </span>
 <span>    colors      <span class="op">=</span> <span class="st">"country"</span>,  </span>
-<span>    cvec        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="st">"#181878"</span>,</span>
-<span>                    <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="st">"#BF02AF"</span>,</span>
-<span>                    <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#226640"</span><span class="op">)</span></span>
+<span>    cvec        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
+<span>                    <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
+<span>                    <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-21-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-21-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="controlling-opacities-and-shapes">Controlling opacities and shapes<a class="anchor" aria-label="anchor" href="#controlling-opacities-and-shapes"></a>
@@ -1556,9 +1561,9 @@ documentation</a>.</p>
 <span>    target      <span class="op">=</span> <span class="st">"percentage"</span>,</span>
 <span>    grouping    <span class="op">=</span> <span class="st">"institution"</span>,  </span>
 <span>    colors      <span class="op">=</span> <span class="st">"country"</span>,  </span>
-<span>    cvec        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="st">"#181878"</span>,</span>
-<span>                    <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="st">"#BF02AF"</span>,</span>
-<span>                    <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#226640"</span><span class="op">)</span>,</span>
+<span>    cvec        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
+<span>                    <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
+<span>                    <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span>,</span>
 <span>    diffOpac    <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>    opacities   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="fl">0.3</span>,</span>
 <span>                    <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="fl">1.0</span>,</span>
@@ -1568,7 +1573,7 @@ documentation</a>.</p>
 <span>                    <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="fl">21</span>,</span>
 <span>                    <span class="st">"Neverland"</span> <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-22-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-22-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="adding-confidence-intervals">Adding confidence intervals<a class="anchor" aria-label="anchor" href="#adding-confidence-intervals"></a>
@@ -1834,13 +1839,13 @@ each variable and group.</p>
 <span>    target      <span class="op">=</span> <span class="st">"mean"</span>,</span>
 <span>    grouping    <span class="op">=</span> <span class="st">"institution"</span>,  </span>
 <span>    colors      <span class="op">=</span> <span class="st">"gend"</span>,  </span>
-<span>    cvec        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span>   <span class="op">=</span> <span class="st">"#181878"</span>,</span>
-<span>                    <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span>,</span>
+<span>    cvec        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span>   <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
+<span>                    <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span>,</span>
 <span>    draw_ci     <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>    sd          <span class="op">=</span> <span class="st">"sd"</span>,</span>
 <span>    sample_size <span class="op">=</span> <span class="st">"n"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-24-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-24-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 </div>
 <div class="section level2">
@@ -1862,11 +1867,11 @@ we have reviewed in previous sections:</p>
 <span>    target    <span class="op">=</span> <span class="st">"percentage"</span>,</span>
 <span>    grouping  <span class="op">=</span> <span class="st">"institution"</span>,</span>
 <span>    color     <span class="op">=</span> <span class="st">"year"</span>,</span>
-<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span> <span class="op">=</span> <span class="st">"#181878"</span>,</span>
-<span>                  <span class="st">"2022"</span> <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span>,</span>
+<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span> <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
+<span>                  <span class="st">"2022"</span> <span class="op">=</span> <span class="st">"#482d8b"</span><span class="op">)</span>,</span>
 <span>    cgroups   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span>, <span class="st">"2022"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-25-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-25-1.png" class="r-plt" alt="" width="100%"></p>
 <p>Adding value labels to a dumbbell chart is as easy as specifying the
 column names that have the value label (<code>labels</code>) and the
 label position (<code>labpos</code>) to the plotting function.</p>
@@ -1882,12 +1887,12 @@ label position (<code>labpos</code>) to the plotting function.</p>
 <span>    grouping  <span class="op">=</span> <span class="st">"institution"</span>,</span>
 <span>    color     <span class="op">=</span> <span class="st">"year"</span>,</span>
 <span>    cgroups   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span>, <span class="st">"2022"</span><span class="op">)</span>,</span>
-<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span> <span class="op">=</span> <span class="st">"#181878"</span>,</span>
-<span>                  <span class="st">"2022"</span> <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span>,</span>
+<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span> <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
+<span>                  <span class="st">"2022"</span> <span class="op">=</span> <span class="st">"#482d8b"</span><span class="op">)</span>,</span>
 <span>    labels    <span class="op">=</span> <span class="st">"value_label"</span>,</span>
 <span>    labpos    <span class="op">=</span> <span class="st">"lab_position"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-26-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-26-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="radar-chart">Radar Chart<a class="anchor" aria-label="anchor" href="#radar-chart"></a>
@@ -2238,7 +2243,7 @@ labels to display.</li>
 <span>    labels      <span class="op">=</span> <span class="st">"axis_label"</span>,        </span>
 <span>    colors      <span class="op">=</span> <span class="st">"gender"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-28-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-28-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="markdown-support">Markdown support<a class="anchor" aria-label="anchor" href="#markdown-support"></a>
@@ -2277,9 +2282,9 @@ using some HTML and CSS styles:</p>
 <span>    female_value   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">female_value</span>, <span class="fl">0</span><span class="op">)</span>, nsmall<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, <span class="st">"%"</span><span class="op">)</span>,</span>
 <span>    </span>
 <span>    axis_label_md <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
-<span>      <span class="st">"&lt;span style='color:#181878;font-size:4.217518mm'&gt;"</span>,<span class="va">male_value</span>,<span class="st">"&lt;/span&gt;"</span>,</span>
+<span>      <span class="st">"&lt;span style='color:#482d8b;font-size:4.217518mm'&gt;"</span>,<span class="va">male_value</span>,<span class="st">"&lt;/span&gt;"</span>,</span>
 <span>      <span class="st">"&lt;span style='color:#555659;font-size:4.217518mm'&gt; | &lt;/span&gt;"</span>,</span>
-<span>      <span class="st">"&lt;span style='color:#FF4D6A;font-size:4.217518mm'&gt;"</span>,<span class="va">female_value</span>,<span class="st">"&lt;/span&gt;&lt;br&gt;"</span>,</span>
+<span>      <span class="st">"&lt;span style='color:#f26b21;font-size:4.217518mm'&gt;"</span>,<span class="va">female_value</span>,<span class="st">"&lt;/span&gt;&lt;br&gt;"</span>,</span>
 <span>      <span class="st">"&lt;span style='color:#555659;font-size:3.514598mm;font-weight:bold'&gt;"</span>,<span class="va">axis_label</span>,<span class="st">"&lt;/span&gt;"</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
@@ -2290,10 +2295,10 @@ using some HTML and CSS styles:</p>
 <span>    target      <span class="op">=</span> <span class="st">"percentage"</span>,</span>
 <span>    labels      <span class="op">=</span> <span class="st">"axis_label_md"</span>,</span>
 <span>    colors      <span class="op">=</span> <span class="st">"gender"</span>,</span>
-<span>    cvec        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span>   <span class="op">=</span> <span class="st">"#181878"</span>,</span>
-<span>                    <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span></span>
+<span>    cvec        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span>   <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
+<span>                    <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-29-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-29-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 </div>
 <div class="section level2">
@@ -2333,11 +2338,11 @@ used to exemplify the radar chart.</p>
 <span>    target    <span class="op">=</span> <span class="st">"percentage"</span>,</span>
 <span>    grouping  <span class="op">=</span> <span class="st">"category"</span>,</span>
 <span>    labels    <span class="op">=</span> <span class="st">"axis_label"</span>,</span>
-<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#CCCCFF"</span>, <span class="st">"#AEAEFF"</span>, <span class="st">"#8F8FFF"</span>,</span>
-<span>                  <span class="st">"#7373E5"</span>, <span class="st">"#5E5ECC"</span>, <span class="st">"#181878"</span>,</span>
-<span>                  <span class="st">"#3366FF"</span>, <span class="st">"#00A8A5"</span>, <span class="st">"#226640"</span><span class="op">)</span></span>
+<span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#482d8b"</span>, <span class="st">"#2894aa"</span>, <span class="st">"#f26b21"</span>,</span>
+<span>                  <span class="st">"#137b3f"</span>, <span class="st">"#869d3b"</span>, <span class="st">"#0f9581"</span>,</span>
+<span>                  <span class="st">"#1a74b6"</span>, <span class="st">"#8f2e8c"</span>, <span class="st">"#555659"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-30-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-30-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="controlling-the-order-of-elements">Controlling the order of elements<a class="anchor" aria-label="anchor" href="#controlling-the-order-of-elements"></a>
@@ -2367,13 +2372,13 @@ elements:</p>
 <span>    grouping     <span class="op">=</span> <span class="st">"country"</span>,         </span>
 <span>    diverging    <span class="op">=</span> <span class="st">"q1a"</span>,     </span>
 <span>    negative     <span class="op">=</span> <span class="st">"negative"</span>,   </span>
-<span>    cvec         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Trust"</span>     <span class="op">=</span> <span class="st">"#181878"</span>,</span>
-<span>                     <span class="st">"No Trust"</span>  <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span>,</span>
+<span>    cvec         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Trust"</span>     <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
+<span>                     <span class="st">"No Trust"</span>  <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span>,</span>
 <span>    labels       <span class="op">=</span> <span class="st">"value_label"</span>,</span>
 <span>    custom_order <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>    order        <span class="op">=</span> <span class="st">"order_no"</span> </span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-31-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-31-1.png" class="r-plt" alt="" width="100%"></p>
 <p>Same can be done when working with dot charts:</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data4dots</span> <span class="op">&lt;-</span> <span class="va">data4dots</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -2391,12 +2396,12 @@ elements:</p>
 <span>    target      <span class="op">=</span> <span class="st">"percentage"</span>,</span>
 <span>    grouping    <span class="op">=</span> <span class="st">"institution"</span>,  </span>
 <span>    colors      <span class="op">=</span> <span class="st">"country"</span>,  </span>
-<span>    cvec        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="st">"#181878"</span>,</span>
-<span>                    <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="st">"#BF02AF"</span>,</span>
-<span>                    <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#226640"</span><span class="op">)</span>,</span>
+<span>    cvec        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
+<span>                    <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
+<span>                    <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span>,</span>
 <span>    order       <span class="op">=</span> <span class="st">"order_no"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-32-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-32-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="adding-more-customizations">Adding more customizations<a class="anchor" aria-label="anchor" href="#adding-more-customizations"></a>
@@ -2421,7 +2426,7 @@ bellow:</p>
 <span>    plot.title.position <span class="op">=</span> <span class="st">"plot"</span>,</span>
 <span>    plot.subtitle       <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"italic"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> </span></code></pre></div>
-<p><img src="dataviz_files/figure-html/unnamed-chunk-33-1.png" class="r-plt" alt="" width="150%"></p>
+<p><img src="dataviz_files/figure-html/unnamed-chunk-33-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -2434,7 +2439,7 @@ bellow:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

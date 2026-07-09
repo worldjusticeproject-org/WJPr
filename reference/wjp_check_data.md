@@ -102,7 +102,7 @@ wjp_check_data(
   target   = "trust",
   grouping = "country",
   colors   = "country",
-  cvec     = c("Atlantis" = "#FF0000", "Narnia" = "#00FF00")
+  cvec     = c("Atlantis" = "#482d8b", "Narnia" = "#2894aa")
 )
 #> 
 #> ✔ Data structure is valid for WJPr!

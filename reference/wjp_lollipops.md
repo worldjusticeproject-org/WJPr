@@ -16,8 +16,8 @@ wjp_lollipops(
   order = NULL,
   line_size = 3,
   point_size = 4,
-  line_color = "#c4c4c4",
-  point_color = "#2a2a94"
+  line_color = "#d9dde3",
+  point_color = "#482d8b"
 )
 ```
 
@@ -54,12 +54,12 @@ wjp_lollipops(
 - line_color:
 
   A string specifying the hex color code for the lines. Default is
-  "#c4c4c4".
+  "#d9dde3".
 
 - point_color:
 
   A string specifying the hex color code for the points. Default is
-  "#2a2a94".
+  "#482d8b".
 
 ## Value
 
@@ -115,8 +115,8 @@ wjp_lollipops(
   data4lollipops,
   target      = "percentage",
   grouping    = "institution",
-  line_color  = "#c4c4c4",
-  point_color = "#2a2a94"
+  line_color  = "#d9dde3",
+  point_color = "#482d8b"
 )
 
 ```

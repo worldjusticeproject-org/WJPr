@@ -1,20 +1,22 @@
 # WJPr
 
-WJPr is an R package developed to streamline data analysis and
-visualization for the Data Analytics Unit at The World Justice Project
-(WJP). This package includes essential data and tools for replicating
-visualizations from WJP Country Reports and analyzing Rule of Law Index
-scores.
+WJPr is an R package from the World Justice Project Data Analytics Unit
+for producing WJP-style graphics and working with Rule of Law Index
+data. It is designed for analysts who need publication-ready charts,
+reproducible examples, and consistent visual language across
+country-report and research workflows.
 
 ## Features
 
-**Version 1.0.0** of WJPr offers:
+WJPr provides:
 
-- A wide range of visualization functions to recreate WJP Country Report
-  charts, such as bar plots, line graphs, and radar charts.
-- Access to Rule of Law Index scores data, including detailed
-  information for all factors and subfactors.
-- Streamlined tools for generating publication-ready graphics.
+- Chart functions for bars, diverging bars, grouped bars, dots, lines,
+  slopes, dumbbells, lollipops, radar, rose, and gauge visualizations.
+- Built-in sample datasets for Rule of Law Index and General Population
+  Poll workflows.
+- A shared WJP theme, fonts, and color guidance for consistent report
+  graphics.
+- Validation helpers for checking chart-ready data before plotting.
 
 ## Installation
 
@@ -48,11 +50,11 @@ head(WJPr::roli)
 
 ### Example: Creating a Visualization
 
-Here is an example of how to use WJPr to create a bar chart:
+Create a simple WJP-style bar chart:
 
 ``` r
 
-# Always load the WJP fonts if not passing a custom theme to function
+# Load WJP fonts when using the default theme
 wjp_fonts()
 
 # Loading data
@@ -86,29 +88,49 @@ wjp_bars(
     target    = "trust",        
     grouping  = "country",
     colors    = "year",
-    cvec      = c("2022" = "#8789C0")
+    cvec      = c("2022" = "#482d8b")
 )
 ```
 
 ## Chart Gallery
 
-WJPr provides 12 chart types for creating publication-ready
-visualizations:
+WJPr includes focused chart functions for common WJP reporting patterns:
 
-|  |  |  |
-|:--:|:--:|:--:|
-| **Bar Chart** | **Dots Chart** | **Line Chart** |
-| ![Example vertical bar chart](reference/figures/example-bars.png) | ![Example dot chart](reference/figures/example-dots.png) | ![Example line chart](reference/figures/example-lines.png) |
-| [`wjp_bars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_bars.md) | [`wjp_dots()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dots.md) | [`wjp_lines()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lines.md) |
-| **Diverging Bars** | **Dumbbells** | **Slope Chart** |
-| ![Example diverging bar chart](reference/figures/example-divbars.png) | ![Example dumbbell chart](reference/figures/example-dumbbells.png) | ![Example slope chart](reference/figures/example-slope.png) |
-| [`wjp_divbars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_divbars.md) | [`wjp_dumbbells()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dumbbells.md) | [`wjp_slope()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_slope.md) |
-| **Radar Chart** | **Rose Chart** | **Gauge Chart** |
-| ![Example radar chart](reference/figures/example-radar.png) | ![Example rose chart](reference/figures/example-rose.png) | ![Example gauge chart](reference/figures/example-gauge.png) |
-| [`wjp_radar()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_radar.md) | [`wjp_rose()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_rose.md) | [`wjp_gauge()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_gauge.md) |
-| **Lollipop Chart** | **Edgebars** | **Grouped Bars** |
-| ![Example lollipop chart](reference/figures/example-lollipops.png) | ![Example edge bar chart](reference/figures/example-edgebars.png) | ![Example grouped bar chart](reference/figures/example-groupbars.png) |
-| [`wjp_lollipops()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lollipops.md) | [`wjp_edgebars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_edgebars.md) | [`wjp_groupbars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_groupbars.md) |
+[![Example vertical bar chart](reference/figures/example-bars.png)**Bar
+Chart**
+`wjp_bars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_bars.md)
+[![Example dot chart with confidence
+intervals](reference/figures/example-dots.png)**Dots Chart**
+`wjp_dots()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dots.md)
+[![Example line chart](reference/figures/example-lines.png)**Line
+Chart**
+`wjp_lines()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lines.md)
+[![Example diverging bar
+chart](reference/figures/example-divbars.png)**Diverging Bars**
+`wjp_divbars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_divbars.md)
+[![Example dumbbell
+chart](reference/figures/example-dumbbells.png)**Dumbbells**
+`wjp_dumbbells()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dumbbells.md)
+[![Example slope chart](reference/figures/example-slope.png)**Slope
+Chart**
+`wjp_slope()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_slope.md)
+[![Example radar chart](reference/figures/example-radar.png)**Radar
+Chart**
+`wjp_radar()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_radar.md)
+[![Example rose chart](reference/figures/example-rose.png)**Rose Chart**
+`wjp_rose()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_rose.md)
+[![Example gauge chart](reference/figures/example-gauge.png)**Gauge
+Chart**
+`wjp_gauge()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_gauge.md)
+[![Example lollipop
+chart](reference/figures/example-lollipops.png)**Lollipop Chart**
+`wjp_lollipops()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lollipops.md)
+[![Example edge bar
+chart](reference/figures/example-edgebars.png)**Edgebars**
+`wjp_edgebars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_edgebars.md)
+[![Example grouped bar chart with confidence
+intervals](reference/figures/example-groupbars.png)**Grouped Bars**
+`wjp_groupbars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_groupbars.md)
 
 For a complete interactive gallery with code examples, see the [Chart
 Gallery
@@ -145,27 +167,34 @@ compares a percentage across demographic groups in separate facets. The
 ``` r
 
 groupbars <- data.frame(
-  disaggregation = c("age", "age", "profile_gender", "profile_gender"),
-  demographics   = c("18-24", "55+", "Men", "Women"),
-  pct_weighted   = c(72.1, 73.0, 74.4, 70.3),
-  ci_lower       = c(70.1, 70.8, 72.4, 68.4),
-  ci_upper       = c(74.5, 75.2, 76.4, 72.1)
+  group    = c("Gender", "Gender", "Age", "Age", "Age"),
+  category = c("Men", "Women", "18-24", "25-54", "55+"),
+  value    = c(74.4, 70.3, 72.1, 73.1, 73.0),
+  lower    = c(72.4, 68.4, 70.1, 71.0, 70.8),
+  upper    = c(76.4, 72.1, 74.5, 75.2, 75.2)
 )
 
 wjp_groupbars(
   groupbars,
-  target            = "pct_weighted",
-  grouping          = "disaggregation",
-  levels            = "demographics",
+  target            = "value",
+  grouping          = "group",
+  levels            = "category",
+  colors            = c("#482d8b", "#e5e8e8"),
+  group_order       = c("Gender", "Age"),
+  level_order       = list(
+    Gender = c("Women", "Men"),
+    Age    = c("55+", "25-54", "18-24")
+  ),
   draw_ci           = TRUE,
-  ci_lower          = "ci_lower",
-  ci_upper          = "ci_upper",
+  ci_lower          = "lower",
+  ci_upper          = "upper",
   show_national     = TRUE,
   national_value    = 72.3,
   national_style    = "bar",
   national_label    = "National Average",
   national_ci_lower = 70.0,
-  national_ci_upper = 74.6
+  national_ci_upper = 74.6,
+  show_axis         = TRUE
 )
 ```
 
@@ -174,7 +203,8 @@ Confidence intervals can also be calculated by passing `sd` and
 `national_style = "bar"` when the national value should appear as its
 own bar above or below the disaggregations; use
 `national_style = "line"` when it should be a dashed vertical reference
-line.
+line. The second color is the complement to 100%, so WJP examples
+usually use a neutral gray for that segment.
 
 ### Validate Your Data
 
@@ -190,7 +220,7 @@ wjp_check_data(
   target   = "value",
   grouping = "category",
   colors   = "group",
-  cvec     = c("Group 1" = "#2E4057", "Group 2" = "#F4D35E")
+  cvec     = c("Group 1" = "#482d8b", "Group 2" = "#2894aa")
 )
 ```
 

@@ -342,7 +342,7 @@ Here’s what each parameter expects:</p>
 <td><code>cvec</code></td>
 <td>Color mapping</td>
 <td>Named vector</td>
-<td><code>c("Group A" = "#FF0000")</code></td>
+<td><code>c("Group A" = "#482d8b")</code></td>
 </tr>
 </tbody>
 </table>
@@ -597,9 +597,9 @@ Here’s what each parameter expects:</p>
 <span>  labels   <span class="op">=</span> <span class="st">"value_label"</span>,</span>
 <span>  lab_pos  <span class="op">=</span> <span class="st">"label_pos"</span>,</span>
 <span>  colors   <span class="op">=</span> <span class="st">"color_group"</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="st">"#2E4057"</span>,</span>
-<span>               <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="st">"#083D77"</span>,</span>
-<span>               <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#F4D35E"</span><span class="op">)</span></span>
+<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
+<span>               <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
+<span>               <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
@@ -725,7 +725,7 @@ before plotting:</p>
 <p><strong>Problem:</strong></p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># cvec names don't match data values</span></span>
-<span><span class="va">cvec</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Group1"</span> <span class="op">=</span> <span class="st">"#FF0000"</span><span class="op">)</span>  <span class="co"># But data has "group1" (lowercase)</span></span></code></pre></div>
+<span><span class="va">cvec</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Group1"</span> <span class="op">=</span> <span class="st">"#482d8b"</span><span class="op">)</span>  <span class="co"># But data has "group1" (lowercase)</span></span></code></pre></div>
 <p><strong>Solution:</strong> Ensure exact match between cvec names and
 data values:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
@@ -733,7 +733,7 @@ data values:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">color_column</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Then create matching cvec</span></span>
-<span><span class="va">cvec</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"group1"</span> <span class="op">=</span> <span class="st">"#FF0000"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">cvec</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"group1"</span> <span class="op">=</span> <span class="st">"#482d8b"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="mistake-3-target-column-is-character">Mistake 3: Target Column is Character<a class="anchor" aria-label="anchor" href="#mistake-3-target-column-is-character"></a>
@@ -841,7 +841,7 @@ respondent.</p>
 <td>target, grouping, levels</td>
 <td>labels, group_order, level_order, ci_lower + ci_upper or sd +
 sample_size (for CI), show_national + national_value, national_style,
-national_ci_lower + national_ci_upper</td>
+national_ci_lower + national_ci_upper, show_axis, label_position</td>
 </tr>
 </tbody>
 </table>
@@ -857,7 +857,7 @@ national_ci_lower + national_ci_upper</td>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

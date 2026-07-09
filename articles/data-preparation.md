@@ -102,7 +102,7 @@ Here’s what each parameter expects:
 | `grouping` | Categories (X-axis or rows) | Character/Factor | Countries, institutions, years |
 | `colors` | Color grouping variable | Character/Factor | Groups, categories, years |
 | `labels` | Text labels to display | Character | “45%”, “High”, formatted values |
-| `cvec` | Color mapping | Named vector | `c("Group A" = "#FF0000")` |
+| `cvec` | Color mapping | Named vector | `c("Group A" = "#482d8b")` |
 
 ### Minimal Required Structure
 
@@ -239,9 +239,9 @@ wjp_bars(
   labels   = "value_label",
   lab_pos  = "label_pos",
   colors   = "color_group",
-  cvec     = c("Atlantis"  = "#2E4057",
-               "Narnia"    = "#083D77",
-               "Neverland" = "#F4D35E")
+  cvec     = c("Atlantis"  = "#482d8b",
+               "Narnia"    = "#2894aa",
+               "Neverland" = "#f26b21")
 )
 ```
 
@@ -386,7 +386,7 @@ good_data <- bad_data %>%
 ``` r
 
 # cvec names don't match data values
-cvec = c("Group1" = "#FF0000")  # But data has "group1" (lowercase)
+cvec = c("Group1" = "#482d8b")  # But data has "group1" (lowercase)
 ```
 
 **Solution:** Ensure exact match between cvec names and data values:
@@ -397,7 +397,7 @@ cvec = c("Group1" = "#FF0000")  # But data has "group1" (lowercase)
 unique(data$color_column)
 
 # Then create matching cvec
-cvec = c("group1" = "#FF0000")
+cvec = c("group1" = "#482d8b")
 ```
 
 ### Mistake 3: Target Column is Character
@@ -452,4 +452,4 @@ data <- raw_data %>%
 | [`wjp_gauge()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_gauge.md) | target, colors | labels, factor_order |
 | [`wjp_lollipops()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lollipops.md) | target, grouping | order |
 | [`wjp_edgebars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_edgebars.md) | target, grouping, labels | x_lab_pos |
-| [`wjp_groupbars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_groupbars.md) | target, grouping, levels | labels, group_order, level_order, ci_lower + ci_upper or sd + sample_size (for CI), show_national + national_value, national_style, national_ci_lower + national_ci_upper |
+| [`wjp_groupbars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_groupbars.md) | target, grouping, levels | labels, group_order, level_order, ci_lower + ci_upper or sd + sample_size (for CI), show_national + national_value, national_style, national_ci_lower + national_ci_upper, show_axis, label_position |

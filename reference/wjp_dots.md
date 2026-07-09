@@ -160,9 +160,9 @@ wjp_dots(
   target      = "percentage",
   grouping    = "institution",  
   colors      = "country",  
-  cvec        = c("Atlantis"  = "#08605F",
-                  "Narnia"    = "#9E6240",
-                  "Neverland" = "#2E0E02")
+  cvec        = c("Atlantis"  = "#482d8b",
+                  "Narnia"    = "#2894aa",
+                  "Neverland" = "#f26b21")
 )
 
 ```

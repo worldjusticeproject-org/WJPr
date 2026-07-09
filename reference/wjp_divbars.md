@@ -145,8 +145,8 @@ wjp_divbars(
   grouping    = "country",         
   diverging   = "q1a",     
   negative    = "negative",   
-  cvec        = c("Trust"     = "#4F518C",
-                  "No Trust"  = "#2C2A4A"),
+  cvec        = c("Trust"     = "#482d8b",
+                  "No Trust"  = "#f26b21"),
   labels      = "value_label"
 )
 ```

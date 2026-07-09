@@ -1,25 +1,28 @@
 # Chart Gallery
 
-This gallery showcases all chart types available in the WJPr package
-using the official **World Justice Project color palette**. Each example
-demonstrates how to create publication-ready charts following WJP style
-guidelines.
+This gallery showcases the chart types available in WJPr using a
+consistent World Justice Project visual language: Lato typography, clear
+percentage labels, high-contrast text, restrained grid lines, and WJP
+brand colors. The examples use the package’s sample data and are
+intended to demonstrate chart structure, not to reproduce findings from
+a specific report.
 
 ## WJP Color Palette
 
-The WJPr package uses colors from the official WJP Brand Standards
-Manual:
+The WJPr package uses colors from the WJP brand system:
 
-| Color Name       | Hex Code  | Usage                                       |
-|------------------|-----------|---------------------------------------------|
-| Violet (Primary) | `#482d8b` | Main brand color, headers, primary elements |
-| Teal-Blue        | `#2894aa` | Secondary elements, alternative to violet   |
-| Orange           | `#f26b21` | Accent color, highlights, calls to action   |
-| Cool Gray        | `#555659` | Body text, subtle elements                  |
+| Color Name | Hex Code | Usage |
+|----|----|----|
+| Violet (Primary) | `#482d8b` | Main series, section headers, emphasis |
+| Teal-Blue | `#2894aa` | Secondary series and comparison groups |
+| Orange | `#f26b21` | Contrast, warnings, negative or divergent values |
+| Cool Gray | `#555659` | Body text, axes, notes, and supporting elements |
 
-For categorical data visualizations, use these colors in sequence:
+For categorical data visualizations, start with violet, teal-blue, and
+orange. When a chart needs more categories, use the established Rule of
+Law Index factor colors already included in this package:
 
-    #181878, #BF02AF, #3366FF, #FF4D6A, #9C89ED, #226640, #FFB52B, #00A8A5
+    #482d8b, #2894aa, #f26b21, #137b3f, #869d3b, #0f9581, #1a74b6, #8f2e8c, #555659
 
 ``` r
 
@@ -36,12 +39,12 @@ gpp_data <- WJPr::gpp
 
 # WJP Color Palettes
 wjp_categorical <- c(
-  "#181878", "#BF02AF", "#3366FF", "#FF4D6A",
-  "#9C89ED", "#226640", "#FFB52B", "#00A8A5"
+  "#482d8b", "#2894aa", "#f26b21", "#137b3f", "#869d3b",
+  "#0f9581", "#1a74b6", "#8f2e8c", "#555659"
 )
 
 # Colors for contrasting two groups
-wjp_contrast <- c("#181878", "#FF4D6A")
+wjp_contrast <- c("#482d8b", "#f26b21")
 
 # Factor colors (Rule of Law Index)
 wjp_factors <- c(
@@ -84,7 +87,7 @@ wjp_bars(
   colors   = "country",
   labels   = "label",
   lab_pos  = "label_pos",
-  cvec     = c("Atlantis" = "#181878", "Narnia" = "#3366FF", "Neverland" = "#00A8A5")
+  cvec     = c("Atlantis" = "#482d8b", "Narnia" = "#2894aa", "Neverland" = "#f26b21")
 )
 ```
 
@@ -115,7 +118,7 @@ wjp_bars(
   colors    = "country",
   labels    = "label",
   lab_pos   = "label_pos",
-  cvec      = c("Atlantis" = "#181878", "Narnia" = "#3366FF", "Neverland" = "#00A8A5"),
+  cvec      = c("Atlantis" = "#482d8b", "Narnia" = "#2894aa", "Neverland" = "#f26b21"),
   direction = "horizontal"
 )
 ```
@@ -157,7 +160,7 @@ wjp_divbars(
   diverging = "response",
   negative  = "negative",
   labels    = "label",
-  cvec      = c("Trust" = "#181878", "No Trust" = "#FF4D6A")
+  cvec      = c("Trust" = "#482d8b", "No Trust" = "#f26b21")
 )
 ```
 
@@ -209,7 +212,7 @@ wjp_dots(
   target   = "trust",
   grouping = "institution",
   colors   = "country",
-  cvec     = c("Atlantis" = "#181878", "Narnia" = "#BF02AF", "Neverland" = "#226640")
+  cvec     = c("Atlantis" = "#482d8b", "Narnia" = "#2894aa", "Neverland" = "#f26b21")
 )
 ```
 
@@ -267,7 +270,7 @@ wjp_lines(
   colors   = "institution",
   labels   = "label",
   repel    = TRUE,
-  cvec     = c("Police" = "#181878", "Courts" = "#BF02AF", "Parliament" = "#00A8A5")
+  cvec     = c("Police" = "#482d8b", "Courts" = "#2894aa", "Parliament" = "#f26b21")
 )
 ```
 
@@ -314,7 +317,7 @@ wjp_slope(
   ngroups  = data_slope$gender,
   colors   = "gender",
   labels   = "label",
-  cvec     = c("Male" = "#181878", "Female" = "#FF4D6A"),
+  cvec     = c("Male" = "#482d8b", "Female" = "#f26b21"),
   repel    = TRUE
 )
 ```
@@ -352,7 +355,7 @@ wjp_dumbbells(
   grouping = "institution",
   color    = "year",
   cgroups  = c("2017", "2022"),
-  cvec     = c("2017" = "#181878", "2022" = "#FF4D6A")
+  cvec     = c("2017" = "#2894aa", "2022" = "#482d8b")
 )
 ```
 
@@ -457,7 +460,7 @@ wjp_radar(
   target   = "score",
   labels   = "label",
   colors   = "gender",
-  cvec     = c("Male" = "#181878", "Female" = "#FF4D6A")
+  cvec     = c("Male" = "#482d8b", "Female" = "#f26b21")
 )
 ```
 
@@ -494,8 +497,8 @@ wjp_rose(
   target   = "score",
   grouping = "category",
   labels   = "label",
-  cvec     = c("#CCCCFF", "#AEAEFF", "#8F8FFF", "#7373E5", "#5E5ECC",
-               "#181878", "#3366FF", "#00A8A5", "#226640")
+  cvec     = c("#482d8b", "#2894aa", "#f26b21", "#137b3f", "#869d3b",
+               "#0f9581", "#1a74b6", "#8f2e8c", "#555659")
 )
 ```
 
@@ -569,57 +572,36 @@ A national/general value can be added either as its own bar
 
 ``` r
 
-# Value by country, plus the same value broken down by gender.
-# Keep the standard deviation (sd) and sample size (n) per category so we can
-# draw a confidence interval on each bar.
-country_level <- gpp_data %>%
-  filter(year == 2022) %>%
-  mutate(q1a = as.double(unclass(q1a)),
-         trust = case_when(q1a <= 2 ~ 1, q1a <= 4 ~ 0)) %>%
-  filter(!is.na(trust)) %>%
-  group_by(country) %>%
-  summarise(value = mean(trust, na.rm = TRUE),
-            sd    = sd(trust, na.rm = TRUE),
-            n     = n(),
-            .groups = "drop") %>%
-  mutate(group = "Country") %>%
-  rename(category = country)
-
-gender_level <- gpp_data %>%
-  filter(year == 2022) %>%
-  mutate(q1a  = as.double(unclass(q1a)),
-         gend = as.double(unclass(gend)),
-         trust  = case_when(q1a <= 2 ~ 1, q1a <= 4 ~ 0),
-         gender = case_when(gend == 1 ~ "Male", gend == 2 ~ "Female")) %>%
-  filter(!is.na(trust), !is.na(gender)) %>%
-  group_by(gender) %>%
-  summarise(value = mean(trust, na.rm = TRUE),
-            sd    = sd(trust, na.rm = TRUE),
-            n     = n(),
-            .groups = "drop") %>%
-  mutate(group = "Gender") %>%
-  rename(category = gender)
-
-data_groupbars <- bind_rows(country_level, gender_level)
-
-national_value <- country_level %>%
-  summarise(value = mean(value, na.rm = TRUE)) %>%
-  pull(value)
+# Percentage-scale input with precomputed confidence intervals.
+data_groupbars <- data.frame(
+  group    = c("Gender", "Gender", "Age", "Age", "Age"),
+  category = c("Men", "Women", "18-24", "25-54", "55+"),
+  value    = c(74.4, 70.3, 72.1, 73.1, 73.0),
+  lower    = c(72.4, 68.4, 70.1, 71.0, 70.8),
+  upper    = c(76.4, 72.1, 74.5, 75.2, 75.2)
+)
 
 wjp_groupbars(
   data_groupbars,
-  target         = "value",
-  grouping       = "group",
-  levels         = "category",
-  colors         = c("#482d8b", "#2894aa"),
-  group_order    = c("Country", "Gender"),
-  draw_ci        = TRUE,
-  sd             = "sd",
-  sample_size    = "n",
-  show_national  = TRUE,
-  national_value = national_value,
-  national_style = "bar",
-  national_label = "General"
+  target            = "value",
+  grouping          = "group",
+  levels            = "category",
+  colors            = c("#482d8b", "#e5e8e8"),
+  group_order       = c("Gender", "Age"),
+  level_order       = list(
+    Gender = c("Women", "Men"),
+    Age    = c("55+", "25-54", "18-24")
+  ),
+  draw_ci           = TRUE,
+  ci_lower          = "lower",
+  ci_upper          = "upper",
+  show_national     = TRUE,
+  national_value    = 72.3,
+  national_style    = "bar",
+  national_label    = "National Average",
+  national_ci_lower = 70.0,
+  national_ci_upper = 74.6,
+  show_axis         = TRUE
 )
 ```
 
@@ -633,18 +615,20 @@ set `draw_ci = TRUE` and either supply per-category `sd` plus
 `sample_size`, or pass precomputed `ci_lower` and `ci_upper` columns.
 When `national_style = "bar"`, the national value is inserted as a
 regular bar row and can receive its own `national_ci_lower` and
-`national_ci_upper`.
+`national_ci_upper`. The second color represents the complement to 100%,
+so a neutral gray keeps attention on the measured percentage and its
+interval.
 
-| category  |     value |        sd |   n | group   |
-|:----------|----------:|----------:|----:|:--------|
-| Atlantis  | 0.4909091 | 0.5045250 |  55 | Country |
-| Narnia    | 0.4565217 | 0.5036102 |  46 | Country |
-| Neverland | 0.6363636 | 0.4854794 |  55 | Country |
-| Female    | 0.5000000 | 0.5030770 |  82 | Gender  |
-| Male      | 0.5675676 | 0.4987953 |  74 | Gender  |
+| group  | category | value | lower | upper |
+|:-------|:---------|------:|------:|------:|
+| Gender | Men      |  74.4 |  72.4 |  76.4 |
+| Gender | Women    |  70.3 |  68.4 |  72.1 |
+| Age    | 18-24    |  72.1 |  70.1 |  74.5 |
+| Age    | 25-54    |  73.1 |  71.0 |  75.2 |
+| Age    | 55+      |  73.0 |  70.8 |  75.2 |
 
 Input data for wjp_groupbars(): target = value, grouping = group, levels
-= category, sd/n for calculated confidence intervals {.table}
+= category, lower/upper for confidence intervals {.table}
 
 ------------------------------------------------------------------------
 

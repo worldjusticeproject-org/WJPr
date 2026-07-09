@@ -125,8 +125,8 @@ wjp_slope(
   ngroups   = data4slopes$gender,                 
   labels    = "value_label",
   colors    = "gender",
-  cvec      = c("Male"   = "#08605F",
-                "Female" = "#9E6240"),
+  cvec      = c("Male"   = "#482d8b",
+                "Female" = "#f26b21"),
   repel     = TRUE
 )
 ```

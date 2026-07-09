@@ -107,15 +107,16 @@
 
     
     
-<p>This gallery showcases all chart types available in the WJPr package
-using the official <strong>World Justice Project color palette</strong>.
-Each example demonstrates how to create publication-ready charts
-following WJP style guidelines.</p>
+<p>This gallery showcases the chart types available in WJPr using a
+consistent World Justice Project visual language: Lato typography, clear
+percentage labels, high-contrast text, restrained grid lines, and WJP
+brand colors. The examples use the package’s sample data and are
+intended to demonstrate chart structure, not to reproduce findings from
+a specific report.</p>
 <div class="section level2">
 <h2 id="wjp-color-palette">WJP Color Palette<a class="anchor" aria-label="anchor" href="#wjp-color-palette"></a>
 </h2>
-<p>The WJPr package uses colors from the official WJP Brand Standards
-Manual:</p>
+<p>The WJPr package uses colors from the WJP brand system:</p>
 <table class="table">
 <colgroup>
 <col width="41%">
@@ -131,28 +132,29 @@ Manual:</p>
 <tr class="odd">
 <td>Violet (Primary)</td>
 <td><code>#482d8b</code></td>
-<td>Main brand color, headers, primary elements</td>
+<td>Main series, section headers, emphasis</td>
 </tr>
 <tr class="even">
 <td>Teal-Blue</td>
 <td><code>#2894aa</code></td>
-<td>Secondary elements, alternative to violet</td>
+<td>Secondary series and comparison groups</td>
 </tr>
 <tr class="odd">
 <td>Orange</td>
 <td><code>#f26b21</code></td>
-<td>Accent color, highlights, calls to action</td>
+<td>Contrast, warnings, negative or divergent values</td>
 </tr>
 <tr class="even">
 <td>Cool Gray</td>
 <td><code>#555659</code></td>
-<td>Body text, subtle elements</td>
+<td>Body text, axes, notes, and supporting elements</td>
 </tr>
 </tbody>
 </table>
-<p>For categorical data visualizations, use these colors in
-sequence:</p>
-<pre><code><span><span class="co">#181878, #BF02AF, #3366FF, #FF4D6A, #9C89ED, #226640, #FFB52B, #00A8A5</span></span></code></pre>
+<p>For categorical data visualizations, start with violet, teal-blue,
+and orange. When a chart needs more categories, use the established Rule
+of Law Index factor colors already included in this package:</p>
+<pre><code><span><span class="co">#482d8b, #2894aa, #f26b21, #137b3f, #869d3b, #0f9581, #1a74b6, #8f2e8c, #555659</span></span></code></pre>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
@@ -167,12 +169,12 @@ sequence:</p>
 <span></span>
 <span><span class="co"># WJP Color Palettes</span></span>
 <span><span class="va">wjp_categorical</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="st">"#181878"</span>, <span class="st">"#BF02AF"</span>, <span class="st">"#3366FF"</span>, <span class="st">"#FF4D6A"</span>,</span>
-<span>  <span class="st">"#9C89ED"</span>, <span class="st">"#226640"</span>, <span class="st">"#FFB52B"</span>, <span class="st">"#00A8A5"</span></span>
+<span>  <span class="st">"#482d8b"</span>, <span class="st">"#2894aa"</span>, <span class="st">"#f26b21"</span>, <span class="st">"#137b3f"</span>, <span class="st">"#869d3b"</span>,</span>
+<span>  <span class="st">"#0f9581"</span>, <span class="st">"#1a74b6"</span>, <span class="st">"#8f2e8c"</span>, <span class="st">"#555659"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Colors for contrasting two groups</span></span>
-<span><span class="va">wjp_contrast</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#181878"</span>, <span class="st">"#FF4D6A"</span><span class="op">)</span></span>
+<span><span class="va">wjp_contrast</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#482d8b"</span>, <span class="st">"#f26b21"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Factor colors (Rule of Law Index)</span></span>
 <span><span class="va">wjp_factors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
@@ -213,7 +215,7 @@ values across categories.</p>
 <span>  colors   <span class="op">=</span> <span class="st">"country"</span>,</span>
 <span>  labels   <span class="op">=</span> <span class="st">"label"</span>,</span>
 <span>  lab_pos  <span class="op">=</span> <span class="st">"label_pos"</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"Narnia"</span> <span class="op">=</span> <span class="st">"#3366FF"</span>, <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#00A8A5"</span><span class="op">)</span></span>
+<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>, <span class="st">"Narnia"</span> <span class="op">=</span> <span class="st">"#2894aa"</span>, <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/bars-vertical-1.png" class="r-plt" alt="" width="100%"></p>
 <p><strong>Expected input structure</strong> — one row per category,
@@ -264,7 +266,7 @@ orientation.</p>
 <span>  colors    <span class="op">=</span> <span class="st">"country"</span>,</span>
 <span>  labels    <span class="op">=</span> <span class="st">"label"</span>,</span>
 <span>  lab_pos   <span class="op">=</span> <span class="st">"label_pos"</span>,</span>
-<span>  cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"Narnia"</span> <span class="op">=</span> <span class="st">"#3366FF"</span>, <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#00A8A5"</span><span class="op">)</span>,</span>
+<span>  cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>, <span class="st">"Narnia"</span> <span class="op">=</span> <span class="st">"#2894aa"</span>, <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span>,</span>
 <span>  direction <span class="op">=</span> <span class="st">"horizontal"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/bars-horizontal-1.png" class="r-plt" alt="" width="100%"></p>
@@ -302,7 +304,7 @@ extending from a center point.</p>
 <span>  diverging <span class="op">=</span> <span class="st">"response"</span>,</span>
 <span>  negative  <span class="op">=</span> <span class="st">"negative"</span>,</span>
 <span>  labels    <span class="op">=</span> <span class="st">"label"</span>,</span>
-<span>  cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Trust"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"No Trust"</span> <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span></span>
+<span>  cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Trust"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>, <span class="st">"No Trust"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/divbars-1.png" class="r-plt" alt="" width="100%"></p>
 <p><strong>Expected input structure</strong> — one row per
@@ -381,7 +383,7 @@ with dot markers.</p>
 <span>  target   <span class="op">=</span> <span class="st">"trust"</span>,</span>
 <span>  grouping <span class="op">=</span> <span class="st">"institution"</span>,</span>
 <span>  colors   <span class="op">=</span> <span class="st">"country"</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"Narnia"</span> <span class="op">=</span> <span class="st">"#BF02AF"</span>, <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#226640"</span><span class="op">)</span></span>
+<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>, <span class="st">"Narnia"</span> <span class="op">=</span> <span class="st">"#2894aa"</span>, <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/dots-1.png" class="r-plt" alt="" width="100%"></p>
 <p><strong>Expected input structure</strong> — long format: one row per
@@ -461,7 +463,7 @@ points.</p>
 <span>  colors   <span class="op">=</span> <span class="st">"institution"</span>,</span>
 <span>  labels   <span class="op">=</span> <span class="st">"label"</span>,</span>
 <span>  repel    <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Police"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"Courts"</span> <span class="op">=</span> <span class="st">"#BF02AF"</span>, <span class="st">"Parliament"</span> <span class="op">=</span> <span class="st">"#00A8A5"</span><span class="op">)</span></span>
+<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Police"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>, <span class="st">"Courts"</span> <span class="op">=</span> <span class="st">"#2894aa"</span>, <span class="st">"Parliament"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/lines-1.png" class="r-plt" alt="" width="100%"></p>
 <p><strong>Expected input structure</strong> — long format: one row per
@@ -535,7 +537,7 @@ points.</p>
 <span>  ngroups  <span class="op">=</span> <span class="va">data_slope</span><span class="op">$</span><span class="va">gender</span>,</span>
 <span>  colors   <span class="op">=</span> <span class="st">"gender"</span>,</span>
 <span>  labels   <span class="op">=</span> <span class="st">"label"</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span>,</span>
+<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>, <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span>,</span>
 <span>  repel    <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/slope-1.png" class="r-plt" alt="" width="100%"></p>
@@ -595,7 +597,7 @@ connected markers.</p>
 <span>  grouping <span class="op">=</span> <span class="st">"institution"</span>,</span>
 <span>  color    <span class="op">=</span> <span class="st">"year"</span>,</span>
 <span>  cgroups  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span>, <span class="st">"2022"</span><span class="op">)</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"2022"</span> <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span></span>
+<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span> <span class="op">=</span> <span class="st">"#2894aa"</span>, <span class="st">"2022"</span> <span class="op">=</span> <span class="st">"#482d8b"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/dumbbells-1.png" class="r-plt" alt="" width="100%"></p>
 <p><strong>Expected input structure</strong> — one row per
@@ -719,7 +721,7 @@ grid.</p>
 <span>  target   <span class="op">=</span> <span class="st">"score"</span>,</span>
 <span>  labels   <span class="op">=</span> <span class="st">"label"</span>,</span>
 <span>  colors   <span class="op">=</span> <span class="st">"gender"</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span> <span class="op">=</span> <span class="st">"#181878"</span>, <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#FF4D6A"</span><span class="op">)</span></span>
+<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>, <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/radar-1.png" class="r-plt" alt="" width="100%"></p>
 <p><strong>Expected input structure</strong> — long format: one row per
@@ -777,8 +779,8 @@ multi-dimensional data.</p>
 <span>  target   <span class="op">=</span> <span class="st">"score"</span>,</span>
 <span>  grouping <span class="op">=</span> <span class="st">"category"</span>,</span>
 <span>  labels   <span class="op">=</span> <span class="st">"label"</span>,</span>
-<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#CCCCFF"</span>, <span class="st">"#AEAEFF"</span>, <span class="st">"#8F8FFF"</span>, <span class="st">"#7373E5"</span>, <span class="st">"#5E5ECC"</span>,</span>
-<span>               <span class="st">"#181878"</span>, <span class="st">"#3366FF"</span>, <span class="st">"#00A8A5"</span>, <span class="st">"#226640"</span><span class="op">)</span></span>
+<span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#482d8b"</span>, <span class="st">"#2894aa"</span>, <span class="st">"#f26b21"</span>, <span class="st">"#137b3f"</span>, <span class="st">"#869d3b"</span>,</span>
+<span>               <span class="st">"#0f9581"</span>, <span class="st">"#1a74b6"</span>, <span class="st">"#8f2e8c"</span>, <span class="st">"#555659"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/rose-1.png" class="r-plt" alt="" width="100%"></p>
 <p><strong>Expected input structure</strong> — a single unit: one row
@@ -894,57 +896,36 @@ value can be added either as its own bar
 (<code>national_style = "bar"</code>) or as a vertical reference line
 (<code>national_style = "line"</code>).</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Value by country, plus the same value broken down by gender.</span></span>
-<span><span class="co"># Keep the standard deviation (sd) and sample size (n) per category so we can</span></span>
-<span><span class="co"># draw a confidence interval on each bar.</span></span>
-<span><span class="va">country_level</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2022</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>q1a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="va">q1a</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>         trust <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">q1a</span> <span class="op">&lt;=</span> <span class="fl">2</span> <span class="op">~</span> <span class="fl">1</span>, <span class="va">q1a</span> <span class="op">&lt;=</span> <span class="fl">4</span> <span class="op">~</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">trust</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">country</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">trust</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>            sd    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">trust</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>            n     <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>            .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Country"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>category <span class="op">=</span> <span class="va">country</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">gender_level</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2022</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>q1a  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="va">q1a</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>         gend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="va">gend</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>         trust  <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">q1a</span> <span class="op">&lt;=</span> <span class="fl">2</span> <span class="op">~</span> <span class="fl">1</span>, <span class="va">q1a</span> <span class="op">&lt;=</span> <span class="fl">4</span> <span class="op">~</span> <span class="fl">0</span><span class="op">)</span>,</span>
-<span>         gender <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">gend</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"Male"</span>, <span class="va">gend</span> <span class="op">==</span> <span class="fl">2</span> <span class="op">~</span> <span class="st">"Female"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">trust</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">gender</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">gender</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">trust</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>            sd    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">trust</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>            n     <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>            .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>group <span class="op">=</span> <span class="st">"Gender"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>category <span class="op">=</span> <span class="va">gender</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">data_groupbars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">country_level</span>, <span class="va">gender_level</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">national_value</span> <span class="op">&lt;-</span> <span class="va">country_level</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">value</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Percentage-scale input with precomputed confidence intervals.</span></span>
+<span><span class="va">data_groupbars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  group    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="st">"Gender"</span>, <span class="st">"Age"</span>, <span class="st">"Age"</span>, <span class="st">"Age"</span><span class="op">)</span>,</span>
+<span>  category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Men"</span>, <span class="st">"Women"</span>, <span class="st">"18-24"</span>, <span class="st">"25-54"</span>, <span class="st">"55+"</span><span class="op">)</span>,</span>
+<span>  value    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">74.4</span>, <span class="fl">70.3</span>, <span class="fl">72.1</span>, <span class="fl">73.1</span>, <span class="fl">73.0</span><span class="op">)</span>,</span>
+<span>  lower    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">72.4</span>, <span class="fl">68.4</span>, <span class="fl">70.1</span>, <span class="fl">71.0</span>, <span class="fl">70.8</span><span class="op">)</span>,</span>
+<span>  upper    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">76.4</span>, <span class="fl">72.1</span>, <span class="fl">74.5</span>, <span class="fl">75.2</span>, <span class="fl">75.2</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/wjp_groupbars.html">wjp_groupbars</a></span><span class="op">(</span></span>
 <span>  <span class="va">data_groupbars</span>,</span>
-<span>  target         <span class="op">=</span> <span class="st">"value"</span>,</span>
-<span>  grouping       <span class="op">=</span> <span class="st">"group"</span>,</span>
-<span>  levels         <span class="op">=</span> <span class="st">"category"</span>,</span>
-<span>  colors         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#482d8b"</span>, <span class="st">"#2894aa"</span><span class="op">)</span>,</span>
-<span>  group_order    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Country"</span>, <span class="st">"Gender"</span><span class="op">)</span>,</span>
-<span>  draw_ci        <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  sd             <span class="op">=</span> <span class="st">"sd"</span>,</span>
-<span>  sample_size    <span class="op">=</span> <span class="st">"n"</span>,</span>
-<span>  show_national  <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  national_value <span class="op">=</span> <span class="va">national_value</span>,</span>
-<span>  national_style <span class="op">=</span> <span class="st">"bar"</span>,</span>
-<span>  national_label <span class="op">=</span> <span class="st">"General"</span></span>
+<span>  target            <span class="op">=</span> <span class="st">"value"</span>,</span>
+<span>  grouping          <span class="op">=</span> <span class="st">"group"</span>,</span>
+<span>  levels            <span class="op">=</span> <span class="st">"category"</span>,</span>
+<span>  colors            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#482d8b"</span>, <span class="st">"#e5e8e8"</span><span class="op">)</span>,</span>
+<span>  group_order       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="st">"Age"</span><span class="op">)</span>,</span>
+<span>  level_order       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    Gender <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Women"</span>, <span class="st">"Men"</span><span class="op">)</span>,</span>
+<span>    Age    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"55+"</span>, <span class="st">"25-54"</span>, <span class="st">"18-24"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  draw_ci           <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ci_lower          <span class="op">=</span> <span class="st">"lower"</span>,</span>
+<span>  ci_upper          <span class="op">=</span> <span class="st">"upper"</span>,</span>
+<span>  show_national     <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  national_value    <span class="op">=</span> <span class="fl">72.3</span>,</span>
+<span>  national_style    <span class="op">=</span> <span class="st">"bar"</span>,</span>
+<span>  national_label    <span class="op">=</span> <span class="st">"National Average"</span>,</span>
+<span>  national_ci_lower <span class="op">=</span> <span class="fl">70.0</span>,</span>
+<span>  national_ci_upper <span class="op">=</span> <span class="fl">74.6</span>,</span>
+<span>  show_axis         <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="gallery_files/figure-html/groupbars-1.png" class="r-plt" alt="" width="100%"></p>
 <p><strong>Expected input structure</strong> — one row per
@@ -957,54 +938,54 @@ either supply per-category <code>sd</code> plus
 <code>sample_size</code>, or pass precomputed <code>ci_lower</code> and
 <code>ci_upper</code> columns. When <code>national_style = "bar"</code>,
 the national value is inserted as a regular bar row and can receive its
-own <code>national_ci_lower</code> and
-<code>national_ci_upper</code>.</p>
+own <code>national_ci_lower</code> and <code>national_ci_upper</code>.
+The second color represents the complement to 100%, so a neutral gray
+keeps attention on the measured percentage and its interval.</p>
 <table class="table">
 <caption>Input data for wjp_groupbars(): target = value, grouping =
-group, levels = category, sd/n for calculated confidence
-intervals</caption>
+group, levels = category, lower/upper for confidence intervals</caption>
 <thead><tr class="header">
+<th align="left">group</th>
 <th align="left">category</th>
 <th align="right">value</th>
-<th align="right">sd</th>
-<th align="right">n</th>
-<th align="left">group</th>
+<th align="right">lower</th>
+<th align="right">upper</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">Atlantis</td>
-<td align="right">0.4909091</td>
-<td align="right">0.5045250</td>
-<td align="right">55</td>
-<td align="left">Country</td>
+<td align="left">Gender</td>
+<td align="left">Men</td>
+<td align="right">74.4</td>
+<td align="right">72.4</td>
+<td align="right">76.4</td>
 </tr>
 <tr class="even">
-<td align="left">Narnia</td>
-<td align="right">0.4565217</td>
-<td align="right">0.5036102</td>
-<td align="right">46</td>
-<td align="left">Country</td>
+<td align="left">Gender</td>
+<td align="left">Women</td>
+<td align="right">70.3</td>
+<td align="right">68.4</td>
+<td align="right">72.1</td>
 </tr>
 <tr class="odd">
-<td align="left">Neverland</td>
-<td align="right">0.6363636</td>
-<td align="right">0.4854794</td>
-<td align="right">55</td>
-<td align="left">Country</td>
+<td align="left">Age</td>
+<td align="left">18-24</td>
+<td align="right">72.1</td>
+<td align="right">70.1</td>
+<td align="right">74.5</td>
 </tr>
 <tr class="even">
-<td align="left">Female</td>
-<td align="right">0.5000000</td>
-<td align="right">0.5030770</td>
-<td align="right">82</td>
-<td align="left">Gender</td>
+<td align="left">Age</td>
+<td align="left">25-54</td>
+<td align="right">73.1</td>
+<td align="right">71.0</td>
+<td align="right">75.2</td>
 </tr>
 <tr class="odd">
-<td align="left">Male</td>
-<td align="right">0.5675676</td>
-<td align="right">0.4987953</td>
-<td align="right">74</td>
-<td align="left">Gender</td>
+<td align="left">Age</td>
+<td align="left">55+</td>
+<td align="right">73.0</td>
+<td align="right">70.8</td>
+<td align="right">75.2</td>
 </tr>
 </tbody>
 </table>
@@ -1104,7 +1085,7 @@ intervals</caption>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

@@ -93,9 +93,9 @@ wjp_rose(
   target    = "percentage",       
   grouping  = "category",    
   labels    = "axis_label",
-  cvec      = c("#FDF1E7", "#FBE2CF", "#F7C59F", 
-                "#E7C1A3", "#759EB8", "#7498B8", 
-                "#7392B7", "#4F6281", "#2A324B") 
+  cvec      = c("#482d8b", "#2894aa", "#f26b21",
+                "#137b3f", "#869d3b", "#0f9581",
+                "#1a74b6", "#8f2e8c", "#555659")
 )
 
 ```
