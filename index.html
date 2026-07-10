@@ -231,47 +231,10 @@
 </tbody>
 </table>
 <div class="section level3">
-<h3 id="grouped-bars">Grouped Bars<a class="anchor" aria-label="anchor" href="#grouped-bars"></a>
-</h3>
-<p><code><a href="reference/wjp_groupbars.html">wjp_groupbars()</a></code> compares a percentage across demographic groups in separate facets. The <code>target</code> column can be supplied as proportions (<code>0-1</code>) or percentages (<code>0-100</code>); the function plots both on a 0-100 percentage scale.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">groupbars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  group    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="st">"Gender"</span>, <span class="st">"Age"</span>, <span class="st">"Age"</span>, <span class="st">"Age"</span><span class="op">)</span>,</span>
-<span>  category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Men"</span>, <span class="st">"Women"</span>, <span class="st">"18-24"</span>, <span class="st">"25-54"</span>, <span class="st">"55+"</span><span class="op">)</span>,</span>
-<span>  value    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">74.4</span>, <span class="fl">70.3</span>, <span class="fl">72.1</span>, <span class="fl">73.1</span>, <span class="fl">73.0</span><span class="op">)</span>,</span>
-<span>  lower    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">72.4</span>, <span class="fl">68.4</span>, <span class="fl">70.1</span>, <span class="fl">71.0</span>, <span class="fl">70.8</span><span class="op">)</span>,</span>
-<span>  upper    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">76.4</span>, <span class="fl">72.1</span>, <span class="fl">74.5</span>, <span class="fl">75.2</span>, <span class="fl">75.2</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/wjp_groupbars.html">wjp_groupbars</a></span><span class="op">(</span></span>
-<span>  <span class="va">groupbars</span>,</span>
-<span>  target            <span class="op">=</span> <span class="st">"value"</span>,</span>
-<span>  grouping          <span class="op">=</span> <span class="st">"group"</span>,</span>
-<span>  levels            <span class="op">=</span> <span class="st">"category"</span>,</span>
-<span>  colors            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#482d8b"</span>, <span class="st">"#e5e8e8"</span><span class="op">)</span>,</span>
-<span>  group_order       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="st">"Age"</span><span class="op">)</span>,</span>
-<span>  level_order       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    Gender <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Women"</span>, <span class="st">"Men"</span><span class="op">)</span>,</span>
-<span>    Age    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"55+"</span>, <span class="st">"25-54"</span>, <span class="st">"18-24"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  draw_ci           <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  ci_lower          <span class="op">=</span> <span class="st">"lower"</span>,</span>
-<span>  ci_upper          <span class="op">=</span> <span class="st">"upper"</span>,</span>
-<span>  show_national     <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  national_value    <span class="op">=</span> <span class="fl">72.3</span>,</span>
-<span>  national_style    <span class="op">=</span> <span class="st">"bar"</span>,</span>
-<span>  national_label    <span class="op">=</span> <span class="st">"National Average"</span>,</span>
-<span>  national_ci_lower <span class="op">=</span> <span class="fl">70.0</span>,</span>
-<span>  national_ci_upper <span class="op">=</span> <span class="fl">74.6</span>,</span>
-<span>  show_axis         <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>Confidence intervals can also be calculated by passing <code>sd</code> and <code>sample_size</code> instead of precomputed <code>ci_lower</code> and <code>ci_upper</code>. Use <code>national_style = "bar"</code> when the national value should appear as its own bar above or below the disaggregations; use <code>national_style = "line"</code> when it should be a dashed vertical reference line. The second color is the complement to 100%, so WJP examples usually use a neutral gray for that segment.</p>
-</div>
-<div class="section level3">
 <h3 id="validate-your-data">Validate Your Data<a class="anchor" aria-label="anchor" href="#validate-your-data"></a>
 </h3>
 <p>Use <code><a href="reference/wjp_check_data.html">wjp_check_data()</a></code> to verify your data structure before plotting:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/wjp_check_data.html">wjp_check_data</a></span><span class="op">(</span></span>
 <span>  data     <span class="op">=</span> <span class="va">my_data</span>,</span>
 <span>  type     <span class="op">=</span> <span class="st">"bars"</span>,</span>
@@ -287,7 +250,7 @@
 <h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
 </h2>
 <p>Comprehensive documentation is available for all functions and datasets. Use the R help system to access it:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">?</span><span class="fu">WJPr</span><span class="fu">::</span><span class="va"><a href="reference/wjp_lines.html">wjp_lines</a></span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -310,7 +273,7 @@
 <h3 id="adding-new-functions">Adding New Functions<a class="anchor" aria-label="anchor" href="#adding-new-functions"></a>
 </h3>
 <p>All visualization functions must follow the WJPr patterns:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wjp_newchart</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">data</span>,</span>
 <span>    <span class="va">target</span>,</span>
