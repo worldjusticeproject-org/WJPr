@@ -172,45 +172,6 @@ All WJPr visualization functions expect data in **long (tidy) format**:
 | `cvec`     | Named vector mapping values to colors| `c("A" = "#HEX")`|
 | `labels`   | Text labels to display               | Character column|
 
-### Grouped Bars
-
-`wjp_groupbars()` compares a percentage across demographic groups in separate facets. The `target` column can be supplied as proportions (`0-1`) or percentages (`0-100`); the function plots both on a 0-100 percentage scale.
-
-```R
-groupbars <- data.frame(
-  group    = c("Gender", "Gender", "Age", "Age", "Age"),
-  category = c("Men", "Women", "18-24", "25-54", "55+"),
-  value    = c(74.4, 70.3, 72.1, 73.1, 73.0),
-  lower    = c(72.4, 68.4, 70.1, 71.0, 70.8),
-  upper    = c(76.4, 72.1, 74.5, 75.2, 75.2)
-)
-
-wjp_groupbars(
-  groupbars,
-  target            = "value",
-  grouping          = "group",
-  levels            = "category",
-  colors            = c("#482d8b", "#e5e8e8"),
-  group_order       = c("Gender", "Age"),
-  level_order       = list(
-    Gender = c("Women", "Men"),
-    Age    = c("55+", "25-54", "18-24")
-  ),
-  draw_ci           = TRUE,
-  ci_lower          = "lower",
-  ci_upper          = "upper",
-  show_national     = TRUE,
-  national_value    = 72.3,
-  national_style    = "bar",
-  national_label    = "National Average",
-  national_ci_lower = 70.0,
-  national_ci_upper = 74.6,
-  show_axis         = TRUE
-)
-```
-
-Confidence intervals can also be calculated by passing `sd` and `sample_size` instead of precomputed `ci_lower` and `ci_upper`. Use `national_style = "bar"` when the national value should appear as its own bar above or below the disaggregations; use `national_style = "line"` when it should be a dashed vertical reference line. The second color is the complement to 100%, so WJP examples usually use a neutral gray for that segment.
-
 ### Validate Your Data
 
 Use `wjp_check_data()` to verify your data structure before plotting:
