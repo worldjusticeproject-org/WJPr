@@ -50,6 +50,9 @@
   `wjp_edgebars()`) now consistently display the first row of the data at the
   top of the chart.
 - `wjp_check_data()` gains support for `type = "groupbars"`.
+- `wjp_groupbars()`: when confidence intervals are drawn, value labels are now
+  placed at the end of the full bar (after the gray complement), aligned in a
+  single column, instead of next to the upper interval whisker.
 
 # WJPr 1.0.1
 

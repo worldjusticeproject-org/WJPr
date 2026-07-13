@@ -365,3 +365,24 @@ test_that("wjp_lollipops supports labels, order, and ptheme", {
     wjp_lollipops(bars, "val", "cat", labels = "lab", order = "ord")
   ))
 })
+
+test_that("wjp_groupbars places CI labels after the full bar", {
+  groupbars <- data.frame(
+    group = c("Gender", "Gender"),
+    level = c("Male", "Female"),
+    value = c(45, 55),
+    lower = c(40, 50),
+    upper = c(50, 60)
+  )
+
+  plot <- wjp_groupbars(
+    groupbars, "value", "group", "level",
+    draw_ci  = TRUE,
+    ci_lower = "lower",
+    ci_upper = "upper"
+  )
+  built <- ggplot2::ggplot_build(plot)
+  text_layer <- Filter(function(l) "label" %in% names(l) && any(grepl("%", l$label)), built$data)[[1]]
+  label_x <- text_layer$x[!is.na(text_layer$label)]
+  expect_true(all(label_x == 101))
+})

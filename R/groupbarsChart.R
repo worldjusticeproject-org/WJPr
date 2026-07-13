@@ -66,7 +66,10 @@
 #' @param label_position String. Position for value labels: "end", "inside", or
 #'   "none". Default is "end".
 #' @param label_after_ci Logical. If TRUE and confidence intervals are drawn,
-#'   places labels after the upper CI bound when available. Default is TRUE.
+#'   value labels are placed at the end of the full bar (after the gray
+#'   complement), keeping them clear of the interval whiskers and aligned in
+#'   a single column. If FALSE, labels are placed right after the primary bar
+#'   value. Default is TRUE.
 #' @param facet_ncol Integer. Number of facet columns. Default is 1.
 #' @param bar_width Numeric. Width of bars. Default is 0.7.
 #' @param show_axis Logical. If TRUE, displays the X axis with percentage breaks
@@ -568,11 +571,14 @@ wjp_groupbars <- function(
     )
 
   if (draw_ci && label_position == "end" && isTRUE(label_after_ci)) {
+    # Place value labels at the end of the full bar (after the gray
+    # complement) so they stay clear of the interval whiskers and align
+    # in a single column.
     data2plot <- data2plot %>%
       dplyr::mutate(
         label_x = dplyr::if_else(
           color_type == "primary",
-          pmin(113, dplyr::coalesce(upper, value) + 1),
+          101,
           NA_real_
         )
       )
