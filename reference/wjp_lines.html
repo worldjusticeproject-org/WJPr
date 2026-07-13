@@ -192,6 +192,15 @@ automatically.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A ggplot object.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The function expects long-format data with one row per time point and
+series: the X-axis values in <code>grouping</code> (usually years), the values in
+<code>target</code>, and the series identifier in <code>colors</code>. To highlight one line
+among several, set <code>transparency = TRUE</code> and pass per-series opacities
+through <code>transparencies</code>. When labels overlap, set <code>repel = TRUE</code>
+(requires the ggrepel package).</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -245,6 +254,24 @@ automatically.</p></dd>
 <span class="r-in"><span>  labels   <span class="op">=</span> <span class="st">"value_label"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="wjp_lines-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Highlighting one line with per-series opacities</span></span></span>
+<span class="r-in"><span><span class="fu">wjp_lines</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">data4lines</span>,</span></span>
+<span class="r-in"><span>  target         <span class="op">=</span> <span class="st">"percentage"</span>,</span></span>
+<span class="r-in"><span>  grouping       <span class="op">=</span> <span class="st">"year"</span>,</span></span>
+<span class="r-in"><span>  colors         <span class="op">=</span> <span class="st">"institution"</span>,</span></span>
+<span class="r-in"><span>  labels         <span class="op">=</span> <span class="st">"value_label"</span>,</span></span>
+<span class="r-in"><span>  repel          <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  cvec           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Institution A"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>,</span></span>
+<span class="r-in"><span>                     <span class="st">"Institution B"</span> <span class="op">=</span> <span class="st">"#555659"</span>,</span></span>
+<span class="r-in"><span>                     <span class="st">"Institution C"</span> <span class="op">=</span> <span class="st">"#555659"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  transparency   <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  transparencies <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Institution A"</span> <span class="op">=</span> <span class="fl">1.00</span>,</span></span>
+<span class="r-in"><span>                     <span class="st">"Institution B"</span> <span class="op">=</span> <span class="fl">0.30</span>,</span></span>
+<span class="r-in"><span>                     <span class="st">"Institution C"</span> <span class="op">=</span> <span class="fl">0.30</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="wjp_lines-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -159,6 +159,14 @@ categories. Default is <code>NULL</code> (data order).</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A ggplot object representing the lollipop chart.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The function expects one row per category: the category name in <code>grouping</code>
+and its value in <code>target</code>. Value labels are generated automatically as
+rounded percentages unless a <code>labels</code> column is supplied. Use <code>order</code> to
+control the top-to-bottom order of the rows, and <code>line_color</code>/<code>point_color</code>
+to adjust the accent colors.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -193,6 +201,20 @@ categories. Default is <code>NULL</code> (data order).</p></dd>
 <span class="r-in"><span>  grouping <span class="op">=</span> <span class="st">"institution"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="wjp_lollipops-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Custom order (highest first) and accent color</span></span></span>
+<span class="r-in"><span><span class="va">data4lollipops_ordered</span> <span class="op">&lt;-</span> <span class="va">data4lollipops</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">percentage</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/row_number.html" class="external-link">row_number</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">wjp_lollipops</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">data4lollipops_ordered</span>,</span></span>
+<span class="r-in"><span>  target      <span class="op">=</span> <span class="st">"percentage"</span>,</span></span>
+<span class="r-in"><span>  grouping    <span class="op">=</span> <span class="st">"institution"</span>,</span></span>
+<span class="r-in"><span>  order       <span class="op">=</span> <span class="st">"rank"</span>,</span></span>
+<span class="r-in"><span>  point_color <span class="op">=</span> <span class="st">"#2894aa"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="wjp_lollipops-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

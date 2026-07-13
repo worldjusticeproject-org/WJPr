@@ -176,6 +176,16 @@ available for each bar. Default is <code>0.9</code>.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A ggplot object.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The function expects one row per bar: a category in <code>grouping</code> and its value
+in <code>target</code>. For stacked bars (<code>stacked = TRUE</code>), supply one row per segment
+(each <code>grouping</code> and <code>colors</code> combination) and precompute the label
+coordinates (<code>lab_pos</code>) at the center of each segment; segment labels are
+drawn in white.</p>
+<p>Like all WJPr chart functions, the returned object is a regular ggplot, so
+further customizations can be layered with <code>+</code>.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -221,6 +231,38 @@ available for each bar. Default is <code>0.9</code>.</p></dd>
 <span class="r-in"><span>  direction <span class="op">=</span> <span class="st">"horizontal"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="wjp_bars-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Stacked bars: one row per segment, labels centered on each segment</span></span></span>
+<span class="r-in"><span><span class="va">data4stacked</span> <span class="op">&lt;-</span> <span class="fu">WJPr</span><span class="fu">::</span><span class="va"><a href="gpp.html">gpp</a></span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2022</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    q1a   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="va">q1a</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    level <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">q1a</span> <span class="op">&lt;=</span> <span class="fl">2</span> <span class="op">~</span> <span class="st">"Trust"</span>, <span class="va">q1a</span> <span class="op">&lt;=</span> <span class="fl">4</span> <span class="op">~</span> <span class="st">"No trust"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">level</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">country</span>, <span class="va">level</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">country</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    percentage     <span class="op">=</span> <span class="va">n</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span>,</span></span>
+<span class="r-in"><span>    value_label    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">percentage</span>, <span class="fl">0</span><span class="op">)</span>, <span class="st">"%"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    level          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">level</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"No trust"</span>, <span class="st">"Trust"</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    label_position <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="va">level</span> <span class="op">==</span> <span class="st">"Trust"</span>, <span class="va">percentage</span> <span class="op">/</span> <span class="fl">2</span>, <span class="fl">100</span> <span class="op">-</span> <span class="va">percentage</span> <span class="op">/</span> <span class="fl">2</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">wjp_bars</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">data4stacked</span>,</span></span>
+<span class="r-in"><span>  target   <span class="op">=</span> <span class="st">"percentage"</span>,</span></span>
+<span class="r-in"><span>  grouping <span class="op">=</span> <span class="st">"country"</span>,</span></span>
+<span class="r-in"><span>  labels   <span class="op">=</span> <span class="st">"value_label"</span>,</span></span>
+<span class="r-in"><span>  lab_pos  <span class="op">=</span> <span class="st">"label_position"</span>,</span></span>
+<span class="r-in"><span>  colors   <span class="op">=</span> <span class="st">"level"</span>,</span></span>
+<span class="r-in"><span>  stacked  <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Trust"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>, <span class="st">"No trust"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="wjp_bars-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

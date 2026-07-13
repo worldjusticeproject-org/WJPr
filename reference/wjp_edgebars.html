@@ -168,6 +168,14 @@ for single bars; use <code>0.5</code> for plots with two bars.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A ggplot object representing the edgebars plot.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The function expects one row per bar: the category in <code>grouping</code> and its
+value in <code>target</code>. The text above each bar defaults to the <code>grouping</code>
+values; pass a <code>labels</code> column to customize it (HTML/markdown is supported
+when the ggtext package is installed). Percentage value labels are added
+automatically at the end of each bar.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -193,6 +201,22 @@ for single bars; use <code>0.5</code> for plots with two bars.</p></dd>
 <span class="r-in"><span>  cvec     <span class="op">=</span> <span class="st">"#2894aa"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="wjp_edgebars-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Custom rich-text labels above each bar (requires ggtext)</span></span></span>
+<span class="r-in"><span><span class="va">data4edgebars_lab</span> <span class="op">&lt;-</span> <span class="va">data4edgebars</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    bar_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      <span class="st">"&lt;b&gt;"</span>, <span class="va">country</span>, <span class="st">"&lt;/b&gt; — % that trust their institutions"</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">wjp_edgebars</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">data4edgebars_lab</span>,</span></span>
+<span class="r-in"><span>  target   <span class="op">=</span> <span class="st">"trust"</span>,</span></span>
+<span class="r-in"><span>  grouping <span class="op">=</span> <span class="st">"country"</span>,</span></span>
+<span class="r-in"><span>  labels   <span class="op">=</span> <span class="st">"bar_label"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="wjp_edgebars-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

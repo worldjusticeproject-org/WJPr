@@ -68,6 +68,14 @@ wjp_rose(
 
 A ggplot object representing the rose chart.
 
+## Details
+
+The function expects one row per dimension (petal): the dimension name
+in `grouping`, its value in `target`, and the text to display around the
+chart in `labels`. By default petals are ordered by value; pass an
+`order` column for a custom arrangement. Labels support HTML/markdown
+formatting when the ggtext package is installed.
+
 ## Examples
 
 ``` r

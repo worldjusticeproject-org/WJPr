@@ -156,6 +156,17 @@ the axes. Default is <code>NULL</code> (data order).</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A ggplot object representing the radar plot.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The function expects long-format data with one row per <code>axis_var</code>
+(dimension) and <code>colors</code> (group) combination; one polygon is drawn per
+group. With <code>source = "GPP"</code> (default) values are read as percentages
+(0-100) and the rings are labeled 0%-100%; with <code>source = "QRQ"</code> values
+are read as scores (0-1). Axis labels are taken from the <code>labels</code> column
+of the group given by <code>maincat</code> (or the first group when <code>maincat</code> is
+<code>NULL</code>) and support HTML/markdown formatting when the ggtext package is
+installed.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -188,6 +199,24 @@ the axes. Default is <code>NULL</code> (data order).</p></dd>
 <span class="r-in"><span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>, <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="wjp_radar-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Rule of Law Index factor scores (0-1 scale) with source = "QRQ"</span></span></span>
+<span class="r-in"><span><span class="va">data4radar_roli</span> <span class="op">&lt;-</span> <span class="fu">WJPr</span><span class="fu">::</span><span class="va"><a href="roli.html">roli</a></span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">country</span> <span class="op">==</span> <span class="st">"Austria"</span>, <span class="va">year</span> <span class="op">==</span> <span class="fl">2024</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">country</span>, <span class="va">f1</span>, <span class="va">f2</span>, <span class="va">f3</span>, <span class="va">f4</span>, <span class="va">f5</span>, <span class="va">f6</span>, <span class="va">f7</span>, <span class="va">f8</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">!</span><span class="va">country</span>, names_to <span class="op">=</span> <span class="st">"factor"</span>, values_to <span class="op">=</span> <span class="st">"score"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>factor_label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Factor"</span>, <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">factor</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">wjp_radar</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">data4radar_roli</span>,</span></span>
+<span class="r-in"><span>  axis_var <span class="op">=</span> <span class="st">"factor"</span>,</span></span>
+<span class="r-in"><span>  target   <span class="op">=</span> <span class="st">"score"</span>,</span></span>
+<span class="r-in"><span>  labels   <span class="op">=</span> <span class="st">"factor_label"</span>,</span></span>
+<span class="r-in"><span>  colors   <span class="op">=</span> <span class="st">"country"</span>,</span></span>
+<span class="r-in"><span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Austria"</span> <span class="op">=</span> <span class="st">"#482d8b"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  source   <span class="op">=</span> <span class="st">"QRQ"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="wjp_radar-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

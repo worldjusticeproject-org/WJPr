@@ -76,6 +76,17 @@ wjp_radar(
 
 A ggplot object representing the radar plot.
 
+## Details
+
+The function expects long-format data with one row per `axis_var`
+(dimension) and `colors` (group) combination; one polygon is drawn per
+group. With `source = "GPP"` (default) values are read as percentages
+(0-100) and the rings are labeled 0%-100%; with `source = "QRQ"` values
+are read as scores (0-1). Axis labels are taken from the `labels` column
+of the group given by `maincat` (or the first group when `maincat` is
+`NULL`) and support HTML/markdown formatting when the ggtext package is
+installed.
+
 ## Examples
 
 ``` r
@@ -106,6 +117,24 @@ wjp_radar(
   labels   = "axis_label",
   colors   = "gender",
   cvec     = c("Male" = "#482d8b", "Female" = "#f26b21")
+)
+
+
+# Rule of Law Index factor scores (0-1 scale) with source = "QRQ"
+data4radar_roli <- WJPr::roli %>%
+  filter(country == "Austria", year == 2024) %>%
+  select(country, f1, f2, f3, f4, f5, f6, f7, f8) %>%
+  pivot_longer(!country, names_to = "factor", values_to = "score") %>%
+  mutate(factor_label = paste("Factor", substr(factor, 2, 2)))
+
+wjp_radar(
+  data4radar_roli,
+  axis_var = "factor",
+  target   = "score",
+  labels   = "factor_label",
+  colors   = "country",
+  cvec     = c("Austria" = "#482d8b"),
+  source   = "QRQ"
 )
 
 ```

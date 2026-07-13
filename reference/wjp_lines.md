@@ -110,6 +110,15 @@ wjp_lines(
 
 A ggplot object.
 
+## Details
+
+The function expects long-format data with one row per time point and
+series: the X-axis values in `grouping` (usually years), the values in
+`target`, and the series identifier in `colors`. To highlight one line
+among several, set `transparency = TRUE` and pass per-series opacities
+through `transparencies`. When labels overlap, set `repel = TRUE`
+(requires the ggrepel package).
+
 ## Examples
 
 ``` r
@@ -161,6 +170,24 @@ wjp_lines(
   grouping = "year",
   colors   = "institution",
   labels   = "value_label"
+)
+
+
+# Highlighting one line with per-series opacities
+wjp_lines(
+  data4lines,
+  target         = "percentage",
+  grouping       = "year",
+  colors         = "institution",
+  labels         = "value_label",
+  repel          = TRUE,
+  cvec           = c("Institution A" = "#482d8b",
+                     "Institution B" = "#555659",
+                     "Institution C" = "#555659"),
+  transparency   = TRUE,
+  transparencies = c("Institution A" = 1.00,
+                     "Institution B" = 0.30,
+                     "Institution C" = 0.30)
 )
 
 ```

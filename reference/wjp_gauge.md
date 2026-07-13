@@ -67,6 +67,15 @@ wjp_gauge(
 
 A ggplot object representing the gauge chart.
 
+## Details
+
+The function expects one row per segment: a category in `colors`, its
+value in `target`, and an optional display text in `labels`. Values are
+rescaled so the segments span the semicircle, and labels are hidden
+automatically for segments that are too small to hold them (below 5% of
+the total). Use `factor_order` to control the drawing order of the
+segments.
+
 ## Examples
 
 ``` r
@@ -99,6 +108,15 @@ wjp_gauge(
   cvec         = gauge_colors,
   factor_order = c("Category A", "Category B", "Category C", "Category D"),
   labels       = "label"
+)
+
+
+# Minimal call: segments default to the WJP palette
+wjp_gauge(
+  data4gauge,
+  target = "value",
+  colors = "category",
+  labels = "label"
 )
 
 ```

@@ -178,6 +178,15 @@ strips. Default is <code>"#ffffff"</code>.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A ggplot object.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The function expects long-format data with one row per <code>grouping</code> (category)
+and <code>colors</code> (endpoint) combination; <code>cgroups</code> names the two endpoint values
+in order (start, end). When <code>labels</code> is supplied without <code>labpos</code>, labels
+are placed automatically just outside each endpoint. Use <code>order</code> (a named
+vector such as <code>c("A" = 1, "B" = 2)</code>) to control the top-to-bottom order of
+the rows.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

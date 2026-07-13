@@ -109,6 +109,16 @@ wjp_dots(
 
 A ggplot object.
 
+## Details
+
+The function expects long-format data with one row per `grouping`
+(variable/row) and `colors` (group) combination. To draw a 95%
+normal-approximation confidence interval around each dot, set
+`draw_ci = TRUE` and supply per-row standard deviations (`sd`) and
+sample sizes (`sample_size`). Per-group opacities (`opacities`) and
+point shapes (`shapes`) can be supplied to distinguish groups beyond
+color.
+
 ## Examples
 
 ``` r
@@ -145,6 +155,35 @@ wjp_dots(
   cvec     = c("Atlantis"  = "#482d8b",
                "Narnia"    = "#2894aa",
                "Neverland" = "#f26b21")
+)
+
+
+# With 95% confidence intervals from sd and sample size
+data4dots_ci <- WJPr::gpp %>%
+  filter(year == 2022) %>%
+  mutate(
+    q1a    = as.double(unclass(q1a)),
+    gend   = as.double(unclass(gend)),
+    trust  = case_when(q1a <= 2 ~ 100, q1a <= 4 ~ 0),
+    gender = case_when(gend == 1 ~ "Male", gend == 2 ~ "Female")
+  ) %>%
+  group_by(country, gender) %>%
+  summarise(
+    mean = mean(trust, na.rm = TRUE),
+    sd   = sd(trust, na.rm = TRUE),
+    n    = sum(!is.na(trust)),
+    .groups = "drop"
+  )
+
+wjp_dots(
+  data4dots_ci,
+  target      = "mean",
+  grouping    = "country",
+  colors      = "gender",
+  cvec        = c("Male" = "#482d8b", "Female" = "#f26b21"),
+  draw_ci     = TRUE,
+  sd          = "sd",
+  sample_size = "n"
 )
 
 ```

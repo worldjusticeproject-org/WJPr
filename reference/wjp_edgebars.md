@@ -82,6 +82,14 @@ wjp_edgebars(
 
 A ggplot object representing the edgebars plot.
 
+## Details
+
+The function expects one row per bar: the category in `grouping` and its
+value in `target`. The text above each bar defaults to the `grouping`
+values; pass a `labels` column to customize it (HTML/markdown is
+supported when the ggtext package is installed). Percentage value labels
+are added automatically at the end of each bar.
+
 ## Examples
 
 ``` r
@@ -105,6 +113,22 @@ wjp_edgebars(
   target   = "trust",
   grouping = "country",
   cvec     = "#2894aa"
+)
+
+
+# Custom rich-text labels above each bar (requires ggtext)
+data4edgebars_lab <- data4edgebars %>%
+  mutate(
+    bar_label = paste0(
+      "<b>", country, "</b> — % that trust their institutions"
+    )
+  )
+
+wjp_edgebars(
+  data4edgebars_lab,
+  target   = "trust",
+  grouping = "country",
+  labels   = "bar_label"
 )
 
 ```

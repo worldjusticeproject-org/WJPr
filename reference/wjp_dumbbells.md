@@ -92,6 +92,15 @@ wjp_dumbbells(
 
 A ggplot object.
 
+## Details
+
+The function expects long-format data with one row per `grouping`
+(category) and `colors` (endpoint) combination; `cgroups` names the two
+endpoint values in order (start, end). When `labels` is supplied without
+`labpos`, labels are placed automatically just outside each endpoint.
+Use `order` (a named vector such as `c("A" = 1, "B" = 2)`) to control
+the top-to-bottom order of the rows.
+
 ## Examples
 
 ``` r

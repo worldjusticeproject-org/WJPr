@@ -97,6 +97,17 @@ wjp_bars(
 
 A ggplot object.
 
+## Details
+
+The function expects one row per bar: a category in `grouping` and its
+value in `target`. For stacked bars (`stacked = TRUE`), supply one row
+per segment (each `grouping` and `colors` combination) and precompute
+the label coordinates (`lab_pos`) at the center of each segment; segment
+labels are drawn in white.
+
+Like all WJPr chart functions, the returned object is a regular ggplot,
+so further customizations can be layered with `+`.
+
 ## Examples
 
 ``` r
@@ -140,6 +151,38 @@ wjp_bars(
   labels    = "value_label",
   lab_pos   = "label_position",
   direction = "horizontal"
+)
+
+
+# Stacked bars: one row per segment, labels centered on each segment
+data4stacked <- WJPr::gpp %>%
+  filter(year == 2022) %>%
+  mutate(
+    q1a   = as.double(unclass(q1a)),
+    level = case_when(q1a <= 2 ~ "Trust", q1a <= 4 ~ "No trust")
+  ) %>%
+  filter(!is.na(level)) %>%
+  count(country, level) %>%
+  group_by(country) %>%
+  mutate(
+    percentage     = n / sum(n) * 100,
+    value_label    = paste0(round(percentage, 0), "%"),
+    level          = factor(level, levels = c("No trust", "Trust")),
+    label_position = if_else(
+      level == "Trust", percentage / 2, 100 - percentage / 2
+    )
+  ) %>%
+  ungroup()
+
+wjp_bars(
+  data4stacked,
+  target   = "percentage",
+  grouping = "country",
+  labels   = "value_label",
+  lab_pos  = "label_position",
+  colors   = "level",
+  stacked  = TRUE,
+  cvec     = c("Trust" = "#482d8b", "No trust" = "#f26b21")
 )
 
 ```

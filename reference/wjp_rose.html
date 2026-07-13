@@ -149,6 +149,14 @@ the dimensions. Default is <code>NULL</code> (dimensions are ordered by value).<
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A ggplot object representing the rose chart.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The function expects one row per dimension (petal): the dimension name in
+<code>grouping</code>, its value in <code>target</code>, and the text to display around the
+chart in <code>labels</code>. By default petals are ordered by value; pass an
+<code>order</code> column for a custom arrangement. Labels support HTML/markdown
+formatting when the ggtext package is installed.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

@@ -76,6 +76,13 @@ wjp_slope(
 
 A ggplot object.
 
+## Details
+
+The function expects long-format data with exactly two `grouping` values
+(the two time points) per series. `grouping` must be numeric (e.g.,
+years) so the value labels can be placed just outside each endpoint.
+When labels overlap, set `repel = TRUE` (requires the ggrepel package).
+
 ## Examples
 
 ``` r
@@ -105,6 +112,16 @@ wjp_slope(
   labels   = "value_label",
   cvec     = c("Male" = "#482d8b", "Female" = "#f26b21"),
   repel    = TRUE
+)
+
+
+# Minimal call: colors default to the WJP palette
+wjp_slope(
+  data4slopes,
+  target   = "trust",
+  grouping = "year",
+  colors   = "gender",
+  labels   = "value_label"
 )
 
 ```
