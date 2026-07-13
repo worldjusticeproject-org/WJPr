@@ -8,97 +8,79 @@ wjp_slope(
   data,
   target,
   grouping,
-  ngroups,
-  colors,
+  colors = NULL,
   cvec = NULL,
   labels = NULL,
   repel = FALSE,
+  ngroups = NULL,
   ptheme = WJP_theme()
 )
 }
 \arguments{
-\item{data}{Data frame containing the data to plot}
+\item{data}{Data frame containing the data to plot.}
 
-\item{target}{String. Column name of the variable that will supply the values to plot.}
+\item{target}{String. Column name of the variable that supplies the values to plot.}
 
-\item{grouping}{String. Column name of the variable that supplies the grouping values (X-Axis).}
+\item{grouping}{String. Column name of the numeric variable that supplies the two
+X-axis values (usually years).}
 
-\item{ngroups}{Vector containing each of the groups for the lines. If there is only a single group, please input c = (1).}
+\item{colors}{String. Column name of the variable that defines the lines and their
+color grouping. Default is \code{NULL} (a single line is drawn).}
 
-\item{colors}{String. Column name of the variable that contains the color grouping.}
+\item{cvec}{Named vector of colors, one per line. Names should match the values of
+the \code{colors} variable. Default is \code{NULL} (the WJP palette, see \code{\link[=wjp_palette]{wjp_palette()}},
+is applied).}
 
-\item{cvec}{Named vector with the colors to apply to each line.}
+\item{labels}{String. Column name of the variable containing the value labels to
+display. Default is \code{NULL} (no labels).}
 
-\item{labels}{String. Column name of the variable containing the value labels to display in plot. Default is NULL.}
+\item{repel}{Logical. If \code{TRUE}, the ggrepel package is used to avoid overlapping
+labels. Default is \code{FALSE}.}
 
-\item{repel}{Boolean. If TRUE, function will apply the ggrepel package to repel labels. Default is FALSE.}
+\item{ngroups}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Grouping vector for the lines.
+Retained for backwards compatibility; lines are now grouped by \code{colors}
+automatically.}
 
-\item{ptheme}{ggplot theme function to apply to the plot. By default, function applies WJP_theme()}
+\item{ptheme}{ggplot theme to apply. Default is \code{\link[=WJP_theme]{WJP_theme()}}.}
 }
 \value{
-A ggplot object
+A ggplot object.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-\code{wjp_slope()} takes a data frame with a specific data structure (usually long shaped) and returns a ggplot
-object with a slope chart following WJP style guidelines.
+\code{wjp_slope()} takes a data frame with long-format data and returns a ggplot
+object with a slope chart following WJP style guidelines. Slope charts
+compare values between exactly two points in time. Each line is defined by
+the \code{colors} variable. Values are expected on a 0-100 percentage scale.
 }
 \examples{
 library(dplyr)
-library(tidyr)
-library(haven)
-library(ggplot2)
-library(ggrepel)
 
-# Always load the WJP fonts if not passing a custom theme to function
+# Always load the WJP fonts
 wjp_fonts()
 
-# Preparing data
-gpp_data <- WJPr::gpp
-
-data4slopes <- gpp_data \%>\%
-select(year, gend, q1a) \%>\%
-  filter(
-    year \%in\% c(2017, 2019)
-  ) \%>\%
+# Percentage of people that trust their institutions, by gender
+data4slopes <- WJPr::gpp \%>\%
+  filter(year \%in\% c(2017, 2019)) \%>\%
   mutate(
-    gend = as.double(unclass(gend)),
-    q1a = as.double(unclass(q1a)),
-    trust = case_when(
-      q1a <= 2  ~ 1,
-      q1a <= 4  ~ 0
-    ),
-    gender = case_when(
-      gend == 1 ~ "Male",
-      gend == 2 ~ "Female"
-    )
+    q1a    = as.double(unclass(q1a)),
+    gend   = as.double(unclass(gend)),
+    trust  = case_when(q1a <= 2 ~ 1, q1a <= 4 ~ 0),
+    gender = case_when(gend == 1 ~ "Male", gend == 2 ~ "Female")
   ) \%>\%
   group_by(year, gender) \%>\%
-  summarise(
-    trust = mean(trust, na.rm = TRUE)*100,
-    .groups = "keep"
-  ) \%>\%
-  mutate(
-    value_label = paste0(
-      format(
-        round(trust, 0),
-        nsmall = 0
-      ),
-      "\%"
-    )
-  )
+  summarise(trust = mean(trust, na.rm = TRUE) * 100, .groups = "drop") \%>\%
+  mutate(value_label = paste0(round(trust, 0), "\%"))
 
-# Plotting chart
 wjp_slope(
-  data4slopes,                    
-  target    = "trust",             
-  grouping  = "year",
-  ngroups   = data4slopes$gender,                 
-  labels    = "value_label",
-  colors    = "gender",
-  cvec      = c("Male"   = "#482d8b",
-                "Female" = "#f26b21"),
-  repel     = TRUE
+  data4slopes,
+  target   = "trust",
+  grouping = "year",
+  colors   = "gender",
+  labels   = "value_label",
+  cvec     = c("Male" = "#482d8b", "Female" = "#f26b21"),
+  repel    = TRUE
 )
+
 }

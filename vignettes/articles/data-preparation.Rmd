@@ -369,13 +369,13 @@ data <- raw_data %>%
 |------------|------------------|------------------|
 | `wjp_bars()` | target, grouping | colors, labels, lab_pos, order |
 | `wjp_dots()` | target, grouping, colors | order, sd, sample_size (for CI) |
-| `wjp_lines()` | target, grouping, colors, ngroups | labels |
-| `wjp_dumbbells()` | target, grouping, color, cgroups | labels, labpos |
-| `wjp_divbars()` | target, grouping, diverging | labels, order |
-| `wjp_radar()` | target, axis_var, labels, colors | order_var |
-| `wjp_rose()` | target, grouping, labels | order_var |
-| `wjp_slope()` | target, grouping, colors, ngroups | labels |
+| `wjp_lines()` | target, grouping | colors, labels |
+| `wjp_dumbbells()` | target, grouping, colors, cgroups | labels, labpos, order |
+| `wjp_divbars()` | target, grouping, diverging | negative, labels, order |
+| `wjp_radar()` | target, axis_var, labels, colors | order |
+| `wjp_rose()` | target, grouping, labels | order |
+| `wjp_slope()` | target, grouping | colors, labels |
 | `wjp_gauge()` | target, colors | labels, factor_order |
-| `wjp_lollipops()` | target, grouping | order |
-| `wjp_edgebars()` | target, grouping, labels | x_lab_pos |
+| `wjp_lollipops()` | target, grouping | labels, order |
+| `wjp_edgebars()` | target, grouping | labels, x_lab_pos |
 | `wjp_groupbars()` | target, grouping, levels | labels, group_order, level_order, ci_lower + ci_upper or sd + sample_size (for CI), show_national + national_value, national_style, national_ci_lower + national_ci_upper, show_axis, label_position |

@@ -6,14 +6,20 @@
 #' `wjp_gauge()` creates a gauge (speedometer) chart using ggplot2 based on the provided data frame.
 #' The chart displays segments in a semicircle, useful for showing composition or progress.
 #'
-#' @param data A data frame containing the data to be plotted.
-#' @param target A string specifying the variable in the data frame that contains the values to be plotted.
-#' @param colors A string specifying the variable in the data frame that represents the color groupings for the segments.
-#' @param cvec A named vector of colors to apply to the segments. Names should match the values in the colors column.
-#' @param factor_order A vector specifying the order in which the segments should be plotted. Default is NULL.
-#' @param labels A string specifying the variable in the data frame that contains the labels to be displayed. Default is NULL.
-#' @param crop A numeric vector specifying the amount of space to crop from the Top, Right, Bottom, and Left margins, respectively. Default is c(-10,0,0,-8).
-#' @param ptheme A ggplot2 theme object to be applied to the plot. Default is WJP_theme().
+#' @param data Data frame containing the data to plot.
+#' @param target String. Column name of the variable that supplies the values to plot.
+#' @param colors String. Column name of the variable that supplies the color grouping
+#'   for the segments.
+#' @param cvec Named vector of colors, one per segment. Names should match the values
+#'   of the `colors` variable. Default is `NULL` (the WJP palette, see
+#'   [wjp_palette()], is applied).
+#' @param factor_order Vector with the order in which the segments should be plotted.
+#'   Default is `NULL` (data order).
+#' @param labels String. Column name of the variable containing the labels to display
+#'   inside the segments. Default is `NULL` (no labels).
+#' @param crop Numeric vector with the space to crop from the Top, Right, Bottom, and
+#'   Left margins, respectively. Default is `c(-10, 0, 0, -8)`.
+#' @param ptheme ggplot theme to apply. Default is [WJP_theme()].
 #'
 #' @return A ggplot object representing the gauge chart.
 #' @export
@@ -94,18 +100,15 @@ wjp_gauge <- function(
       arrange(colors_var)
   }
   
-  # Getting coordinates
+  # Hide labels for segments that are too small to hold them
   data <- data %>%
     ungroup() %>%
     mutate(
-      ymax       = cumsum(target_var),
-      ymin       = ymax-target_var,
-      labpos     = ymin  + ((ymax-ymin)/2),
-      labels_var = if_else(target_var >= 5, 
+      labels_var = if_else(target_var >= 5,
                            labels_var,
                            "")
     )
-  
+
   # Calculate total for scaling
 
   total_value <- sum(data$target_var)
@@ -124,6 +127,13 @@ wjp_gauge <- function(
       labpos     = ymin + ((ymax - ymin) / 2)
     )
 
+  # Default to the WJP palette when no color vector is supplied.
+  # This must happen before the padding segment is added so the padding
+  # never receives a visible palette color.
+  if (is.null(cvec)) {
+    cvec <- wjp_default_cvec(data$colors_var)
+  }
+
   # Add invisible padding segment to complete the circle
   padding_data <- data.frame(
     colors_var = "___padding___",
@@ -136,15 +146,7 @@ wjp_gauge <- function(
   )
 
   data <- dplyr::bind_rows(data, padding_data)
-
-  # Add padding color (transparent)
-  if (!is.null(cvec)) {
-    cvec <- c(cvec, "___padding___" = "transparent")
-  } else {
-    palette <- c("#482d8b", "#2894aa", "#f26b21", "#0f9581", "#555659")
-    cvec <- stats::setNames(rep(palette, length.out = length(unique(data$colors_var))), unique(data$colors_var))
-    cvec <- c(cvec, "___padding___" = "transparent")
-  }
+  cvec <- c(cvec, "___padding___" = "transparent")
 
   # Drawing chart
   plt <- ggplot(

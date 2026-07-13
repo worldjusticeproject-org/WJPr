@@ -6,16 +6,23 @@
 #' `wjp_radar()` takes a data frame with a specific data structure (usually long shaped) and returns a ggplot
 #' object with a radar chart following WJP style guidelines.
 #'
-#' @param data A data frame containing the data to be plotted.
-#' @param axis_var A string specifying the variable in the data frame that contains the groups for the axis.
-#' @param target A string specifying the variable in the data frame that contains the values to be plotted.
-#' @param labels A string specifying the variable in the data frame that contains the labels to be displayed.
-#' @param colors A string specifying the variable in the data frame that contains the color groupings.
-#' @param cvec A named vector of colors to apply to lines.
-#' @param order_var A string specifying the variable in the data frame that contains the display order of categories. Default is NULL.
-#' @param maincat A string indicating the column used to choose the axis labels.
-#'   If NULL, labels are taken from the first color group.
-#' @param source A string which can take two values (GPP or QRQ). 
+#' @param data Data frame containing the data to plot.
+#' @param axis_var String. Column name of the variable that supplies the axes
+#'   (dimensions) of the radar.
+#' @param target String. Column name of the variable that supplies the values to plot.
+#' @param labels String. Column name of the variable containing the axis labels to
+#'   display around the radar.
+#' @param colors String. Column name of the variable that supplies the color grouping.
+#'   The plot shows one polygon per group.
+#' @param cvec Named vector of colors, one per group. Default is `NULL`
+#'   (the WJP contrast pair `#482d8b` / `#f26b21` is applied).
+#' @param order String. Column name of the variable that contains the display order of
+#'   the axes. Default is `NULL` (data order).
+#' @param maincat String. Column used to choose the axis labels. If `NULL`, labels are
+#'   taken from the first color group.
+#' @param source String. Either `"GPP"` (values on a 0-100 percentage scale) or
+#'   `"QRQ"` (values on a 0-1 score scale). Default is `"GPP"`.
+#' @param order_var `r lifecycle::badge("deprecated")` Use `order` instead.
 #'
 #' @return A ggplot object representing the radar plot.
 #' @export
@@ -23,73 +30,53 @@
 #' @examples
 #' library(dplyr)
 #' library(tidyr)
-#' library(haven)
-#' library(ggplot2)
-#' library(purrr)
-#' library(ggtext)
-#' 
-#' # Always load the WJP fonts (optional)
+#'
+#' # Always load the WJP fonts
 #' wjp_fonts()
-#' 
-#' # Preparing data
-#' gpp_data <- WJPr::gpp
-#' 
-#' data4radar <- gpp_data %>%
-#' select(gend, starts_with("q49")) %>%
+#'
+#' # Opinions about authorities, by gender
+#' data4radar <- WJPr::gpp %>%
+#'   select(gend, starts_with("q49")) %>%
 #'   mutate(
-#'     gend = as.double(unclass(gend)),
+#'     gend   = as.double(unclass(gend)),
 #'     across(starts_with("q49"), \(x) as.double(unclass(x))),
-#'     gender = case_when(
-#'       gend == 1 ~ "Male",
-#'       gend == 2 ~ "Female"
-#'     ),
-#'     across(
-#'       starts_with("q49"),
-#'       \(x) case_when(
-#'         x <= 2  ~ 1,
-#'         x <= 99 ~ 0
-#'       )
-#'     )
+#'     gender = case_when(gend == 1 ~ "Male", gend == 2 ~ "Female"),
+#'     across(starts_with("q49"), \(x) case_when(x <= 2 ~ 1, x <= 99 ~ 0))
 #'   ) %>%
 #'   group_by(gender) %>%
-#'   summarise(
-#'     across(
-#'       starts_with("q49"),
-#'       \(x) mean(x, na.rm = TRUE)*100
-#'     )
-#'   ) %>%
-#'   pivot_longer(
-#'     !gender,
-#'     names_to  = "category",
-#'     values_to = "percentage"
-#'   ) %>%
-#'   mutate(
-#'     axis_label = category
-#'   )
-#' 
-#' # Plotting chart
+#'   summarise(across(starts_with("q49"), \(x) mean(x, na.rm = TRUE) * 100)) %>%
+#'   pivot_longer(!gender, names_to = "category", values_to = "percentage") %>%
+#'   mutate(axis_label = category)
+#'
 #' wjp_radar(
-#'   data4radar,             
-#'   axis_var    = "category",         
-#'   target      = "percentage",       
-#'   labels      = "axis_label",        
-#'   colors      = "gender"
+#'   data4radar,
+#'   axis_var = "category",
+#'   target   = "percentage",
+#'   labels   = "axis_label",
+#'   colors   = "gender",
+#'   cvec     = c("Male" = "#482d8b", "Female" = "#f26b21")
 #' )
-#' 
+#'
 
 
 wjp_radar <- function(
-    data,             
-    axis_var,         
-    target,       
-    labels,        
+    data,
+    axis_var,
+    target,
+    labels,
     colors,
     maincat   = NULL,
-    cvec      = NULL,   
-    order_var = NULL,
-    source    = "GPP"
+    cvec      = NULL,
+    order     = NULL,
+    source    = "GPP",
+    order_var = NULL
 ){
-  
+
+  # Backwards compatibility: `order_var` was renamed to `order`
+  if (is.null(order) && !is.null(order_var)) {
+    order <- order_var
+  }
+
   # Renaming variables in the data frame to match the function naming
   data <- data %>%
     rename(axis_var    = all_of(axis_var),
@@ -105,13 +92,13 @@ wjp_radar <- function(
       mutate(maincat_var = color_var)
   }
   
-  if (is.null(order_var)){
+  if (is.null(order)) {
     data <- data %>%
-      group_by(color_var) %>% 
+      group_by(color_var) %>%
       mutate(order_var = row_number())
   } else {
     data <- data %>%
-      rename(order_var = all_of(order_var))
+      rename(order_var = all_of(order))
   }
   
   if (source == "GPP") {
@@ -121,8 +108,8 @@ wjp_radar <- function(
       )
   }
   
-  # Default colors
-  if (is.null(cvec)){
+  # Default colors: WJP contrast pair plus a neutral gray fallback
+  if (is.null(cvec)) {
     cvec   <- c("#482d8b", "#f26b21")
   }
   cvec <- c(cvec, "#555659")

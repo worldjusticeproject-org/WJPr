@@ -155,7 +155,9 @@ diffmeans <- function(data, target_vars, group_vars, geo_var, type = "categorica
       }
       
       return(varloop)
-      
+
     }
   )
+
+  return(groloop)
 }

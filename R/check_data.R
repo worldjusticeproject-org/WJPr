@@ -8,7 +8,7 @@
 #' @param data A data frame to validate.
 #' @param type A string specifying the chart type. Options are: "bars", "dots",
 #'   "lines", "slope", "dumbbells", "divbars", "radar", "rose", "gauge",
-#'   "lollipops", "edgebars".
+#'   "lollipops", "edgebars", "groupbars".
 #' @param target A string specifying the column name for values to plot.
 #' @param grouping A string specifying the column name for categories. Default is NULL.
 #' @param colors A string specifying the column name for color grouping. Default is NULL.
@@ -64,16 +64,16 @@ wjp_check_data <- function(
 ) {
 
   # Initialize results
-
-errors   <- character()
+  errors   <- character()
   warnings <- character()
   info     <- character()
 
   # Valid chart types
-valid_types <- c("bars", "dots", "lines", "slope", "dumbbells",
-                   "divbars", "radar", "rose", "gauge", "lollipops", "edgebars")
+  valid_types <- c("bars", "dots", "lines", "slope", "dumbbells",
+                   "divbars", "radar", "rose", "gauge", "lollipops",
+                   "edgebars", "groupbars")
 
-# Check chart type
+  # Check chart type
   if (!type %in% valid_types) {
     errors <- c(errors, paste0(
       "Invalid chart type '", type, "'. ",
@@ -120,7 +120,8 @@ valid_types <- c("bars", "dots", "lines", "slope", "dumbbells",
       }
 
       # Check value range for percentage-based charts
-      if (type %in% c("bars", "dots", "lines", "slope", "dumbbells", "divbars", "lollipops")) {
+      if (type %in% c("bars", "dots", "lines", "slope", "dumbbells",
+                      "divbars", "lollipops", "edgebars")) {
         max_val <- max(data[[target]], na.rm = TRUE)
         min_val <- min(data[[target]], na.rm = TRUE)
 

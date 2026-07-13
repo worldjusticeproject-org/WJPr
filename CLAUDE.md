@@ -49,7 +49,7 @@ All visualization functions follow a consistent pattern:
 - Use common parameters: `target`, `grouping`, `colors`, `cvec` (named color vector), `labels`, `ptheme`
 
 ### Key Files
-- `R/utils.R` - `wjp_fonts()` loads Lato and Inter Tight fonts; `WJP_theme()` provides base ggplot2 theme
+- `R/utils.R` - `wjp_fonts()` loads Lato and Inter Tight fonts; `WJP_theme()` provides base ggplot2 theme; `wjp_palette()` exposes the WJP categorical palette (used as the default `cvec` fallback by all chart functions)
 - `R/*Chart.R` - Each chart type has its own file (barsChart.R, lineChart.R, radarChart.R, etc.)
 - `R/check_data.R` - `wjp_check_data()` validates data structure before plotting
 - `R/diffmeans.R` - Statistical analysis function for hypothesis testing
@@ -71,13 +71,16 @@ All visualization functions follow a consistent pattern:
 | `wjp_lollipops()` | lollipopChart.R | Lollipop charts |
 | `wjp_edgebars()` | edgebarsChart.R | Edge-aligned horizontal bars |
 | `wjp_groupbars()` | groupbarsChart.R | Faceted stacked bars by demographic groups, with optional CI and national line/bar |
-| `wjp_diffmeans()` | diffmeans.R | Difference in means analysis |
+| `diffmeans()` | diffmeans.R | Difference in means analysis |
 
 ### Styling Conventions
 - Font: Lato (loaded via Google Fonts using sysfonts/showtext)
-- WJP color palette uses hex codes such as `#482d8b`, `#2894aa`, `#f26b21`, and `#555659`
-- Colors are passed via named vectors (`cvec`) where names match grouping variable values
+- WJP color palette uses hex codes such as `#482d8b`, `#2894aa`, `#f26b21`, and `#555659` (full ordered palette available via `wjp_palette()`)
+- Colors are passed via named vectors (`cvec`) where names match grouping variable values; when `cvec` is NULL, functions fall back to `wjp_palette()`
 - Always call `wjp_fonts()` before plotting to ensure fonts are available
+- Value labels: Lato Full bold, `size = 3.514598` (10 pt), ink color `#4a4a49`
+- Grid lines: `#d1cfd1`; category axis text: `#524F4C`, `hjust = 0`
+- Horizontal charts display the first data row at the top
 
 ### Documentation
 - Uses Roxygen2 for inline documentation (RoxygenNote: 7.3.2)

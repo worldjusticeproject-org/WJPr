@@ -4,20 +4,37 @@
 \alias{wjp_rose}
 \title{Plot a Rose Chart following WJP style guidelines}
 \usage{
-wjp_rose(data, target, grouping, labels, cvec = NULL, order_var = NULL)
+wjp_rose(
+  data,
+  target,
+  grouping,
+  labels,
+  cvec = NULL,
+  order = NULL,
+  order_var = NULL,
+  ptheme = WJP_theme()
+)
 }
 \arguments{
-\item{data}{A data frame containing the data to be plotted.}
+\item{data}{Data frame containing the data to plot.}
 
-\item{target}{A string specifying the variable in the data frame that contains the values to be plotted.}
+\item{target}{String. Column name of the variable that supplies the values to plot.}
 
-\item{grouping}{A string specifying the variable in the data frame that contains the groups for the axis.}
+\item{grouping}{String. Column name of the variable that supplies the dimensions
+(one petal per dimension).}
 
-\item{labels}{A string specifying the variable in the data frame that contains the labels to be displayed.}
+\item{labels}{String. Column name of the variable containing the labels to display
+around the chart.}
 
-\item{cvec}{A vector of colors to apply to lines.}
+\item{cvec}{Vector of colors, one per dimension. Default is \code{NULL}
+(the WJP palette, see \code{\link[=wjp_palette]{wjp_palette()}}, is applied).}
 
-\item{order_var}{A string specifying the variable in the data frame that contains the display order of categories. Default is NULL.}
+\item{order}{String. Column name of the variable that contains the display order of
+the dimensions. Default is \code{NULL} (dimensions are ordered by value).}
+
+\item{order_var}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{order} instead.}
+
+\item{ptheme}{ggplot theme to apply. Default is \code{\link[=WJP_theme]{WJP_theme()}}.}
 }
 \value{
 A ggplot object representing the rose chart.
@@ -25,57 +42,34 @@ A ggplot object representing the rose chart.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-\code{wjp_rose()} takes a data frame with a specific data structure (usually long shaped) and returns a ggplot
-object with a rose chart following WJP style guidelines.
+\code{wjp_rose()} takes a data frame with long-format data and returns a ggplot
+object with a rose (polar bar) chart following WJP style guidelines. Rose
+charts display the values of a single unit across multiple dimensions.
+Values can be supplied as proportions (0-1) or percentages (0-100).
 }
 \examples{
 library(dplyr)
 library(tidyr)
-library(haven)
-library(ggplot2)
 
-# Always load the WJP fonts (optional)
+# Always load the WJP fonts
 wjp_fonts()
 
-# Preparing data
-gpp_data <- WJPr::gpp
-
-data4rose <- gpp_data \%>\%
-select(starts_with("q49")) \%>\%
+# Opinions about authorities as a single-unit profile
+data4rose <- WJPr::gpp \%>\%
+  select(starts_with("q49")) \%>\%
   mutate(
     across(starts_with("q49"), \(x) as.double(unclass(x))),
-    across(
-      starts_with("q49"),
-      \(x) case_when(
-        x <= 2  ~ 1,
-        x <= 99 ~ 0
-      )
-    )
+    across(starts_with("q49"), \(x) case_when(x <= 2 ~ 1, x <= 99 ~ 0))
   ) \%>\%
-  summarise(
-    across(
-      starts_with("q49"),
-      \(x) mean(x, na.rm = TRUE)*100
-    )
-  ) \%>\%
-  pivot_longer(
-    everything(),
-    names_to  = "category",
-    values_to = "percentage"
-  ) \%>\%
-  mutate(
-    axis_label = category
-  )
+  summarise(across(starts_with("q49"), \(x) mean(x, na.rm = TRUE) * 100)) \%>\%
+  pivot_longer(everything(), names_to = "category", values_to = "percentage") \%>\%
+  mutate(axis_label = category)
 
-# Plotting chart
 wjp_rose(
-  data4rose,             
-  target    = "percentage",       
-  grouping  = "category",    
-  labels    = "axis_label",
-  cvec      = c("#482d8b", "#2894aa", "#f26b21",
-                "#137b3f", "#869d3b", "#0f9581",
-                "#1a74b6", "#8f2e8c", "#555659")
+  data4rose,
+  target   = "percentage",
+  grouping = "category",
+  labels   = "axis_label"
 )
 
 }

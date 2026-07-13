@@ -2,103 +2,100 @@
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
-#' 
-#' `wjp_bars()` takes a data frame with a specific data structure (usually long shaped) and returns a ggplot
-#' object with a bar chart following WJP style guidelines.
 #'
-#' @param data Data frame containing the data to plot
-#' @param target String. Column name of the variable that will supply the values to plot.
-#' @param grouping String. Column name of the variable that supplies the grouping values. Values can be grouped either in the X- or Y- Axis.
-#' @param labels String. Column name of the variable containing the value labels to display in plot. Default is NULL.
-#' @param colors String. Column name of the variable that contains the color grouping. Default is NULL.
-#' @param cvec Named vector with the colors to apply to bars. Vector names should have the values specified by the "colors" variables, while vector values should have 
-#' @param direction String. Should the bars be plotted in a "horizontal" or "vertical" way? Default is "vertical".
-#' @param stacked Boolean. If TRUE, bars will be stacked on top of each other per group. Default is FALSE.
-#' @param lab_pos String. Column name of the variable that contains the coordinates for the value labels. Default is NULL.
-#' @param expand Boolean. If TRUE, the plot will give extra space for value labels. Default is FALSE.
-#' @param order String. Column name of the variable that contains the custom order for labels.
-#' @param width Numeric value between 0 and 1. Width of bars as a percentage of the space for each bar. Default is 0.9.
-#' @param ptheme ggplot theme function to apply to the plot. By default, function applies WJP_theme()
+#' `wjp_bars()` takes a data frame with long-format data and returns a ggplot
+#' object with a vertical or horizontal bar chart following WJP style guidelines.
+#' Values are expected on a 0-100 percentage scale.
 #'
-#' @returns A ggplot object
+#' @param data Data frame containing the data to plot.
+#' @param target String. Column name of the variable that supplies the values to plot.
+#' @param grouping String. Column name of the variable that supplies the categories
+#'   (X-axis for vertical bars, Y-axis for horizontal bars).
+#' @param labels String. Column name of the variable containing the value labels to
+#'   display. Default is `NULL` (no labels).
+#' @param colors String. Column name of the variable that contains the color grouping.
+#'   Default is `NULL` (colors follow `grouping`).
+#' @param cvec Named vector of colors. Names should match the values of the `colors`
+#'   variable. Default is `NULL` (the WJP palette, see [wjp_palette()], is applied).
+#' @param direction String. Either `"vertical"` (default) or `"horizontal"`.
+#' @param stacked Logical. If `TRUE`, bars are stacked on top of each other per group.
+#'   Default is `FALSE`.
+#' @param lab_pos String. Column name of the variable that contains the Y coordinates
+#'   for the value labels. Default is `NULL` (labels are placed at the bar value).
+#' @param expand Logical. If `TRUE`, the axis is expanded to give extra space for value
+#'   labels above 100%. Default is `FALSE`.
+#' @param order String. Column name of the variable that contains the display order of
+#'   categories. Default is `NULL` (data order).
+#' @param width Numeric value between 0 and 1. Width of bars as a fraction of the space
+#'   available for each bar. Default is `0.9`.
+#' @param ptheme ggplot theme to apply. Default is [WJP_theme()].
+#'
+#' @return A ggplot object.
 #' @export
 #'
 #' @examples
 #' library(dplyr)
-#' library(tidyr)
-#' library(haven)
-#' library(ggplot2)
-#' 
-#' # Always load the WJP fonts (optional)
+#'
+#' # Always load the WJP fonts
 #' wjp_fonts()
-#' 
-#' # Preparing data
-#' gpp_data <- WJPr::gpp
-#' 
-#' data4bars <- gpp_data %>%
-#'   select(country, year, q1a) %>%
-#'   group_by(country, year) %>%
+#'
+#' # Percentage of people that trust their institutions, by country
+#' data4bars <- WJPr::gpp %>%
+#'   filter(year == 2022) %>%
 #'   mutate(
-#'     q1a = as.double(unclass(q1a)),
-#'     trust = case_when(
-#'       q1a <= 2  ~ 1,
-#'       q1a <= 4  ~ 0,
-#'       q1a == 99 ~ NA_real_
-#'     ),
-#'     year = as.character(year)
+#'     q1a   = as.double(unclass(q1a)),
+#'     trust = case_when(q1a <= 2 ~ 1, q1a <= 4 ~ 0)
 #'   ) %>%
-#'   summarise(
-#'     trust   = mean(trust, na.rm = TRUE),
-#'     .groups = "keep"
-#'   ) %>%
+#'   group_by(country) %>%
+#'   summarise(trust = mean(trust, na.rm = TRUE) * 100, .groups = "drop") %>%
 #'   mutate(
-#'     trust = trust*100
-#'   ) %>%
-#'   filter(year == "2022") %>%
-#'   mutate(
-#'     color_variable = country,
-#'     value_label = paste0(
-#'       format(
-#'         round(trust, 0),
-#'         nsmall = 0
-#'       ),
-#'       "%"
-#'     ),
-#'     label_position = trust + 5
+#'     value_label    = paste0(round(trust, 0), "%"),
+#'     label_position = trust + 6
 #'   )
-#' 
-#' # Plotting chart
+#'
+#' # Vertical bars (default)
 #' wjp_bars(
-#'   data4bars,              
-#'   target    = "trust",        
+#'   data4bars,
+#'   target   = "trust",
+#'   grouping = "country",
+#'   labels   = "value_label",
+#'   lab_pos  = "label_position",
+#'   cvec     = c("Atlantis"  = "#482d8b",
+#'                "Narnia"    = "#2894aa",
+#'                "Neverland" = "#f26b21")
+#' )
+#'
+#' # Horizontal bars
+#' wjp_bars(
+#'   data4bars,
+#'   target    = "trust",
 #'   grouping  = "country",
 #'   labels    = "value_label",
 #'   lab_pos   = "label_position",
-#'   colors    = "color_variable",
-#'   cvec      = c("Atlantis"  = "#482d8b",
-#'                 "Narnia"    = "#2894aa",
-#'                 "Neverland" = "#f26b21")
-#'   )
+#'   direction = "horizontal"
+#' )
 #'
-
 wjp_bars <- function(
-    data,              
-    target,        
-    grouping,      
-    labels     = NULL,        
-    colors     = NULL,        
-    cvec       = NULL,            
-    direction  = "vertical",         
-    stacked    = FALSE,       
-    lab_pos    = NULL,    
-    expand     = FALSE,      
+    data,
+    target,
+    grouping,
+    labels     = NULL,
+    colors     = NULL,
+    cvec       = NULL,
+    direction  = "vertical",
+    stacked    = FALSE,
+    lab_pos    = NULL,
+    expand     = FALSE,
     order      = NULL,
     width      = 0.9,
     ptheme     = WJP_theme()
 ){
-  
+
+  if (!direction %in% c("vertical", "horizontal")) {
+    stop('`direction` must be one of "vertical" or "horizontal".', call. = FALSE)
+  }
+
   # Renaming variables in the data frame to match the function naming
-  # Always rename target and grouping
   data <- data %>%
     dplyr::rename(target_var   = all_of(target),
                   grouping_var = all_of(grouping))
@@ -122,10 +119,7 @@ wjp_bars <- function(
   }
 
   # Handle colors
-  if (is.null(colors)) {
-    data <- data %>%
-      dplyr::mutate(colors_var = grouping_var)
-  } else if (grouping == colors) {
+  if (is.null(colors) || identical(grouping, colors)) {
     data <- data %>%
       dplyr::mutate(colors_var = grouping_var)
   } else {
@@ -133,12 +127,19 @@ wjp_bars <- function(
       dplyr::rename(colors_var = all_of(colors))
   }
 
-  # Handle order
+  # Handle order: reorder categories upfront so a single ggplot block suffices
   if (!is.null(order)) {
     data <- data %>%
-      dplyr::rename(order_var = all_of(order))
+      dplyr::rename(order_var = all_of(order)) %>%
+      dplyr::mutate(grouping_var = reorder(grouping_var, order_var))
   }
 
+  # Default to the WJP palette when no color vector is supplied
+  if (is.null(cvec)) {
+    cvec <- wjp_default_cvec(data$colors_var)
+  }
+
+  # Extra headroom for value labels
   y_upper <- 110
   if (isTRUE(expand)) {
     max_value <- suppressWarnings(max(c(data$target_var, data$lab_pos), na.rm = TRUE))
@@ -146,104 +147,49 @@ wjp_bars <- function(
       y_upper <- max(110, max_value * 1.05)
     }
   }
-  
+
   # Creating plot
-  if(is.null(order)) {
-    
-    if (stacked == FALSE) {
-      plt <- ggplot2::ggplot(data, 
-                             aes(x     = grouping_var,
-                                 y     = target_var,
-                                 label = labels_var,
-                                 fill  = colors_var)) +
-        ggplot2::geom_bar(stat  = "identity",
-                          width = width,
-                          show.legend = FALSE) +
-        ggplot2::geom_text(aes(y    = lab_pos),
-                           color    = "#4a4a49",
-                           family   = "Lato Full",
-                           fontface = "bold")
-    } else {
-      plt <- ggplot2::ggplot(data, 
-                    aes(x     = grouping_var,
-                        y     = target_var,
-                        label = labels_var,
-                        fill  = colors_var)) +
-        ggplot2::geom_bar(stat         = "identity",
-                          position     = "stack", 
-                          show.legend  = FALSE,
-                          width        = width) +
-        ggplot2::geom_text(aes(y       = lab_pos),
-                           color       = "#ffffff",
-                           family      = "Lato Full",
-                           fontface    = "bold")
-    }
-    
-  } else {
-    
-    if (stacked == FALSE) {
-      plt <- ggplot2::ggplot(data, 
-                             aes(x     = reorder(grouping_var, order_var),
-                                 y     = target_var,
-                                 label = labels_var,
-                                 fill  = colors_var)) +
-        ggplot2::geom_bar(stat = "identity",
-                          show.legend = FALSE,  width = width) +
-        ggplot2::geom_text(aes(y    = lab_pos),
-                           color    = "#4a4a49",
-                           family   = "Lato Full",
-                           fontface = "bold")
-    } else {
-      plt <- ggplot2::ggplot(data, 
-                             aes(x     = reorder(grouping_var, order_var),
-                                 y     = target_var,
-                                 label = labels_var,
-                                 fill  = colors_var)) +
-        ggplot2::geom_bar(stat         = "identity",
-                          position     = "stack", 
-                          show.legend  = FALSE,  width = width) +
-        ggplot2::geom_text(aes(y    = lab_pos),
-                           color    = "#ffffff",
-                           family   = "Lato Full",
-                           fontface = "bold")
-    }
-  }
-  
-  plt <- plt +
+  plt <- ggplot2::ggplot(data,
+                         aes(x     = grouping_var,
+                             y     = target_var,
+                             label = labels_var,
+                             fill  = colors_var)) +
+    ggplot2::geom_col(position    = "stack",
+                      width       = width,
+                      show.legend = FALSE) +
+    ggplot2::geom_text(aes(y = lab_pos),
+                       color    = if (isTRUE(stacked)) "#ffffff" else "#4a4a49",
+                       family   = "Lato Full",
+                       fontface = "bold",
+                       size     = 3.514598) +
+    ggplot2::scale_fill_manual(values = cvec) +
     labs(y = "% of respondents")
-  
-  if (!is.null(cvec)) {
-    plt <- plt +
-      ggplot2::scale_fill_manual(values = cvec)
-  }
-  
+
   if (direction == "vertical") {
     plt  <- plt +
       ggplot2::scale_y_continuous(limits = c(0, y_upper),
-                                  breaks = seq(0,100,20),
-                                  labels = paste0(seq(0,100,20), "%")) +
+                                  breaks = seq(0, 100, 20),
+                                  labels = paste0(seq(0, 100, 20), "%")) +
       ptheme +
       ggplot2::theme(panel.grid.major.x = element_blank(),
-                     panel.grid.major.y = element_line(color = "#D0D1D3"),
+                     panel.grid.major.y = element_line(color = "#d1cfd1"),
                      axis.title.x       = element_blank())
-  }
-  
-  if (direction == "horizontal") {
+  } else {
     plt  <- plt +
-      ggplot2::scale_y_continuous(limits = c(0, y_upper),
-                                  breaks = seq(0,100,20),
-                                  labels = paste0(seq(0,100,20), "%"),
+      ggplot2::scale_y_continuous(limits   = c(0, y_upper),
+                                  breaks   = seq(0, 100, 20),
+                                  labels   = paste0(seq(0, 100, 20), "%"),
                                   position = "right") +
       ggplot2::scale_x_discrete(limits = rev) +
       ggplot2::coord_flip() +
       ptheme +
       ggplot2::theme(panel.grid.major.y = element_blank(),
-                     panel.grid.major.x = element_line(color = "#D0D1D3"),
+                     panel.grid.major.x = element_line(color = "#d1cfd1"),
                      axis.title.y       = element_blank(),
                      axis.title.x       = element_blank(),
                      axis.text.y        = element_text(hjust = 0))
   }
-  
+
   return(plt)
-  
+
 }

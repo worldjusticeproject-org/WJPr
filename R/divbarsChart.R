@@ -2,122 +2,97 @@
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
-#' 
-#' `wjp_divbars()` takes a data frame with a specific data structure (usually long shaped) and returns a ggplot
-#' object with a diverging horizontal bar chart following WJP style guidelines.
-#' 
-#' @param data Data frame containing the data to plot
-#' @param target String. Column name of the variable that will supply the values to plot.
-#' @param grouping String. Column name of the variable that supplies the grouping values (Y-Axis Labels).
-#' @param diverging String. Column name of the variable that supplies the diverging values.
-#' @param negative String. Value that indicates that the bar should be in the negative quadrant.
-#' @param cvec Named vector with the colors to apply to each bar segment. Default is NULL.
-#' @param labels String. Column name of the variable that supplies the labels to show in the plot. Default is NULL.
-#' @param label_color String. Hex code to be use for the labels.
-#' @param custom_order Boolean. If TRUE, the plot will expect a custom order of the graph labels. Default is FALSE.
-#' @param order String. Vector that contains the custom order for the y-axis labels. Default is NULL.
-#' @param ptheme ggplot theme function to apply to the plot. By default, function applies WJP_theme()
 #'
-#' @return A ggplot object
+#' `wjp_divbars()` takes a data frame with long-format data and returns a ggplot
+#' object with a diverging horizontal bar chart following WJP style guidelines.
+#' Bars extend left (negative) and right (positive) from a common zero line,
+#' which makes the chart suitable for contrasting two opposing responses
+#' (e.g., "Trust" vs "No Trust"). Values are expected on a percentage scale.
+#'
+#' @param data Data frame containing the data to plot.
+#' @param target String. Column name of the variable that supplies the values to plot.
+#' @param grouping String. Column name of the variable that supplies the categories
+#'   (Y-axis labels).
+#' @param diverging String. Column name of the variable that supplies the diverging
+#'   groups (e.g., the answer categories).
+#' @param negative String. Value of the `diverging` variable whose bars should extend
+#'   into the negative quadrant. Default is `NULL` (values are used as supplied, so
+#'   negative values must already carry a negative sign).
+#' @param cvec Named vector of colors, one per diverging group. Default is `NULL`
+#'   (the WJP contrast pair is applied, with orange for the negative group).
+#' @param labels String. Column name of the variable containing the value labels to
+#'   display inside the bars. Default is `NULL` (no labels).
+#' @param label_color String. Hex code for the value labels. Default is `"#ffffff"`.
+#' @param order String. Column name of the variable that contains the display order of
+#'   categories. Default is `NULL` (data order).
+#' @param custom_order `r lifecycle::badge("deprecated")` Logical. Ordering is now
+#'   enabled automatically when `order` is supplied.
+#' @param ptheme ggplot theme to apply. Default is [WJP_theme()].
+#'
+#' @return A ggplot object.
 #' @export
-#' 
+#'
 #' @examples
 #' library(dplyr)
-#' library(tidyr)
-#' library(haven)
-#' library(ggplot2)
-#' 
-#' # Always load the WJP fonts (optional)
+#'
+#' # Always load the WJP fonts
 #' wjp_fonts()
-#' 
-#' # Preparing data
+#'
+#' # Trust vs no trust, by country
 #' data4divbars <- WJPr::gpp %>%
-#' filter(
-#'   year == 2022
-#' ) %>%
-#'   select(country, q1a) %>%
+#'   filter(year == 2022) %>%
 #'   mutate(
-#'     q1a = as.double(unclass(q1a)),
-#'     q1a  = case_when(
-#'       q1a <= 2  ~ "Trust",
-#'       q1a <= 4  ~ "No Trust"
-#'     )
+#'     q1a      = as.double(unclass(q1a)),
+#'     response = case_when(q1a <= 2 ~ "Trust", q1a <= 4 ~ "No Trust")
 #'   ) %>%
-#'   group_by(country, q1a) %>%
+#'   filter(!is.na(response)) %>%
+#'   group_by(country, response) %>%
 #'   count() %>%
-#'   filter(
-#'     !is.na(q1a)
-#'   ) %>%
 #'   group_by(country) %>%
 #'   mutate(
-#'     total       = sum(n),
-#'     percentage  = (n/total)*100,
-#'     value_label = paste0(
-#'       format(
-#'         round(percentage, 1),
-#'         nsmall = 1
-#'       ),
-#'       "%"
-#'     ),
-#'     value_label    = if_else(percentage >= 5, 
-#'                              value_label, 
-#'                              NA_character_),
-#'     direction      = if_else(q1a == "Trust", 
-#'                              "positive", 
-#'                              "negative"),
-#'     percentage     = if_else(direction == "negative", 
-#'                              percentage*-1, 
-#'                              percentage),
-#'     label_position = (percentage/2)
-#'   ) %>%
-#'   select(
-#'     country, q1a, percentage, value_label, label_position, direction
+#'     percentage  = (n / sum(n)) * 100,
+#'     value_label = paste0(round(percentage, 0), "%")
 #'   )
-#' 
-#' # Plotting chart
+#'
 #' wjp_divbars(
-#'   data4divbars,             
-#'   target      = "percentage",       
-#'   grouping    = "country",         
-#'   diverging   = "q1a",     
-#'   negative    = "negative",   
-#'   cvec        = c("Trust"     = "#482d8b",
-#'                   "No Trust"  = "#f26b21"),
-#'   labels      = "value_label"
+#'   data4divbars,
+#'   target    = "percentage",
+#'   grouping  = "country",
+#'   diverging = "response",
+#'   negative  = "No Trust",
+#'   labels    = "value_label",
+#'   cvec      = c("Trust" = "#482d8b", "No Trust" = "#f26b21")
 #' )
-
-
+#'
 wjp_divbars <- function(
-    data,             
-    target,       
-    grouping,         
-    diverging,     
-    negative = NULL,
-    cvec = NULL,
-    labels = NULL,  
-    label_color = "#ffffff",
+    data,
+    target,
+    grouping,
+    diverging,
+    negative     = NULL,
+    cvec         = NULL,
+    labels       = NULL,
+    label_color  = "#ffffff",
+    order        = NULL,
     custom_order = FALSE,
-    order = NULL,  
-    ptheme = WJP_theme()
+    ptheme       = WJP_theme()
 ){
-  
+
   # Renaming variables in the data frame to match the function naming
+  data <- data %>%
+    rename(target_var   = all_of(target),
+           rows_var     = all_of(grouping),
+           grouping_var = all_of(diverging),
+           order_var    = any_of(order))
+
   if (!is.null(labels)) {
     data <- data %>%
-      rename(target_var    = all_of(target),
-             rows_var      = all_of(grouping),
-             grouping_var  = all_of(diverging),
-             labels_var    = all_of(labels),
-             order_var     = any_of(order))
-  } else{
-  data <- data %>%
-    rename(target_var    = all_of(target),
-           rows_var      = all_of(grouping),
-           grouping_var  = all_of(diverging),
-           order_var     = any_of(order))
-  data$labels_var <- rep("", nrow(data))
+      rename(labels_var = all_of(labels))
+  } else {
+    data$labels_var <- rep("", nrow(data))
   }
 
+  # Flip the negative group into the negative quadrant
   if (!is.null(negative)) {
     data <- data %>%
       mutate(
@@ -128,52 +103,61 @@ wjp_divbars <- function(
         )
       )
   }
-  
+
+  # Default colors: WJP contrast pair, orange for the negative group
+  if (is.null(cvec)) {
+    vals <- unique(as.character(data$grouping_var))
+    if (!is.null(negative) && negative %in% vals) {
+      others <- setdiff(vals, negative)
+      cvec <- stats::setNames(wjp_palette(length(others)), others)
+      cvec[negative] <- "#f26b21"
+    } else {
+      cvec <- wjp_default_cvec(data$grouping_var)
+    }
+  }
+
+  # Supplying an order column enables custom ordering
+  use_order <- isTRUE(custom_order) || !is.null(order)
+
   # Creating ggplot
-  if (custom_order == FALSE) {
-    chart <- ggplot(data, aes(x     = rows_var,
-                              y     = target_var,
-                              fill  = grouping_var,
-                              label = labels_var))
-  } else {
+  if (use_order && "order_var" %in% names(data)) {
     chart <- ggplot(data, aes(x     = reorder(rows_var, order_var),
                               y     = target_var,
                               fill  = grouping_var,
                               label = labels_var))
+  } else {
+    chart <- ggplot(data, aes(x     = rows_var,
+                              y     = target_var,
+                              fill  = grouping_var,
+                              label = labels_var))
   }
-  
+
   # Axis breaks
   brs <-  c(-100, -75, -50, -25, 0, 25, 50, 75, 100)
-  
+
   # Adding geoms
   chart <- chart +
-    geom_bar(stat         = "identity",
-             position     = "stack",
+    geom_col(position     = "stack",
              show.legend  = FALSE,
              width        = 0.85) +
     geom_hline(yintercept = 0,
                linetype   = "solid",
                linewidth  = 0.5,
-               color      = "#262424")
-  
-  if (!is.null(cvec)) {
-    chart <- chart +
-      scale_fill_manual(values = cvec)
-  }
-  
-    chart <- chart +
-    scale_y_continuous(limits   = c(-105,105),
+               color      = "#262424") +
+    scale_fill_manual(values = cvec) +
+    scale_y_continuous(limits   = c(-105, 105),
                        breaks   = brs,
                        labels   = paste0(abs(brs), "%"),
                        position = "right") +
-    scale_x_discrete(limits   = rev) +
+    scale_x_discrete(limits = rev) +
     coord_flip() +
     ptheme +
-    geom_text(aes(label = labels_var), 
-              family   = "Lato Full", 
+    geom_text(aes(label = labels_var),
+              family   = "Lato Full",
               fontface = "bold",
-              color    = label_color, 
-              position = position_stack(vjust=0.5)) +
+              size     = 3.514598,
+              color    = label_color,
+              position = position_stack(vjust = 0.5)) +
     theme(panel.grid.major = element_blank(),
           axis.text.x      = element_text(family = "Lato Full",
                                           face   = "bold",
@@ -185,12 +169,12 @@ wjp_divbars <- function(
                                           size   = 3.514598 * ggplot2::.pt,
                                           color  = "#262424",
                                           hjust  = 0),
-          axis.title.x      = element_blank(),
-          axis.title.y      = element_blank(),
-          axis.line.x       = element_line(linetype   = "solid",
-                                           linewidth  = 0.5,
-                                           color      = "#262424"))
-  
+          axis.title.x     = element_blank(),
+          axis.title.y     = element_blank(),
+          axis.line.x      = element_line(linetype  = "solid",
+                                          linewidth = 0.5,
+                                          color     = "#262424"))
+
   return(chart)
-  
+
 }

@@ -12,29 +12,38 @@ wjp_radar(
   colors,
   maincat = NULL,
   cvec = NULL,
-  order_var = NULL,
-  source = "GPP"
+  order = NULL,
+  source = "GPP",
+  order_var = NULL
 )
 }
 \arguments{
-\item{data}{A data frame containing the data to be plotted.}
+\item{data}{Data frame containing the data to plot.}
 
-\item{axis_var}{A string specifying the variable in the data frame that contains the groups for the axis.}
+\item{axis_var}{String. Column name of the variable that supplies the axes
+(dimensions) of the radar.}
 
-\item{target}{A string specifying the variable in the data frame that contains the values to be plotted.}
+\item{target}{String. Column name of the variable that supplies the values to plot.}
 
-\item{labels}{A string specifying the variable in the data frame that contains the labels to be displayed.}
+\item{labels}{String. Column name of the variable containing the axis labels to
+display around the radar.}
 
-\item{colors}{A string specifying the variable in the data frame that contains the color groupings.}
+\item{colors}{String. Column name of the variable that supplies the color grouping.
+The plot shows one polygon per group.}
 
-\item{maincat}{A string indicating the column used to choose the axis labels.
-If NULL, labels are taken from the first color group.}
+\item{maincat}{String. Column used to choose the axis labels. If \code{NULL}, labels are
+taken from the first color group.}
 
-\item{cvec}{A named vector of colors to apply to lines.}
+\item{cvec}{Named vector of colors, one per group. Default is \code{NULL}
+(the WJP contrast pair \verb{#482d8b} / \verb{#f26b21} is applied).}
 
-\item{order_var}{A string specifying the variable in the data frame that contains the display order of categories. Default is NULL.}
+\item{order}{String. Column name of the variable that contains the display order of
+the axes. Default is \code{NULL} (data order).}
 
-\item{source}{A string which can take two values (GPP or QRQ).}
+\item{source}{String. Either \code{"GPP"} (values on a 0-100 percentage scale) or
+\code{"QRQ"} (values on a 0-1 score scale). Default is \code{"GPP"}.}
+
+\item{order_var}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{order} instead.}
 }
 \value{
 A ggplot object representing the radar plot.
@@ -48,57 +57,31 @@ object with a radar chart following WJP style guidelines.
 \examples{
 library(dplyr)
 library(tidyr)
-library(haven)
-library(ggplot2)
-library(purrr)
-library(ggtext)
 
-# Always load the WJP fonts (optional)
+# Always load the WJP fonts
 wjp_fonts()
 
-# Preparing data
-gpp_data <- WJPr::gpp
-
-data4radar <- gpp_data \%>\%
-select(gend, starts_with("q49")) \%>\%
+# Opinions about authorities, by gender
+data4radar <- WJPr::gpp \%>\%
+  select(gend, starts_with("q49")) \%>\%
   mutate(
-    gend = as.double(unclass(gend)),
+    gend   = as.double(unclass(gend)),
     across(starts_with("q49"), \(x) as.double(unclass(x))),
-    gender = case_when(
-      gend == 1 ~ "Male",
-      gend == 2 ~ "Female"
-    ),
-    across(
-      starts_with("q49"),
-      \(x) case_when(
-        x <= 2  ~ 1,
-        x <= 99 ~ 0
-      )
-    )
+    gender = case_when(gend == 1 ~ "Male", gend == 2 ~ "Female"),
+    across(starts_with("q49"), \(x) case_when(x <= 2 ~ 1, x <= 99 ~ 0))
   ) \%>\%
   group_by(gender) \%>\%
-  summarise(
-    across(
-      starts_with("q49"),
-      \(x) mean(x, na.rm = TRUE)*100
-    )
-  ) \%>\%
-  pivot_longer(
-    !gender,
-    names_to  = "category",
-    values_to = "percentage"
-  ) \%>\%
-  mutate(
-    axis_label = category
-  )
+  summarise(across(starts_with("q49"), \(x) mean(x, na.rm = TRUE) * 100)) \%>\%
+  pivot_longer(!gender, names_to = "category", values_to = "percentage") \%>\%
+  mutate(axis_label = category)
 
-# Plotting chart
 wjp_radar(
-  data4radar,             
-  axis_var    = "category",         
-  target      = "percentage",       
-  labels      = "axis_label",        
-  colors      = "gender"
+  data4radar,
+  axis_var = "category",
+  target   = "percentage",
+  labels   = "axis_label",
+  colors   = "gender",
+  cvec     = c("Male" = "#482d8b", "Female" = "#f26b21")
 )
 
 }

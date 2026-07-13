@@ -53,3 +53,9 @@ inst/doc
 
 # Local AI assistant settings
 .claude/
+
+# Stray plot output
+Rplots.pdf
+
+# Local design reference materials
+design/

@@ -247,3 +247,121 @@ test_that("wjp_groupbars can draw national average as a bar", {
     "label" %in% names(layer) && any(layer$label == "50%")
   }, logical(1))))
 })
+
+test_that("wjp_palette returns the WJP brand colors", {
+  pal <- wjp_palette()
+  expect_length(pal, 9)
+  expect_equal(pal[1], "#482d8b")
+  expect_equal(wjp_palette(3), c("#482d8b", "#2894aa", "#f26b21"))
+  expect_length(wjp_palette(12), 12)
+  expect_error(wjp_palette(0), "positive")
+})
+
+test_that("chart functions fall back to the WJP palette when cvec is NULL", {
+  bars <- data.frame(cat = c("A", "B", "C"), val = c(20, 50, 80))
+
+  plot <- wjp_bars(bars, "val", "cat")
+  built <- ggplot2::ggplot_build(plot)
+  expect_setequal(unique(built$data[[1]]$fill), wjp_palette(3))
+
+  lines <- data.frame(
+    year = rep(2019:2021, 2),
+    group = rep(c("A", "B"), each = 3),
+    val = c(20, 25, 35, 50, 55, 60)
+  )
+  plot <- wjp_lines(lines, "val", "year", colors = "group")
+  built <- ggplot2::ggplot_build(plot)
+  expect_setequal(unique(built$data[[1]]$colour), wjp_palette(2))
+})
+
+test_that("wjp_lines and wjp_slope work without ngroups and without colors", {
+  line <- data.frame(
+    year = rep(2019:2021, 2),
+    group = rep(c("A", "B"), each = 3),
+    val = c(20, 25, 35, 50, 55, 60),
+    lab = paste0(c(20, 25, 35, 50, 55, 60), "%")
+  )
+
+  expect_no_error(ggplot2::ggplot_build(
+    wjp_lines(line, "val", "year", colors = "group", labels = "lab")
+  ))
+  expect_no_error(ggplot2::ggplot_build(
+    wjp_lines(line[line$group == "A", ], "val", "year")
+  ))
+  expect_no_error(ggplot2::ggplot_build(
+    wjp_slope(line[line$year %in% c(2019, 2021), ], "val", "year", colors = "group")
+  ))
+})
+
+test_that("wjp_gauge padding segment stays invisible with default colors", {
+  gauge <- data.frame(cat = c("A", "B"), val = c(30, 70))
+  built <- ggplot2::ggplot_build(wjp_gauge(gauge, "val", "cat"))
+  rects <- built$data[[1]]
+  # The padding rectangle (upper half of the y scale) must be transparent
+  padding_fill <- rects$fill[rects$ymin >= 50]
+  expect_true(all(padding_fill == "transparent"))
+  visible_fill <- rects$fill[rects$ymin < 50]
+  expect_setequal(visible_fill, wjp_palette(2))
+})
+
+test_that("wjp_dumbbells honors order, colors alias, and named cvec", {
+  dumb <- data.frame(
+    cat = rep(c("A", "B", "C"), each = 2),
+    yr = rep(c("2019", "2024"), 3),
+    val = c(20, 30, 40, 45, 60, 70)
+  )
+
+  # `colors` is the new name of `color`
+  plot <- wjp_dumbbells(
+    dumb, "val", "cat",
+    cgroups = c("2019", "2024"),
+    colors  = "yr",
+    cvec    = c("2024" = "#482d8b", "2019" = "#2894aa"),
+    order   = c("C" = 1, "B" = 2, "A" = 3)
+  )
+  built <- ggplot2::ggplot_build(plot)
+  expect_s3_class(plot, "ggplot")
+
+  # Named cvec is matched by cgroups order: start = 2019 -> #2894aa
+  start_layer <- built$data[[4]]
+  expect_true(all(start_layer$colour == "#2894aa"))
+
+  # Missing `colors` raises a clear error
+  expect_error(
+    wjp_dumbbells(dumb, "val", "cat", cgroups = c("2019", "2024")),
+    "`colors`"
+  )
+})
+
+test_that("wjp_rose and wjp_radar accept the harmonized order parameter", {
+  radar <- data.frame(
+    axis = rep(LETTERS[1:5], 2),
+    val = c(20, 40, 60, 80, 50, 30, 50, 70, 65, 45),
+    lab = rep(LETTERS[1:5], 2),
+    group = rep(c("G1", "G2"), each = 5),
+    ord = rep(1:5, 2)
+  )
+
+  expect_no_error(ggplot2::ggplot_build(
+    wjp_radar(radar, "axis", "val", "lab", "group", order = "ord")
+  ))
+  expect_no_error(ggplot2::ggplot_build(
+    wjp_rose(radar[radar$group == "G1", ], "val", "axis", "lab", order = "ord")
+  ))
+  # Deprecated alias still works
+  expect_no_error(ggplot2::ggplot_build(
+    wjp_rose(radar[radar$group == "G1", ], "val", "axis", "lab", order_var = "ord")
+  ))
+})
+
+test_that("wjp_lollipops supports labels, order, and ptheme", {
+  bars <- data.frame(
+    cat = c("A", "B", "C"),
+    val = c(20, 50, 80),
+    lab = c("20%", "50%", "80%"),
+    ord = c(3, 2, 1)
+  )
+  expect_no_error(ggplot2::ggplot_build(
+    wjp_lollipops(bars, "val", "cat", labels = "lab", order = "ord")
+  ))
+})

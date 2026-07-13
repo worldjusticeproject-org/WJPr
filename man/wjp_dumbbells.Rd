@@ -9,119 +9,99 @@ wjp_dumbbells(
   target,
   grouping,
   cgroups,
-  color,
+  colors = NULL,
   labels = NULL,
   labpos = NULL,
   cvec = NULL,
   order = NULL,
+  bgcolor = "#ffffff",
+  color = NULL,
   ptheme = WJP_theme()
 )
 }
 \arguments{
-\item{data}{A data frame containing the data to be plotted.}
+\item{data}{Data frame containing the data to plot.}
 
-\item{target}{A string specifying the variable in the data frame that contains the numeric values to be plotted.}
+\item{target}{String. Column name of the variable that supplies the values to plot.}
 
-\item{grouping}{A string specifying the variable in the data frame that contains the categories for the rows.}
+\item{grouping}{String. Column name of the variable that supplies the categories
+(Y-axis labels).}
 
-\item{cgroups}{A vector of two strings specifying the groups to be compared in the dumbbell plot.}
+\item{cgroups}{Character vector of length 2 with the two groups to compare (the
+start and end points of each dumbbell).}
 
-\item{color}{A string specifying the variable in the data frame that indicates the groups for start and end points.}
+\item{colors}{String. Column name of the variable that indicates the start and end
+groups (the one containing the \code{cgroups} values).}
 
-\item{labels}{A string specifying the variable in the data frame that contains the text labels to display. Default is NULL.}
+\item{labels}{String. Column name of the variable containing the value labels to
+display. Default is \code{NULL} (no labels).}
 
-\item{labpos}{A string specifying the variable in the data frame that contains the label positions.}
+\item{labpos}{String. Column name of the variable that contains the positions for
+the value labels. Default is \code{NULL} (positions are computed automatically just
+outside each endpoint).}
 
-\item{cvec}{A vector of colors to apply to the points and lines. Default is NULL.}
+\item{cvec}{Vector of two colors for the start and end points. If named, names
+should match the \code{cgroups} values. Default is \code{NULL}
+(\code{c("#2894aa", "#482d8b")} is applied).}
 
-\item{order}{A named vector specifying the order of the categories. Default is NULL.}
+\item{order}{Named vector mapping category values to their display order (top to
+bottom). Default is \code{NULL} (data order).}
 
-\item{ptheme}{A ggplot2 theme object to be applied to the plot. Default is WJP_theme().}
+\item{bgcolor}{String. Hex code of the background color for the alternating row
+strips. Default is \code{"#ffffff"}.}
+
+\item{color}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{colors} instead.}
+
+\item{ptheme}{ggplot theme to apply. Default is \code{\link[=WJP_theme]{WJP_theme()}}.}
 }
 \value{
-A ggplot object representing the dumbbell plot.
+A ggplot object.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-\code{wjp_dumbbells()} takes a data frame with a specific data structure (usually long shaped) and returns a ggplot
-object with a dumbbell chart following WJP style guidelines.
+\code{wjp_dumbbells()} takes a data frame with long-format data and returns a
+ggplot object with a dumbbell chart following WJP style guidelines.
+Dumbbell charts show the change between two points (e.g., two years) for
+each category, connected by a line. Values are expected on a 0-100
+percentage scale.
 }
 \examples{
 library(dplyr)
 library(tidyr)
-library(haven)
-library(ggplot2)
 
-# Always load the WJP fonts (optional)
+# Always load the WJP fonts
 wjp_fonts()
 
-# Preparing data
-gpp_data <- WJPr::gpp
-
-data4dumbbells <- gpp_data \%>\%
-filter(
-  country == "Atlantis" & year \%in\% c(2017, 2022)
-) \%>\%
+# Percentage of people that trust their institutions, 2017 vs 2022
+data4dumbbells <- WJPr::gpp \%>\%
+  filter(country == "Atlantis", year \%in\% c(2017, 2022)) \%>\%
   select(year, q1a, q1b, q1c) \%>\%
   mutate(
-    across(
-      !year,
-      \(x) as.double(unclass(x))
-    ),
-    across(
-      !year,
-      ~case_when(
-        .x <= 2  ~ 1,
-        .x <= 4  ~ 0,
-        .x == 99 ~ NA_real_
-      )
-    ),
+    across(!year, \(x) as.double(unclass(x))),
+    across(!year, ~ case_when(.x <= 2 ~ 1, .x <= 4 ~ 0)),
     year = as.character(year)
   ) \%>\%
   group_by(year) \%>\%
-  summarise(
-    across(
-      everything(),
-      \(x) mean(x, na.rm = TRUE)
-    ),
-    .groups = "keep"
-  ) \%>\%
-  mutate(
-    across(
-      everything(),
-      \(x) x*100
-    )
-  ) \%>\%
-  pivot_longer(
-    !year,
-    names_to  = "variable",
-    values_to = "percentage" 
-  ) \%>\%
+  summarise(across(everything(), \(x) mean(x, na.rm = TRUE) * 100)) \%>\%
+  pivot_longer(!year, names_to = "variable", values_to = "percentage") \%>\%
   mutate(
     institution = case_when(
       variable == "q1a" ~ "Institution A",
       variable == "q1b" ~ "Institution B",
       variable == "q1c" ~ "Institution C"
     ),
-    value_label = paste0(
-      format(
-        round(percentage, 0),
-        nsmall = 0
-      ),
-      "\%"
-    )
+    value_label = paste0(round(percentage, 0), "\%")
   )
-  
-  # Plotting chart
-  wjp_dumbbells(
-    data4dumbbells,
-    target    = "percentage",
-    grouping  = "institution",
-    color     = "year",
-    cvec      = c("2017" = "#2894aa",
-                  "2022" = "#482d8b"),
-    cgroups   = c("2017", "2022")
- )
- 
+
+wjp_dumbbells(
+  data4dumbbells,
+  target   = "percentage",
+  grouping = "institution",
+  colors   = "year",
+  cgroups  = c("2017", "2022"),
+  labels   = "value_label",
+  cvec     = c("2017" = "#2894aa", "2022" = "#482d8b")
+)
+
 }

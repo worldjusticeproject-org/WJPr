@@ -21,96 +21,91 @@ wjp_bars(
 )
 }
 \arguments{
-\item{data}{Data frame containing the data to plot}
+\item{data}{Data frame containing the data to plot.}
 
-\item{target}{String. Column name of the variable that will supply the values to plot.}
+\item{target}{String. Column name of the variable that supplies the values to plot.}
 
-\item{grouping}{String. Column name of the variable that supplies the grouping values. Values can be grouped either in the X- or Y- Axis.}
+\item{grouping}{String. Column name of the variable that supplies the categories
+(X-axis for vertical bars, Y-axis for horizontal bars).}
 
-\item{labels}{String. Column name of the variable containing the value labels to display in plot. Default is NULL.}
+\item{labels}{String. Column name of the variable containing the value labels to
+display. Default is \code{NULL} (no labels).}
 
-\item{colors}{String. Column name of the variable that contains the color grouping. Default is NULL.}
+\item{colors}{String. Column name of the variable that contains the color grouping.
+Default is \code{NULL} (colors follow \code{grouping}).}
 
-\item{cvec}{Named vector with the colors to apply to bars. Vector names should have the values specified by the "colors" variables, while vector values should have}
+\item{cvec}{Named vector of colors. Names should match the values of the \code{colors}
+variable. Default is \code{NULL} (the WJP palette, see \code{\link[=wjp_palette]{wjp_palette()}}, is applied).}
 
-\item{direction}{String. Should the bars be plotted in a "horizontal" or "vertical" way? Default is "vertical".}
+\item{direction}{String. Either \code{"vertical"} (default) or \code{"horizontal"}.}
 
-\item{stacked}{Boolean. If TRUE, bars will be stacked on top of each other per group. Default is FALSE.}
+\item{stacked}{Logical. If \code{TRUE}, bars are stacked on top of each other per group.
+Default is \code{FALSE}.}
 
-\item{lab_pos}{String. Column name of the variable that contains the coordinates for the value labels. Default is NULL.}
+\item{lab_pos}{String. Column name of the variable that contains the Y coordinates
+for the value labels. Default is \code{NULL} (labels are placed at the bar value).}
 
-\item{expand}{Boolean. If TRUE, the plot will give extra space for value labels. Default is FALSE.}
+\item{expand}{Logical. If \code{TRUE}, the axis is expanded to give extra space for value
+labels above 100\%. Default is \code{FALSE}.}
 
-\item{order}{String. Column name of the variable that contains the custom order for labels.}
+\item{order}{String. Column name of the variable that contains the display order of
+categories. Default is \code{NULL} (data order).}
 
-\item{width}{Numeric value between 0 and 1. Width of bars as a percentage of the space for each bar. Default is 0.9.}
+\item{width}{Numeric value between 0 and 1. Width of bars as a fraction of the space
+available for each bar. Default is \code{0.9}.}
 
-\item{ptheme}{ggplot theme function to apply to the plot. By default, function applies WJP_theme()}
+\item{ptheme}{ggplot theme to apply. Default is \code{\link[=WJP_theme]{WJP_theme()}}.}
 }
 \value{
-A ggplot object
+A ggplot object.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-\code{wjp_bars()} takes a data frame with a specific data structure (usually long shaped) and returns a ggplot
-object with a bar chart following WJP style guidelines.
+\code{wjp_bars()} takes a data frame with long-format data and returns a ggplot
+object with a vertical or horizontal bar chart following WJP style guidelines.
+Values are expected on a 0-100 percentage scale.
 }
 \examples{
 library(dplyr)
-library(tidyr)
-library(haven)
-library(ggplot2)
 
-# Always load the WJP fonts (optional)
+# Always load the WJP fonts
 wjp_fonts()
 
-# Preparing data
-gpp_data <- WJPr::gpp
-
-data4bars <- gpp_data \%>\%
-  select(country, year, q1a) \%>\%
-  group_by(country, year) \%>\%
+# Percentage of people that trust their institutions, by country
+data4bars <- WJPr::gpp \%>\%
+  filter(year == 2022) \%>\%
   mutate(
-    q1a = as.double(unclass(q1a)),
-    trust = case_when(
-      q1a <= 2  ~ 1,
-      q1a <= 4  ~ 0,
-      q1a == 99 ~ NA_real_
-    ),
-    year = as.character(year)
+    q1a   = as.double(unclass(q1a)),
+    trust = case_when(q1a <= 2 ~ 1, q1a <= 4 ~ 0)
   ) \%>\%
-  summarise(
-    trust   = mean(trust, na.rm = TRUE),
-    .groups = "keep"
-  ) \%>\%
+  group_by(country) \%>\%
+  summarise(trust = mean(trust, na.rm = TRUE) * 100, .groups = "drop") \%>\%
   mutate(
-    trust = trust*100
-  ) \%>\%
-  filter(year == "2022") \%>\%
-  mutate(
-    color_variable = country,
-    value_label = paste0(
-      format(
-        round(trust, 0),
-        nsmall = 0
-      ),
-      "\%"
-    ),
-    label_position = trust + 5
+    value_label    = paste0(round(trust, 0), "\%"),
+    label_position = trust + 6
   )
 
-# Plotting chart
+# Vertical bars (default)
 wjp_bars(
-  data4bars,              
-  target    = "trust",        
+  data4bars,
+  target   = "trust",
+  grouping = "country",
+  labels   = "value_label",
+  lab_pos  = "label_position",
+  cvec     = c("Atlantis"  = "#482d8b",
+               "Narnia"    = "#2894aa",
+               "Neverland" = "#f26b21")
+)
+
+# Horizontal bars
+wjp_bars(
+  data4bars,
+  target    = "trust",
   grouping  = "country",
   labels    = "value_label",
   lab_pos   = "label_position",
-  colors    = "color_variable",
-  cvec      = c("Atlantis"  = "#482d8b",
-                "Narnia"    = "#2894aa",
-                "Neverland" = "#f26b21")
-  )
+  direction = "horizontal"
+)
 
 }

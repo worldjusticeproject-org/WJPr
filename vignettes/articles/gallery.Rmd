@@ -22,6 +22,16 @@ knitr::opts_chunk$set(
 
 This gallery showcases the chart types available in WJPr using a consistent World Justice Project visual language: Lato typography, clear percentage labels, high-contrast text, restrained grid lines, and WJP brand colors. The examples use the package's sample data and are intended to demonstrate chart structure, not to reproduce findings from a specific report.
 
+```{r setup, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(WJPr)
+
+# Always load the WJP fonts before plotting
+wjp_fonts()
+```
+
 ## WJP Color Palette
 
 The WJPr package uses colors from the WJP brand system:
@@ -33,21 +43,15 @@ The WJPr package uses colors from the WJP brand system:
 | Orange | `#f26b21` | Contrast, warnings, negative or divergent values |
 | Cool Gray | `#555659` | Body text, axes, notes, and supporting elements |
 
-For categorical data visualizations, start with violet, teal-blue, and orange. When a chart needs more categories, use the established Rule of Law Index factor colors already included in this package:
+For categorical data visualizations, start with violet, teal-blue, and orange. When a chart needs more categories, use the established Rule of Law Index factor colors already included in this package. The full ordered palette is available programmatically via `wjp_palette()`:
 
+```{r palette}
+wjp_palette()
 ```
-#482d8b, #2894aa, #f26b21, #137b3f, #869d3b, #0f9581, #1a74b6, #8f2e8c, #555659
-```
 
-```{r setup, message=FALSE, warning=FALSE}
-library(ggplot2)
-library(dplyr)
-library(tidyr)
-library(WJPr)
+Every chart function falls back to this palette automatically when you do not supply a color vector (`cvec`), so quick exploratory charts stay on-brand by default.
 
-# Load fonts
-wjp_fonts()
-
+```{r data, message=FALSE, warning=FALSE}
 # Load sample data
 gpp_data <- WJPr::gpp
 
@@ -143,8 +147,7 @@ data_divbars <- gpp_data %>%
   group_by(country) %>%
   mutate(
     percent = (n / sum(n)) * 100,
-    label   = paste0(round(percent, 0), "%"),
-    percent = if_else(response == "No Trust", -percent, percent)
+    label   = paste0(round(percent, 0), "%")
   )
 
 wjp_divbars(
@@ -152,13 +155,13 @@ wjp_divbars(
   target    = "percent",
   grouping  = "country",
   diverging = "response",
-  negative  = "negative",
+  negative  = "No Trust",
   labels    = "label",
   cvec      = c("Trust" = "#482d8b", "No Trust" = "#f26b21")
 )
 ```
 
-**Expected input structure** — one row per `grouping` × `diverging` combination. Negative values point left, positive values point right (`percent` here is signed).
+**Expected input structure** — one row per `grouping` × `diverging` combination. The group named in `negative` is flipped into the negative quadrant automatically, so all values can be supplied as positive percentages.
 
 ```{r divbars-structure, echo=FALSE}
 knitr::kable(head(data_divbars, 4), caption = "Input data for wjp_divbars(): target = percent, grouping = country, diverging = response")
@@ -235,7 +238,6 @@ wjp_lines(
   data_lines,
   target   = "trust",
   grouping = "year",
-  ngroups  = data_lines$institution,
   colors   = "institution",
   labels   = "label",
   repel    = TRUE,
@@ -243,10 +245,10 @@ wjp_lines(
 )
 ```
 
-**Expected input structure** — long format: one row per `grouping` (time point) × series. Pass the series vector through `ngroups`.
+**Expected input structure** — long format: one row per `grouping` (time point) × series. The `colors` variable defines the lines, so single- and multi-series data use the same call.
 
 ```{r lines-structure, echo=FALSE}
-knitr::kable(head(data_lines, 4), caption = "Input data for wjp_lines(): target = trust, grouping = year, ngroups = institution")
+knitr::kable(head(data_lines, 4), caption = "Input data for wjp_lines(): target = trust, grouping = year, colors = institution")
 ```
 
 ***
@@ -271,7 +273,6 @@ wjp_slope(
   data_slope,
   target   = "trust",
   grouping = "year",
-  ngroups  = data_slope$gender,
   colors   = "gender",
   labels   = "label",
   cvec     = c("Male" = "#482d8b", "Female" = "#f26b21"),
@@ -279,10 +280,10 @@ wjp_slope(
 )
 ```
 
-**Expected input structure** — exactly two `grouping` values (the two time points) per series. Pass the series vector through `ngroups`.
+**Expected input structure** — exactly two `grouping` values (the two time points) per series. The `colors` variable defines the lines.
 
 ```{r slope-structure, echo=FALSE}
-knitr::kable(head(data_slope, 4), caption = "Input data for wjp_slope(): target = trust, grouping = year, ngroups = gender")
+knitr::kable(head(data_slope, 4), caption = "Input data for wjp_slope(): target = trust, grouping = year, colors = gender")
 ```
 
 ***
@@ -298,16 +299,17 @@ wjp_dumbbells(
   data_dumbbells,
   target   = "trust",
   grouping = "institution",
-  color    = "year",
+  colors   = "year",
   cgroups  = c("2017", "2022"),
+  labels   = "label",
   cvec     = c("2017" = "#2894aa", "2022" = "#482d8b")
 )
 ```
 
-**Expected input structure** — one row per `grouping` × `color` (the two endpoints). `cgroups` lists the two endpoint values.
+**Expected input structure** — one row per `grouping` × `colors` (the two endpoints). `cgroups` lists the two endpoint values, and the optional `labels` column adds a value label next to each point.
 
 ```{r dumbbells-structure, echo=FALSE}
-knitr::kable(head(data_dumbbells, 4), caption = "Input data for wjp_dumbbells(): target = trust, grouping = institution, color = year")
+knitr::kable(head(data_dumbbells, 4), caption = "Input data for wjp_dumbbells(): target = trust, grouping = institution, colors = year")
 ```
 
 ***
@@ -318,14 +320,12 @@ knitr::kable(head(data_dumbbells, 4), caption = "Input data for wjp_dumbbells():
 ```{r lollipops, warning=FALSE}
 wjp_lollipops(
   data_bars,
-  target      = "trust",
-  grouping    = "country",
-  line_color  = "#555659",
-  point_color = "#482d8b"
+  target   = "trust",
+  grouping = "country"
 )
 ```
 
-Uses the same `data_bars` structure (one row per category with a `target` value) shown under **Bar Charts**.
+Uses the same `data_bars` structure (one row per category with a `target` value) shown under **Bar Charts**. Value labels are generated automatically; pass a `labels` column to override them.
 
 ***
 
@@ -337,12 +337,11 @@ wjp_edgebars(
   data_bars,
   target   = "trust",
   grouping = "country",
-  labels   = "country",
   cvec     = "#2894aa"
 )
 ```
 
-Uses the same `data_bars` structure shown under **Bar Charts**; `labels` supplies the text drawn at the edge of each bar.
+Uses the same `data_bars` structure shown under **Bar Charts**. The text drawn at the edge of each bar defaults to the `grouping` values; pass a `labels` column to customize it.
 
 ***
 

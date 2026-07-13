@@ -16,21 +16,27 @@ wjp_gauge(
 )
 }
 \arguments{
-\item{data}{A data frame containing the data to be plotted.}
+\item{data}{Data frame containing the data to plot.}
 
-\item{target}{A string specifying the variable in the data frame that contains the values to be plotted.}
+\item{target}{String. Column name of the variable that supplies the values to plot.}
 
-\item{colors}{A string specifying the variable in the data frame that represents the color groupings for the segments.}
+\item{colors}{String. Column name of the variable that supplies the color grouping
+for the segments.}
 
-\item{cvec}{A named vector of colors to apply to the segments. Names should match the values in the colors column.}
+\item{cvec}{Named vector of colors, one per segment. Names should match the values
+of the \code{colors} variable. Default is \code{NULL} (the WJP palette, see
+\code{\link[=wjp_palette]{wjp_palette()}}, is applied).}
 
-\item{factor_order}{A vector specifying the order in which the segments should be plotted. Default is NULL.}
+\item{factor_order}{Vector with the order in which the segments should be plotted.
+Default is \code{NULL} (data order).}
 
-\item{labels}{A string specifying the variable in the data frame that contains the labels to be displayed. Default is NULL.}
+\item{labels}{String. Column name of the variable containing the labels to display
+inside the segments. Default is \code{NULL} (no labels).}
 
-\item{crop}{A numeric vector specifying the amount of space to crop from the Top, Right, Bottom, and Left margins, respectively. Default is c(-10,0,0,-8).}
+\item{crop}{Numeric vector with the space to crop from the Top, Right, Bottom, and
+Left margins, respectively. Default is \code{c(-10, 0, 0, -8)}.}
 
-\item{ptheme}{A ggplot2 theme object to be applied to the plot. Default is WJP_theme().}
+\item{ptheme}{ggplot theme to apply. Default is \code{\link[=WJP_theme]{WJP_theme()}}.}
 }
 \value{
 A ggplot object representing the gauge chart.

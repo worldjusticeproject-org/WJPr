@@ -261,7 +261,6 @@ plot_lines <- wjp_lines(
   data_lines,
   target   = "trust",
   grouping = "year",
-  ngroups  = data_lines$institution,
   colors   = "institution",
   labels   = "label",
   repel    = TRUE,
@@ -295,7 +294,6 @@ plot_slope <- wjp_slope(
   data_slope,
   target   = "trust",
   grouping = "year",
-  ngroups  = data_slope$gender,
   colors   = "gender",
   labels   = "label",
   cvec     = c("Male" = "#482d8b", "Female" = "#f26b21"),
@@ -316,8 +314,9 @@ plot_dumbbells <- wjp_dumbbells(
   data_dumbbells,
   target   = "trust",
   grouping = "institution",
-  color    = "year",
+  colors   = "year",
   cgroups  = c("2017", "2022"),
+  labels   = "label",
   cvec     = c("2017" = "#2894aa", "2022" = "#482d8b")
 )
 
@@ -417,7 +416,6 @@ plot_edgebars <- wjp_edgebars(
   data_bars,
   target   = "trust",
   grouping = "country",
-  labels   = "country",
   cvec     = "#f26b21"
 )
 

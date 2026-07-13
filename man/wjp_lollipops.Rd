@@ -8,29 +8,39 @@ wjp_lollipops(
   data,
   target,
   grouping,
+  labels = NULL,
   order = NULL,
   line_size = 3,
   point_size = 4,
   line_color = "#d9dde3",
-  point_color = "#482d8b"
+  point_color = "#482d8b",
+  ptheme = WJP_theme()
 )
 }
 \arguments{
-\item{data}{A data frame containing the data to be plotted.}
+\item{data}{Data frame containing the data to plot.}
 
-\item{target}{A string specifying the column name of the variable that contains the numeric values to be plotted.}
+\item{target}{String. Column name of the variable that supplies the values to plot.}
 
-\item{grouping}{A string specifying the column name of the variable that contains the categories for the Y-axis labels.}
+\item{grouping}{String. Column name of the variable that supplies the categories
+(Y-axis labels).}
 
-\item{order}{A string specifying the column name of the variable that contains the custom order for displaying categories. Default is NULL (uses row order).}
+\item{labels}{String. Column name of the variable containing the value labels to
+display. Default is \code{NULL} (labels are generated automatically as rounded
+percentages).}
 
-\item{line_size}{A numeric value specifying the thickness of the lines. Default is 3.}
+\item{order}{String. Column name of the variable that contains the display order of
+categories. Default is \code{NULL} (data order).}
 
-\item{point_size}{A numeric value specifying the size of the points. Default is 4.}
+\item{line_size}{Numeric. Thickness of the lines. Default is \code{3}.}
 
-\item{line_color}{A string specifying the hex color code for the lines. Default is "#d9dde3".}
+\item{point_size}{Numeric. Size of the points. Default is \code{4}.}
 
-\item{point_color}{A string specifying the hex color code for the points. Default is "#482d8b".}
+\item{line_color}{String. Hex code for the lines. Default is \code{"#d9dde3"}.}
+
+\item{point_color}{String. Hex code for the points. Default is \code{"#482d8b"}.}
+
+\item{ptheme}{ggplot theme to apply. Default is \code{\link[=WJP_theme]{WJP_theme()}}.}
 }
 \value{
 A ggplot object representing the lollipop chart.
@@ -38,43 +48,28 @@ A ggplot object representing the lollipop chart.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-\code{wjp_lollipops()} takes a data frame with a specific data structure (usually long shaped) and returns a ggplot
-object with a lollipop chart following WJP style guidelines.
+\code{wjp_lollipops()} takes a data frame with long-format data and returns a
+ggplot object with a lollipop chart following WJP style guidelines.
+Lollipop charts are a minimalist alternative to horizontal bar charts.
+Values are expected on a 0-100 percentage scale.
 }
 \examples{
 library(dplyr)
-library(ggplot2)
+library(tidyr)
 
-# Always load the WJP fonts (optional)
+# Always load the WJP fonts
 wjp_fonts()
 
-# Preparing data
-gpp_data <- WJPr::gpp
-
-data4lollipops <- gpp_data \%>\%
+# Percentage of people that trust their institutions in Atlantis
+data4lollipops <- WJPr::gpp \%>\%
   filter(year == 2022, country == "Atlantis") \%>\%
   select(q1a, q1b, q1c, q1d) \%>\%
   mutate(
     across(everything(), \(x) as.double(unclass(x))),
-    across(
-      everything(),
-      \(x) case_when(
-        x <= 2 ~ 1,
-        x <= 4 ~ 0
-      )
-    )
+    across(everything(), \(x) case_when(x <= 2 ~ 1, x <= 4 ~ 0))
   ) \%>\%
-  summarise(
-    across(
-      everything(),
-      \(x) mean(x, na.rm = TRUE) * 100
-    )
-  ) \%>\%
-  tidyr::pivot_longer(
-    everything(),
-    names_to  = "variable",
-    values_to = "percentage"
-  ) \%>\%
+  summarise(across(everything(), \(x) mean(x, na.rm = TRUE) * 100)) \%>\%
+  pivot_longer(everything(), names_to = "variable", values_to = "percentage") \%>\%
   mutate(
     institution = case_when(
       variable == "q1a" ~ "Institution A",
@@ -84,13 +79,10 @@ data4lollipops <- gpp_data \%>\%
     )
   )
 
-# Plotting chart
 wjp_lollipops(
   data4lollipops,
-  target      = "percentage",
-  grouping    = "institution",
-  line_color  = "#d9dde3",
-  point_color = "#482d8b"
+  target   = "percentage",
+  grouping = "institution"
 )
 
 }

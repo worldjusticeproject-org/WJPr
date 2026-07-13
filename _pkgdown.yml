@@ -94,6 +94,14 @@ navbar:
         href: reference/wjp_check_deps.html
       - text: diffmeans()
         href: reference/diffmeans.html
+      - text: --------
+      - text: Styling
+      - text: wjp_fonts()
+        href: reference/wjp_fonts.html
+      - text: wjp_palette()
+        href: reference/wjp_palette.html
+      - text: WJP_theme()
+        href: reference/WJP_theme.html
     articles:
       text: Guides
       menu:
@@ -140,6 +148,7 @@ reference:
   - wjp_check_deps
   - diffmeans
   - wjp_fonts
+  - wjp_palette
   - WJP_theme
 - title: Data
   desc: Datasets included in the package.

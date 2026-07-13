@@ -23,102 +23,91 @@ wjp_dots(
 )
 }
 \arguments{
-\item{data}{Data frame containing the data to plot}
+\item{data}{Data frame containing the data to plot.}
 
-\item{target}{String. Column name of the variable that will supply the values to plot.}
+\item{target}{String. Column name of the variable that supplies the values to plot.}
 
-\item{grouping}{String. Column name of the variable that supplies the Y-Axis labels to show in the plot.}
+\item{grouping}{String. Column name of the variable that supplies the categories
+(Y-axis labels).}
 
-\item{colors}{String. Column name of the variable that supplies the grouping values. The plot will show a different color per group.}
+\item{colors}{String. Column name of the variable that supplies the color grouping.
+The plot shows a different color per group.}
 
-\item{cvec}{Named vector with the colors to apply to the dots. Default is NULL.}
+\item{cvec}{Named vector of colors. Names should match the values of the \code{colors}
+variable. Default is \code{NULL} (the WJP palette, see \code{\link[=wjp_palette]{wjp_palette()}}, is applied).}
 
-\item{order}{String. Column name of the variable that contains the desired order for the labels.}
+\item{order}{String. Column name of the variable that contains the display order of
+categories. Default is \code{NULL} (data order).}
 
-\item{diffOpac}{Boolean. If TRUE, the plot will expect different levels of opacities for the dots. Default is FALSE.}
+\item{diffOpac}{Logical. If \code{TRUE}, different opacity levels are applied per group.
+Automatically enabled when \code{opacities} is supplied. Default is \code{FALSE}.}
 
-\item{opacities}{Named vector with the opacity levels to apply to the dots. Default is NULL.}
+\item{opacities}{Named vector of opacity levels, one per group. Default is \code{NULL}.}
 
-\item{diffShp}{Boolean. If TRUE, the plot will expect different shapes for the dots. Default is FALSE.}
+\item{diffShp}{Logical. If \code{TRUE}, different point shapes are applied per group.
+Automatically enabled when \code{shapes} is supplied. Default is \code{FALSE}.}
 
-\item{shapes}{Named vector with shapes to be displayed. Default is NULL.}
+\item{shapes}{Named vector of point shapes, one per group. Default is \code{NA}.}
 
-\item{draw_ci}{Boolean. If TRUE, draws a normal-approximation confidence
-interval using \code{sd} and \code{sample_size}.}
+\item{draw_ci}{Logical. If \code{TRUE}, draws a normal-approximation confidence interval
+using \code{sd} and \code{sample_size}. Default is \code{FALSE}.}
 
-\item{sd}{String. Column name of the variable that supplies the standard error for drawing confidence intervals.}
+\item{sd}{String. Column name of the variable that supplies the standard deviation
+for the confidence intervals.}
 
-\item{sample_size}{String. Column name of the variable that supplies the number of observations for drawing confidence intervals.}
+\item{sample_size}{String. Column name of the variable that supplies the number of
+observations for the confidence intervals.}
 
-\item{bgcolor}{String. Hex code for the "white" background in the strips.}
+\item{bgcolor}{String. Hex code of the background color for the alternating row
+strips. Default is \code{"#ffffff"}.}
 
-\item{ptheme}{ggplot theme function to apply to the plot. By default, function applies WJP_theme().}
+\item{ptheme}{ggplot theme to apply. Default is \code{\link[=WJP_theme]{WJP_theme()}}.}
 }
 \value{
-A ggplot object
+A ggplot object.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-\code{wjp_dots()} takes a data frame with a specific data structure (usually long shaped) and returns a ggplot
-object with a dots chart following WJP style guidelines.
+\code{wjp_dots()} takes a data frame with long-format data and returns a ggplot
+object with a dots chart following WJP style guidelines. Dots charts compare
+multiple variables (rows) across groups (colors) on a horizontal 0-100
+percentage scale, with an alternating strip background.
 }
 \examples{
 library(dplyr)
 library(tidyr)
-library(haven)
-library(ggplot2)
 
-# Always load the WJP fonts if not passing a custom theme to function
+# Always load the WJP fonts
 wjp_fonts()
 
-# Preparing data
-gpp_data <- WJPr::gpp
-
-# Preparing data
-data4dots <- gpp_data \%>\%
+# Percentage of people that trust their institutions, by country
+data4dots <- WJPr::gpp \%>\%
   select(country, q1a, q1b, q1c, q1d) \%>\%
   mutate(
     across(!country, \(x) as.double(unclass(x))),
-    across(
-      !country,
-      \(x) case_when(
-        x <= 2 ~ 1,
-        x <= 4 ~ 0
-      )
-    )
+    across(!country, \(x) case_when(x <= 2 ~ 1, x <= 4 ~ 0))
   ) \%>\%
   group_by(country) \%>\%
-  summarise(
-    across(
-      everything(),
-      \(x) mean(x, na.rm = TRUE)*100
-    ),
-    .groups = "keep"
-  ) \%>\%
-  pivot_longer(
-    !country,
-    names_to  = "variable",
-    values_to = "percentage" 
-  ) \%>\%
+  summarise(across(everything(), \(x) mean(x, na.rm = TRUE) * 100)) \%>\%
+  pivot_longer(!country, names_to = "variable", values_to = "percentage") \%>\%
   mutate(
     institution = case_when(
       variable == "q1a" ~ "Institution A",
       variable == "q1b" ~ "Institution B",
       variable == "q1c" ~ "Institution C",
-      variable == "q1d" ~ "Institution D",
+      variable == "q1d" ~ "Institution D"
     )
   )
 
-# Plotting chart
 wjp_dots(
-  data4dots,             
-  target      = "percentage",
-  grouping    = "institution",  
-  colors      = "country",  
-  cvec        = c("Atlantis"  = "#482d8b",
-                  "Narnia"    = "#2894aa",
-                  "Neverland" = "#f26b21")
+  data4dots,
+  target   = "percentage",
+  grouping = "institution",
+  colors   = "country",
+  cvec     = c("Atlantis"  = "#482d8b",
+               "Narnia"    = "#2894aa",
+               "Neverland" = "#f26b21")
 )
 
 }

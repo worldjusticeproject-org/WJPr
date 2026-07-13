@@ -2,99 +2,87 @@
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
-#' 
-#' `wjp_dots()` takes a data frame with a specific data structure (usually long shaped) and returns a ggplot
-#' object with a dots chart following WJP style guidelines.
-#' 
-#' @param data Data frame containing the data to plot
-#' @param target String. Column name of the variable that will supply the values to plot.
-#' @param colors String. Column name of the variable that supplies the grouping values. The plot will show a different color per group.
-#' @param grouping String. Column name of the variable that supplies the Y-Axis labels to show in the plot.
-#' @param cvec Named vector with the colors to apply to the dots. Default is NULL.
-#' @param order String. Column name of the variable that contains the desired order for the labels.
-#' @param diffOpac Boolean. If TRUE, the plot will expect different levels of opacities for the dots. Default is FALSE.
-#' @param opacities Named vector with the opacity levels to apply to the dots. Default is NULL.
-#' @param diffShp Boolean. If TRUE, the plot will expect different shapes for the dots. Default is FALSE.
-#' @param shapes Named vector with shapes to be displayed. Default is NULL.
-#' @param draw_ci Boolean. If TRUE, draws a normal-approximation confidence
-#'   interval using \code{sd} and \code{sample_size}.
-#' @param sd  String. Column name of the variable that supplies the standard error for drawing confidence intervals.
-#' @param sample_size  String. Column name of the variable that supplies the number of observations for drawing confidence intervals.
-#' @param bgcolor String. Hex code for the "white" background in the strips.
-#' @param ptheme ggplot theme function to apply to the plot. By default, function applies WJP_theme().
 #'
-#' @return A ggplot object
+#' `wjp_dots()` takes a data frame with long-format data and returns a ggplot
+#' object with a dots chart following WJP style guidelines. Dots charts compare
+#' multiple variables (rows) across groups (colors) on a horizontal 0-100
+#' percentage scale, with an alternating strip background.
+#'
+#' @param data Data frame containing the data to plot.
+#' @param target String. Column name of the variable that supplies the values to plot.
+#' @param grouping String. Column name of the variable that supplies the categories
+#'   (Y-axis labels).
+#' @param colors String. Column name of the variable that supplies the color grouping.
+#'   The plot shows a different color per group.
+#' @param cvec Named vector of colors. Names should match the values of the `colors`
+#'   variable. Default is `NULL` (the WJP palette, see [wjp_palette()], is applied).
+#' @param order String. Column name of the variable that contains the display order of
+#'   categories. Default is `NULL` (data order).
+#' @param diffOpac Logical. If `TRUE`, different opacity levels are applied per group.
+#'   Automatically enabled when `opacities` is supplied. Default is `FALSE`.
+#' @param opacities Named vector of opacity levels, one per group. Default is `NULL`.
+#' @param diffShp Logical. If `TRUE`, different point shapes are applied per group.
+#'   Automatically enabled when `shapes` is supplied. Default is `FALSE`.
+#' @param shapes Named vector of point shapes, one per group. Default is `NA`.
+#' @param draw_ci Logical. If `TRUE`, draws a normal-approximation confidence interval
+#'   using `sd` and `sample_size`. Default is `FALSE`.
+#' @param sd String. Column name of the variable that supplies the standard deviation
+#'   for the confidence intervals.
+#' @param sample_size String. Column name of the variable that supplies the number of
+#'   observations for the confidence intervals.
+#' @param bgcolor String. Hex code of the background color for the alternating row
+#'   strips. Default is `"#ffffff"`.
+#' @param ptheme ggplot theme to apply. Default is [WJP_theme()].
+#'
+#' @return A ggplot object.
 #' @export
-#' 
+#'
 #' @examples
 #' library(dplyr)
 #' library(tidyr)
-#' library(haven)
-#' library(ggplot2)
-#' 
-#' # Always load the WJP fonts if not passing a custom theme to function
+#'
+#' # Always load the WJP fonts
 #' wjp_fonts()
-#' 
-#' # Preparing data
-#' gpp_data <- WJPr::gpp
-#' 
-#' # Preparing data
-#' data4dots <- gpp_data %>%
+#'
+#' # Percentage of people that trust their institutions, by country
+#' data4dots <- WJPr::gpp %>%
 #'   select(country, q1a, q1b, q1c, q1d) %>%
 #'   mutate(
 #'     across(!country, \(x) as.double(unclass(x))),
-#'     across(
-#'       !country,
-#'       \(x) case_when(
-#'         x <= 2 ~ 1,
-#'         x <= 4 ~ 0
-#'       )
-#'     )
+#'     across(!country, \(x) case_when(x <= 2 ~ 1, x <= 4 ~ 0))
 #'   ) %>%
 #'   group_by(country) %>%
-#'   summarise(
-#'     across(
-#'       everything(),
-#'       \(x) mean(x, na.rm = TRUE)*100
-#'     ),
-#'     .groups = "keep"
-#'   ) %>%
-#'   pivot_longer(
-#'     !country,
-#'     names_to  = "variable",
-#'     values_to = "percentage" 
-#'   ) %>%
+#'   summarise(across(everything(), \(x) mean(x, na.rm = TRUE) * 100)) %>%
+#'   pivot_longer(!country, names_to = "variable", values_to = "percentage") %>%
 #'   mutate(
 #'     institution = case_when(
 #'       variable == "q1a" ~ "Institution A",
 #'       variable == "q1b" ~ "Institution B",
 #'       variable == "q1c" ~ "Institution C",
-#'       variable == "q1d" ~ "Institution D",
+#'       variable == "q1d" ~ "Institution D"
 #'     )
 #'   )
-#' 
-#' # Plotting chart
+#'
 #' wjp_dots(
-#'   data4dots,             
-#'   target      = "percentage",
-#'   grouping    = "institution",  
-#'   colors      = "country",  
-#'   cvec        = c("Atlantis"  = "#482d8b",
-#'                   "Narnia"    = "#2894aa",
-#'                   "Neverland" = "#f26b21")
+#'   data4dots,
+#'   target   = "percentage",
+#'   grouping = "institution",
+#'   colors   = "country",
+#'   cvec     = c("Atlantis"  = "#482d8b",
+#'                "Narnia"    = "#2894aa",
+#'                "Neverland" = "#f26b21")
 #' )
-#' 
-
+#'
 wjp_dots <- function(
-    data,             
+    data,
     target,
     grouping,
-    colors,  
-    cvec        = NULL, 
+    colors,
+    cvec        = NULL,
     order       = NULL,
-    diffOpac    = FALSE,  
-    opacities   = NULL,      
-    diffShp     = FALSE,     
+    diffOpac    = FALSE,
+    opacities   = NULL,
+    diffShp     = FALSE,
     shapes      = NA,
     draw_ci     = FALSE,
     sd          = NULL,
@@ -102,45 +90,53 @@ wjp_dots <- function(
     bgcolor     = "#ffffff",
     ptheme      = WJP_theme()
 ){
-  
+
   # Renaming variables in the data frame to match the function naming
   data <- data %>%
     rename(
-      target_var    = all_of(target),
-      colors_var    = all_of(colors),
-      grouping_var  = all_of(grouping)
+      target_var   = all_of(target),
+      colors_var   = all_of(colors),
+      grouping_var = all_of(grouping)
     ) %>%
     mutate(target_var = as.numeric(target_var)) # Ensure target_var is numeric
-  
-  if (is.null(order)){
+
+  if (is.null(order)) {
     data <- data %>%
       group_by(colors_var) %>%
       mutate(
         order_var = row_number()
       )
-    
   } else {
     data <- data %>%
       rename(order_var = all_of(order))
   }
-  
-  # Add sample_size_var if drawing CI
-  if (draw_ci){
+
+  # Supplying opacity/shape vectors enables the respective aesthetics
+  if (!is.null(opacities)) diffOpac <- TRUE
+  if (length(shapes) > 1 || !all(is.na(shapes))) diffShp <- TRUE
+
+  # Default to the WJP palette when no color vector is supplied
+  if (is.null(cvec)) {
+    cvec <- wjp_default_cvec(data$colors_var)
+  }
+
+  # Compute confidence intervals if requested
+  if (draw_ci) {
     if (is.null(sd) || is.null(sample_size)) {
       stop("`sd` and `sample_size` must be provided when draw_ci = TRUE.", call. = FALSE)
     }
-    z <- qnorm(1 - 0.05 / 2)
+    z <- stats::qnorm(1 - 0.05 / 2)
     data  <- data %>%
-      rename(sd_var = all_of(sd),
+      rename(sd_var          = all_of(sd),
              sample_size_var = all_of(sample_size)) %>%
       mutate(
-        se = sd_var / sqrt(sample_size_var),
+        se    = sd_var / sqrt(sample_size_var),
         lower = target_var - z * se,
         upper = target_var + z * se
       )
   }
-  
-  # Creating a strip pattern
+
+  # Creating an alternating strip pattern
   strips <- data %>%
     group_by(grouping_var) %>%
     summarise() %>%
@@ -149,13 +145,13 @@ wjp_dots <- function(
            xposition = rev(1:nrow(.)),
            xmin = xposition - 0.5,
            xmax = xposition + 0.5,
-           fill = rep(c("grey", "white"), 
+           fill = rep(c("grey", "white"),
                       length.out = nrow(.))) %>%
     pivot_longer(c(xmin, xmax),
                  names_to  = "cat",
                  values_to = "x") %>%
     select(-cat)
-    
+
   # Creating ggplot
   plt <- ggplot() +
     geom_blank(data      = data,
@@ -170,10 +166,10 @@ wjp_dots <- function(
                     group = xposition,
                     fill  = fill),
                 show.legend = FALSE) +
-    scale_fill_manual(values = c("grey"  = "#D6D6D6",
+    scale_fill_manual(values = c("grey"  = "#EBEBEB",
                                  "white" = bgcolor),
                       na.value = NA)
-  
+
   if (draw_ci) {
     plt <- plt +
       geom_errorbar(
@@ -188,71 +184,40 @@ wjp_dots <- function(
         show.legend = FALSE
       )
   }
-  
-  if (diffShp == FALSE) {
-    
-    if (diffOpac == FALSE) {
-      plt <- plt +
-        geom_point(data      = data,
-                   aes(x     = reorder(grouping_var, -order_var),
-                       y     = target_var,
-                       color = colors_var),
-                   size = 4,
-                   show.legend = FALSE)
-    } else {
-      plt <- plt +
-        geom_point(data = data,
-                   aes(x     = reorder(grouping_var, -order_var),
-                       y     = target_var,
-                       color = colors_var,
-                       alpha = colors_var),
-                   size      = 4,
-                   show.legend   = FALSE) +
-        scale_alpha_manual(values = opacities)
-    }
-    
-  } else {
-    
-    if (diffOpac == FALSE) {
-      plt <- plt +
-        geom_point(data      = data,
-                   aes(x     = reorder(grouping_var, -order_var),
-                       y     = target_var,
-                       color = colors_var,
-                       shape = colors_var),
-                   fill   = NA,
-                   size   = 4,
-                   stroke = 2,
-                   show.legend = FALSE) +
-        scale_shape_manual(values = shapes)
-      
-    } else {
-      plt <- plt +
-        geom_point(data = data,
-                   aes(x     = reorder(grouping_var, -order_var),
-                       y     = target_var,
-                       color = colors_var,
-                       shape = colors_var,
-                       alpha = colors_var),
-                   fill   = NA,
-                   size   = 4,
-                   stroke = 2,
-                   show.legend    = FALSE) +
-        scale_shape_manual(values = shapes) +
-        scale_alpha_manual(values = opacities)
-    }
-    
+
+  # Point layer: opacity and shape aesthetics are added only when requested
+  point_aes <- aes(x     = reorder(grouping_var, -order_var),
+                   y     = target_var,
+                   color = colors_var)
+  if (diffShp) {
+    point_aes <- utils::modifyList(point_aes, aes(shape = colors_var))
   }
-  
-  if (!is.null(cvec)){
-    plt <- plt +
-      scale_color_manual(values = cvec)
+  if (diffOpac) {
+    point_aes <- utils::modifyList(point_aes, aes(alpha = colors_var))
   }
-  
+
   plt <- plt +
-    scale_y_continuous(limits = c(0,100),
-                       breaks = seq(0,100,20),
-                       labels = paste0(seq(0,100,20),
+    geom_point(data        = data,
+               mapping     = point_aes,
+               fill        = NA,
+               size        = 4,
+               stroke      = if (diffShp) 2 else 0.5,
+               show.legend = FALSE)
+
+  if (diffShp) {
+    plt <- plt +
+      scale_shape_manual(values = shapes)
+  }
+  if (diffOpac) {
+    plt <- plt +
+      scale_alpha_manual(values = opacities)
+  }
+
+  plt <- plt +
+    scale_color_manual(values = cvec) +
+    scale_y_continuous(limits = c(0, 100),
+                       breaks = seq(0, 100, 20),
+                       labels = paste0(seq(0, 100, 20),
                                        "%"),
                        position = "right") +
     coord_flip() +
@@ -260,11 +225,11 @@ wjp_dots <- function(
     theme(axis.title.x       = element_blank(),
           axis.title.y       = element_blank(),
           panel.grid.major.y = element_blank(),
-          panel.background   = element_blank(), 
-          panel.ontop = TRUE,
-          axis.text.y = element_text(color = "#222221",
-                                     hjust = 0))
-    
+          panel.background   = element_blank(),
+          panel.ontop        = TRUE,
+          axis.text.y        = element_text(color = "#524F4C",
+                                            hjust = 0))
+
   return(plt)
-  
+
 }

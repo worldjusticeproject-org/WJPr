@@ -78,6 +78,79 @@ wjp_fonts <- function(){
 }
 
 
+#' WJP Color Palette
+#'
+#' @description
+#' `wjp_palette()` returns the categorical color palette used across World
+#' Justice Project visualizations. All WJPr chart functions fall back to this
+#' palette when no color vector (`cvec`) is supplied, so charts stay on-brand
+#' by default.
+#'
+#' @details
+#' The palette contains nine colors, ordered so that the first three
+#' (violet, teal-blue, orange) provide maximum contrast for small categorical
+#' sets, followed by the Rule of Law Index factor colors:
+#'
+#' | Order | Hex code | Usage |
+#' |-------|-----------|-------|
+#' | 1 | `#482d8b` | Violet (primary) |
+#' | 2 | `#2894aa` | Teal-blue (secondary) |
+#' | 3 | `#f26b21` | Orange (contrast) |
+#' | 4 | `#137b3f` | Green |
+#' | 5 | `#869d3b` | Olive |
+#' | 6 | `#0f9581` | Teal-green |
+#' | 7 | `#1a74b6` | Blue |
+#' | 8 | `#8f2e8c` | Magenta |
+#' | 9 | `#555659` | Cool gray (neutral) |
+#'
+#' When more than nine colors are requested, the palette is interpolated with
+#' [grDevices::colorRampPalette()].
+#'
+#' @param n Integer. Number of colors to return. If `NULL` (default), the full
+#'   nine-color palette is returned.
+#'
+#' @return A character vector of hex color codes.
+#'
+#' @export
+#'
+#' @examples
+#' # Full palette
+#' wjp_palette()
+#'
+#' # First three colors for a small categorical set
+#' wjp_palette(3)
+#'
+wjp_palette <- function(n = NULL) {
+  pal <- c("#482d8b", "#2894aa", "#f26b21", "#137b3f", "#869d3b",
+           "#0f9581", "#1a74b6", "#8f2e8c", "#555659")
+  if (is.null(n)) {
+    return(pal)
+  }
+  if (length(n) != 1 || !is.finite(n) || n < 1) {
+    stop("`n` must be a single positive integer.", call. = FALSE)
+  }
+  n <- as.integer(n)
+  if (n <= length(pal)) {
+    pal[seq_len(n)]
+  } else {
+    grDevices::colorRampPalette(pal)(n)
+  }
+}
+
+
+#' Build a default named color vector for a grouping variable
+#'
+#' Maps the WJP palette onto the unique values (or factor levels) of `x`,
+#' so charts remain on-brand when the user does not supply `cvec`.
+#'
+#' @noRd
+wjp_default_cvec <- function(x) {
+  vals <- if (is.factor(x)) levels(droplevels(x)) else unique(as.character(x))
+  vals <- vals[!is.na(vals)]
+  stats::setNames(wjp_palette(length(vals)), vals)
+}
+
+
 #' WJP ggplot2 Theme
 #'
 #' @description
