@@ -76,6 +76,14 @@ object with a line chart following WJP style guidelines. Each line is defined
 by the \code{colors} variable, so the function works out of the box for both single
 and multiple series. Values are expected on a 0-100 percentage scale.
 }
+\details{
+The function expects long-format data with one row per time point and
+series: the X-axis values in \code{grouping} (usually years), the values in
+\code{target}, and the series identifier in \code{colors}. To highlight one line
+among several, set \code{transparency = TRUE} and pass per-series opacities
+through \code{transparencies}. When labels overlap, set \code{repel = TRUE}
+(requires the ggrepel package).
+}
 \examples{
 library(dplyr)
 library(tidyr)
@@ -124,6 +132,23 @@ wjp_lines(
   grouping = "year",
   colors   = "institution",
   labels   = "value_label"
+)
+
+# Highlighting one line with per-series opacities
+wjp_lines(
+  data4lines,
+  target         = "percentage",
+  grouping       = "year",
+  colors         = "institution",
+  labels         = "value_label",
+  repel          = TRUE,
+  cvec           = c("Institution A" = "#482d8b",
+                     "Institution B" = "#555659",
+                     "Institution C" = "#555659"),
+  transparency   = TRUE,
+  transparencies = c("Institution A" = 1.00,
+                     "Institution B" = 0.30,
+                     "Institution C" = 0.30)
 )
 
 }

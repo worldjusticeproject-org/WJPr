@@ -8,6 +8,12 @@
 #' compare values between exactly two points in time. Each line is defined by
 #' the `colors` variable. Values are expected on a 0-100 percentage scale.
 #'
+#' @details
+#' The function expects long-format data with exactly two `grouping` values
+#' (the two time points) per series. `grouping` must be numeric (e.g., years)
+#' so the value labels can be placed just outside each endpoint. When labels
+#' overlap, set `repel = TRUE` (requires the ggrepel package).
+#'
 #' @param data Data frame containing the data to plot.
 #' @param target String. Column name of the variable that supplies the values to plot.
 #' @param grouping String. Column name of the numeric variable that supplies the two
@@ -56,6 +62,15 @@
 #'   labels   = "value_label",
 #'   cvec     = c("Male" = "#482d8b", "Female" = "#f26b21"),
 #'   repel    = TRUE
+#' )
+#'
+#' # Minimal call: colors default to the WJP palette
+#' wjp_slope(
+#'   data4slopes,
+#'   target   = "trust",
+#'   grouping = "year",
+#'   colors   = "gender",
+#'   labels   = "value_label"
 #' )
 #'
 wjp_slope <- function(

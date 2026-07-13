@@ -9,6 +9,14 @@
 #' each category, connected by a line. Values are expected on a 0-100
 #' percentage scale.
 #'
+#' @details
+#' The function expects long-format data with one row per `grouping` (category)
+#' and `colors` (endpoint) combination; `cgroups` names the two endpoint values
+#' in order (start, end). When `labels` is supplied without `labpos`, labels
+#' are placed automatically just outside each endpoint. Use `order` (a named
+#' vector such as `c("A" = 1, "B" = 2)`) to control the top-to-bottom order of
+#' the rows.
+#'
 #' @param data Data frame containing the data to plot.
 #' @param target String. Column name of the variable that supplies the values to plot.
 #' @param grouping String. Column name of the variable that supplies the categories

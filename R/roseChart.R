@@ -8,6 +8,13 @@
 #' charts display the values of a single unit across multiple dimensions.
 #' Values can be supplied as proportions (0-1) or percentages (0-100).
 #'
+#' @details
+#' The function expects one row per dimension (petal): the dimension name in
+#' `grouping`, its value in `target`, and the text to display around the
+#' chart in `labels`. By default petals are ordered by value; pass an
+#' `order` column for a custom arrangement. Labels support HTML/markdown
+#' formatting when the ggtext package is installed.
+#'
 #' @param data Data frame containing the data to plot.
 #' @param target String. Column name of the variable that supplies the values to plot.
 #' @param grouping String. Column name of the variable that supplies the dimensions

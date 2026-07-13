@@ -6,6 +6,16 @@ authors:
   World Justice Project - Data Analytics Unit:
     href: https://worldjusticeproject.org
 
+# Use grDevices::png for example figures so showtext controls both text
+# metrics and drawing. With the default ragg device, gridtext (ggtext)
+# measures words with systemfonts -- which does not know the Lato fonts
+# registered by wjp_fonts() -- producing broken word spacing in rich text
+# labels on the reference pages.
+figures:
+  dev: grDevices::png
+  dpi: 96
+  bg: "white"
+
 template:
   bootstrap: 5
   bslib:

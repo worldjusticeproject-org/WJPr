@@ -39,6 +39,15 @@
 - `wjp_lines()` value labels no longer get clipped when values are close to
   100%: the label flips below the point instead.
 
+## Documentation
+
+- Expanded the reference documentation of every chart function with a
+  "Details" section describing the expected data structure and additional
+  worked examples (stacked bars, confidence intervals in dots charts,
+  highlighted lines, custom ordering, Rule of Law Index radar, and more).
+- Reference-page figures are now rendered with `grDevices::png` so rich text
+  labels (ggtext) keep correct word spacing with the WJP fonts.
+
 ## Visual consistency
 
 - Value labels now share the same typography across all charts

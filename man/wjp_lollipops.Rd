@@ -53,6 +53,13 @@ ggplot object with a lollipop chart following WJP style guidelines.
 Lollipop charts are a minimalist alternative to horizontal bar charts.
 Values are expected on a 0-100 percentage scale.
 }
+\details{
+The function expects one row per category: the category name in \code{grouping}
+and its value in \code{target}. Value labels are generated automatically as
+rounded percentages unless a \code{labels} column is supplied. Use \code{order} to
+control the top-to-bottom order of the rows, and \code{line_color}/\code{point_color}
+to adjust the accent colors.
+}
 \examples{
 library(dplyr)
 library(tidyr)
@@ -83,6 +90,19 @@ wjp_lollipops(
   data4lollipops,
   target   = "percentage",
   grouping = "institution"
+)
+
+# Custom order (highest first) and accent color
+data4lollipops_ordered <- data4lollipops \%>\%
+  arrange(desc(percentage)) \%>\%
+  mutate(rank = row_number())
+
+wjp_lollipops(
+  data4lollipops_ordered,
+  target      = "percentage",
+  grouping    = "institution",
+  order       = "rank",
+  point_color = "#2894aa"
 )
 
 }

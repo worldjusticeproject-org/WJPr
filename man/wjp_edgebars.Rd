@@ -58,6 +58,13 @@ Edgebars are horizontal bars with the category label placed at the edge of
 each bar, which makes them ideal for narrow spaces and long labels.
 Values are expected on a 0-100 percentage scale.
 }
+\details{
+The function expects one row per bar: the category in \code{grouping} and its
+value in \code{target}. The text above each bar defaults to the \code{grouping}
+values; pass a \code{labels} column to customize it (HTML/markdown is supported
+when the ggtext package is installed). Percentage value labels are added
+automatically at the end of each bar.
+}
 \examples{
 library(dplyr)
 
@@ -79,6 +86,21 @@ wjp_edgebars(
   target   = "trust",
   grouping = "country",
   cvec     = "#2894aa"
+)
+
+# Custom rich-text labels above each bar (requires ggtext)
+data4edgebars_lab <- data4edgebars \%>\%
+  mutate(
+    bar_label = paste0(
+      "<b>", country, "</b> — \% that trust their institutions"
+    )
+  )
+
+wjp_edgebars(
+  data4edgebars_lab,
+  target   = "trust",
+  grouping = "country",
+  labels   = "bar_label"
 )
 
 }

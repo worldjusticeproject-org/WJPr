@@ -9,6 +9,13 @@
 #' which makes the chart suitable for contrasting two opposing responses
 #' (e.g., "Trust" vs "No Trust"). Values are expected on a percentage scale.
 #'
+#' @details
+#' The function expects one row per `grouping` (row) and `diverging` (answer
+#' group) combination. All values can be supplied as positive percentages:
+#' name the group that should extend left through `negative` and the function
+#' flips it automatically. Alternatively, leave `negative = NULL` and supply
+#' pre-signed values. Value labels are drawn centered inside each segment.
+#'
 #' @param data Data frame containing the data to plot.
 #' @param target String. Column name of the variable that supplies the values to plot.
 #' @param grouping String. Column name of the variable that supplies the categories
@@ -62,6 +69,26 @@
 #'   negative  = "No Trust",
 #'   labels    = "value_label",
 #'   cvec      = c("Trust" = "#482d8b", "No Trust" = "#f26b21")
+#' )
+#'
+#' # Custom row order via an order column
+#' data4divbars_ordered <- data4divbars %>%
+#'   mutate(
+#'     row_order = case_when(
+#'       country == "Neverland" ~ 1,
+#'       country == "Atlantis"  ~ 2,
+#'       country == "Narnia"    ~ 3
+#'     )
+#'   )
+#'
+#' wjp_divbars(
+#'   data4divbars_ordered,
+#'   target    = "percentage",
+#'   grouping  = "country",
+#'   diverging = "response",
+#'   negative  = "No Trust",
+#'   labels    = "value_label",
+#'   order     = "row_order"
 #' )
 #'
 wjp_divbars <- function(

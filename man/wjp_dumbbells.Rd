@@ -66,6 +66,14 @@ Dumbbell charts show the change between two points (e.g., two years) for
 each category, connected by a line. Values are expected on a 0-100
 percentage scale.
 }
+\details{
+The function expects long-format data with one row per \code{grouping} (category)
+and \code{colors} (endpoint) combination; \code{cgroups} names the two endpoint values
+in order (start, end). When \code{labels} is supplied without \code{labpos}, labels
+are placed automatically just outside each endpoint. Use \code{order} (a named
+vector such as \code{c("A" = 1, "B" = 2)}) to control the top-to-bottom order of
+the rows.
+}
 \examples{
 library(dplyr)
 library(tidyr)

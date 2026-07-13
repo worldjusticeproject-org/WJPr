@@ -54,6 +54,12 @@ object with a slope chart following WJP style guidelines. Slope charts
 compare values between exactly two points in time. Each line is defined by
 the \code{colors} variable. Values are expected on a 0-100 percentage scale.
 }
+\details{
+The function expects long-format data with exactly two \code{grouping} values
+(the two time points) per series. \code{grouping} must be numeric (e.g., years)
+so the value labels can be placed just outside each endpoint. When labels
+overlap, set \code{repel = TRUE} (requires the ggrepel package).
+}
 \examples{
 library(dplyr)
 
@@ -81,6 +87,15 @@ wjp_slope(
   labels   = "value_label",
   cvec     = c("Male" = "#482d8b", "Female" = "#f26b21"),
   repel    = TRUE
+)
+
+# Minimal call: colors default to the WJP palette
+wjp_slope(
+  data4slopes,
+  target   = "trust",
+  grouping = "year",
+  colors   = "gender",
+  labels   = "value_label"
 )
 
 }

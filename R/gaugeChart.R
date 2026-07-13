@@ -6,6 +6,13 @@
 #' `wjp_gauge()` creates a gauge (speedometer) chart using ggplot2 based on the provided data frame.
 #' The chart displays segments in a semicircle, useful for showing composition or progress.
 #'
+#' @details
+#' The function expects one row per segment: a category in `colors`, its value
+#' in `target`, and an optional display text in `labels`. Values are rescaled
+#' so the segments span the semicircle, and labels are hidden automatically
+#' for segments that are too small to hold them (below 5% of the total).
+#' Use `factor_order` to control the drawing order of the segments.
+#'
 #' @param data Data frame containing the data to plot.
 #' @param target String. Column name of the variable that supplies the values to plot.
 #' @param colors String. Column name of the variable that supplies the color grouping
@@ -54,6 +61,14 @@
 #'   cvec         = gauge_colors,
 #'   factor_order = c("Category A", "Category B", "Category C", "Category D"),
 #'   labels       = "label"
+#' )
+#'
+#' # Minimal call: segments default to the WJP palette
+#' wjp_gauge(
+#'   data4gauge,
+#'   target = "value",
+#'   colors = "category",
+#'   labels = "label"
 #' )
 #'
 

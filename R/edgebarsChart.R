@@ -9,6 +9,13 @@
 #' each bar, which makes them ideal for narrow spaces and long labels.
 #' Values are expected on a 0-100 percentage scale.
 #'
+#' @details
+#' The function expects one row per bar: the category in `grouping` and its
+#' value in `target`. The text above each bar defaults to the `grouping`
+#' values; pass a `labels` column to customize it (HTML/markdown is supported
+#' when the ggtext package is installed). Percentage value labels are added
+#' automatically at the end of each bar.
+#'
 #' @param data Data frame containing the data to plot.
 #' @param target String. Column name of the variable that supplies the values to plot.
 #' @param grouping String. Column name of the variable that supplies the categories.
@@ -50,6 +57,21 @@
 #'   target   = "trust",
 #'   grouping = "country",
 #'   cvec     = "#2894aa"
+#' )
+#'
+#' # Custom rich-text labels above each bar (requires ggtext)
+#' data4edgebars_lab <- data4edgebars %>%
+#'   mutate(
+#'     bar_label = paste0(
+#'       "<b>", country, "</b> — % that trust their institutions"
+#'     )
+#'   )
+#'
+#' wjp_edgebars(
+#'   data4edgebars_lab,
+#'   target   = "trust",
+#'   grouping = "country",
+#'   labels   = "bar_label"
 #' )
 #'
 wjp_edgebars <- function(

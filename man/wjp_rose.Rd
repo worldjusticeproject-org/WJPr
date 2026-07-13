@@ -47,6 +47,13 @@ object with a rose (polar bar) chart following WJP style guidelines. Rose
 charts display the values of a single unit across multiple dimensions.
 Values can be supplied as proportions (0-1) or percentages (0-100).
 }
+\details{
+The function expects one row per dimension (petal): the dimension name in
+\code{grouping}, its value in \code{target}, and the text to display around the
+chart in \code{labels}. By default petals are ordered by value; pass an
+\code{order} column for a custom arrangement. Labels support HTML/markdown
+formatting when the ggtext package is installed.
+}
 \examples{
 library(dplyr)
 library(tidyr)

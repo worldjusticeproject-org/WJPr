@@ -8,6 +8,13 @@
 #' Lollipop charts are a minimalist alternative to horizontal bar charts.
 #' Values are expected on a 0-100 percentage scale.
 #'
+#' @details
+#' The function expects one row per category: the category name in `grouping`
+#' and its value in `target`. Value labels are generated automatically as
+#' rounded percentages unless a `labels` column is supplied. Use `order` to
+#' control the top-to-bottom order of the rows, and `line_color`/`point_color`
+#' to adjust the accent colors.
+#'
 #' @param data Data frame containing the data to plot.
 #' @param target String. Column name of the variable that supplies the values to plot.
 #' @param grouping String. Column name of the variable that supplies the categories
@@ -56,6 +63,19 @@
 #'   data4lollipops,
 #'   target   = "percentage",
 #'   grouping = "institution"
+#' )
+#'
+#' # Custom order (highest first) and accent color
+#' data4lollipops_ordered <- data4lollipops %>%
+#'   arrange(desc(percentage)) %>%
+#'   mutate(rank = row_number())
+#'
+#' wjp_lollipops(
+#'   data4lollipops_ordered,
+#'   target      = "percentage",
+#'   grouping    = "institution",
+#'   order       = "rank",
+#'   point_color = "#2894aa"
 #' )
 #'
 wjp_lollipops <- function(
