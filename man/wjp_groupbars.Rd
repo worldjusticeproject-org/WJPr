@@ -123,8 +123,10 @@ value. Default is TRUE.}
 \item{show_axis}{Logical. If TRUE, displays the X axis with percentage breaks
 (0\%, 25\%, 50\%, 75\%, 100\%) at the bottom. Default is FALSE.}
 
-\item{strip_position}{String. Position of facet strip labels: "left" places them
-vertically on the left side, "top" places them horizontally above each group.
+\item{strip_position}{String. Position of facet strip labels. In single-column
+layouts (\code{facet_ncol = 1}) both options render the group title as a horizontal
+header above each group; "top" uses a slightly larger header. In multi-column
+layouts, "left" places strips on the left and "top" above each panel.
 Default is "left".}
 
 \item{national_var}{String. Value in the \code{grouping} column that identifies

@@ -74,8 +74,10 @@
 #' @param bar_width Numeric. Width of bars. Default is 0.7.
 #' @param show_axis Logical. If TRUE, displays the X axis with percentage breaks
 #'   (0%, 25%, 50%, 75%, 100%) at the bottom. Default is FALSE.
-#' @param strip_position String. Position of facet strip labels: "left" places them
-#'   vertically on the left side, "top" places them horizontally above each group.
+#' @param strip_position String. Position of facet strip labels. In single-column
+#'   layouts (`facet_ncol = 1`) both options render the group title as a horizontal
+#'   header above each group; "top" uses a slightly larger header. In multi-column
+#'   layouts, "left" places strips on the left and "top" above each panel.
 #'   Default is "left".
 #' @param national_var String. Value in the \code{grouping} column that identifies
 #'   the national average row (e.g., "general", "Overall"). When specified, this row
@@ -740,22 +742,16 @@ wjp_groupbars <- function(
     ggplot2::labs(x = "", y = "")
 
   if (facet_ncol == 1) {
-    if (strip_position == "top") {
-      plt <- plt +
-        ggplot2::facet_grid(
-          rows   = ggplot2::vars(grouping_var),
-          scales = "free",
-          space  = "free_y"
-        )
-    } else {
-      plt <- plt +
-        ggplot2::facet_grid(
-          rows   = ggplot2::vars(grouping_var),
-          scales = "free",
-          space  = "free_y",
-          switch = "y"
-        )
-    }
+    # Single-column layouts always place the group title as a horizontal
+    # header above each group (switched strips styled via theme below);
+    # unswitched row strips would render rotated and clipped on the right.
+    plt <- plt +
+      ggplot2::facet_grid(
+        rows   = ggplot2::vars(grouping_var),
+        scales = "free",
+        space  = "free_y",
+        switch = "y"
+      )
   } else {
     plt <- plt +
       ggplot2::facet_wrap(
@@ -938,13 +934,27 @@ wjp_groupbars <- function(
   # Strip styling based on strip_position
   if (strip_position == "top") {
     theme_strip <- ggplot2::theme(
-      strip.text.y = ggplot2::element_text(
+      # facet_wrap top strips (multi-column layouts)
+      strip.text.x = ggplot2::element_text(
         size   = 13,
         color  = colors[1],
         hjust  = 0,
         family = "Lato Full",
-        face   = "plain"
+        face   = "bold"
       ),
+      # facet_grid switched strips shown as horizontal group headers
+      # (single-column layouts)
+      strip.text.y.left = ggplot2::element_text(
+        angle  = 0,
+        size   = 13,
+        color  = colors[1],
+        hjust  = 0,
+        vjust  = 1,
+        family = "Lato Full",
+        face   = "bold",
+        margin = ggplot2::margin(0, -15, 0, 0)
+      ),
+      strip.switch.pad.grid = grid::unit(-6, "mm"),
       plot.margin = ggplot2::margin(10, 35, 10, 10)
     )
   } else {
