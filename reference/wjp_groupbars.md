@@ -182,8 +182,11 @@ wjp_groupbars(
 
 - label_after_ci:
 
-  Logical. If TRUE and confidence intervals are drawn, places labels
-  after the upper CI bound when available. Default is TRUE.
+  Logical. If TRUE and confidence intervals are drawn, value labels are
+  placed at the end of the full bar (after the gray complement), keeping
+  them clear of the interval whiskers and aligned in a single column. If
+  FALSE, labels are placed right after the primary bar value. Default is
+  TRUE.
 
 - facet_ncol:
 

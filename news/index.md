@@ -77,6 +77,10 @@
   chart.
 - [`wjp_check_data()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_check_data.md)
   gains support for `type = "groupbars"`.
+- [`wjp_groupbars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_groupbars.md):
+  when confidence intervals are drawn, value labels are now placed at
+  the end of the full bar (after the gray complement), aligned in a
+  single column, instead of next to the upper interval whisker.
 
 ## WJPr 1.0.1
 
