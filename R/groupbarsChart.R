@@ -30,9 +30,9 @@
 #' @param group_order Character vector specifying the order of all facet groups.
 #'   Default is NULL (uses data order).
 #' @param level_order Named list where names are group values and values are character vectors
-#'   specifying the order of levels within each group. Default is NULL (uses data order).
-#'   For horizontal bars, ggplot2 draws the first discrete y-axis level at the
-#'   bottom, so list levels accordingly when controlling the visual order.
+#'   specifying the order of levels within each group. Default is NULL (uses
+#'   natural ascending order from top to bottom: A-Z and lower numbers first).
+#'   Custom vectors are also interpreted from top to bottom.
 #' @param show_national Logical. If TRUE, adds a vertical national average line
 #'   and a rich text annotation by default, or a national average bar when
 #'   \code{national_style = "bar"}. Default is FALSE.
@@ -157,8 +157,8 @@
 #'   levels         = "category",
 #'   group_order    = c("Gender", "Age"),
 #'   level_order    = list(
-#'     Gender = c("Women", "Men"),
-#'     Age    = c("55+", "25-54", "18-24")
+#'     Gender = c("Men", "Women"),
+#'     Age    = c("18-24", "25-54", "55+")
 #'   ),
 #'   draw_ci        = TRUE,
 #'   ci_lower       = "lower",
@@ -177,8 +177,8 @@
 #'   colors            = c("#482d8b", "#e5e8e8"),
 #'   group_order       = c("Gender", "Age"),
 #'   level_order       = list(
-#'     Gender = c("Women", "Men"),
-#'     Age    = c("55+", "25-54", "18-24")
+#'     Gender = c("Men", "Women"),
+#'     Age    = c("18-24", "25-54", "55+")
 #'   ),
 #'   draw_ci           = TRUE,
 #'   ci_lower          = "lower",
@@ -200,8 +200,8 @@
 #'   colors            = c("#482d8b", "#e5e8e8"),
 #'   group_order       = c("Gender", "Age"),
 #'   level_order       = list(
-#'     Gender = c("Women", "Men"),
-#'     Age    = c("55+", "25-54", "18-24")
+#'     Gender = c("Men", "Women"),
+#'     Age    = c("18-24", "25-54", "55+")
 #'   ),
 #'   draw_ci           = TRUE,
 #'   ci_lower          = "lower",
@@ -327,6 +327,35 @@ wjp_groupbars <- function(
 
   format_pct <- function(x) {
     paste0(round(x, 0), "%")
+  }
+
+  natural_sort <- function(x) {
+    x <- unique(as.character(x))
+    x <- x[!is.na(x)]
+
+    natural_key <- function(value) {
+      normalized <- tolower(trimws(value))
+      transliterated <- iconv(normalized, from = "", to = "ASCII//TRANSLIT")
+      if (!is.na(transliterated)) {
+        normalized <- transliterated
+      }
+
+      parts <- regmatches(
+        normalized,
+        gregexpr("[0-9]+(?:\\.[0-9]+)?|[^0-9]+", normalized, perl = TRUE)
+      )[[1]]
+
+      paste0(vapply(parts, function(part) {
+        if (grepl("^[0-9]", part)) {
+          sprintf("%030.10f", as.numeric(part))
+        } else {
+          part
+        }
+      }, character(1)), collapse = "")
+    }
+
+    keys <- vapply(x, natural_key, character(1))
+    x[order(keys, tolower(x), method = "radix")]
   }
 
   # Handle labels
@@ -622,7 +651,9 @@ wjp_groupbars <- function(
 
     for (grp in names(level_order)) {
       lvls <- level_order[[grp]]
-      all_levels <- c(all_levels, paste(grp, lvls, sep = " | "))
+      # ggplot2 stores discrete y levels bottom-to-top; reverse the requested
+      # vector so callers can specify the intuitive visual order top-to-bottom.
+      all_levels <- c(all_levels, paste(grp, rev(lvls), sep = " | "))
     }
 
     # Add any remaining levels not specified
@@ -633,8 +664,15 @@ wjp_groupbars <- function(
     data2plot <- data2plot %>%
       dplyr::mutate(y_id = factor(y_id, levels = all_levels))
   } else {
-    # Use data order
-    level_vec <- unique(data2plot$y_id)
+    # Sort categories naturally within each group. Discrete y-axis levels are
+    # stored bottom-to-top, so reverse each ascending vector to display A-Z and
+    # lower numbers first from top to bottom.
+    group_vec <- unique(as.character(data2plot$grouping_var))
+    level_vec <- unlist(lapply(group_vec, function(grp) {
+      group_rows <- as.character(data2plot$grouping_var) == grp
+      group_levels <- natural_sort(data2plot$levels_var[group_rows])
+      paste(grp, rev(group_levels), sep = " | ")
+    }), use.names = FALSE)
     data2plot <- data2plot %>%
       dplyr::mutate(y_id = factor(y_id, levels = level_vec))
   }

@@ -386,3 +386,39 @@ test_that("wjp_groupbars places CI labels after the full bar", {
   label_x <- text_layer$x[!is.na(text_layer$label)]
   expect_true(all(label_x == 101))
 })
+
+test_that("wjp_groupbars orders default levels naturally from top to bottom", {
+  groupbars <- data.frame(
+    group = c(rep("Letters", 3), rep("Age", 4)),
+    level = c("Zulu", "Alpha", "Beta", "51+", "21-50", "1-20", "9-10"),
+    value = rep(0.5, 7)
+  )
+
+  plot <- wjp_groupbars(groupbars, "value", "group", "level")
+  y_levels <- levels(plot$data$y_id)
+
+  letters_bottom_to_top <- y_levels[startsWith(y_levels, "Letters | ")]
+  age_bottom_to_top <- y_levels[startsWith(y_levels, "Age | ")]
+
+  expect_equal(
+    rev(sub("^Letters \\| ", "", letters_bottom_to_top)),
+    c("Alpha", "Beta", "Zulu")
+  )
+  expect_equal(
+    rev(sub("^Age \\| ", "", age_bottom_to_top)),
+    c("1-20", "9-10", "21-50", "51+")
+  )
+
+  custom_plot <- wjp_groupbars(
+    groupbars[1:3, ],
+    "value",
+    "group",
+    "level",
+    level_order = list(Letters = c("Zulu", "Beta", "Alpha"))
+  )
+  custom_levels <- levels(custom_plot$data$y_id)
+  expect_equal(
+    rev(sub("^Letters \\| ", "", custom_levels)),
+    c("Zulu", "Beta", "Alpha")
+  )
+})
