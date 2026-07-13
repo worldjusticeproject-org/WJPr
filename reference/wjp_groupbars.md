@@ -95,9 +95,9 @@ wjp_groupbars(
 
   Named list where names are group values and values are character
   vectors specifying the order of levels within each group. Default is
-  NULL (uses data order). For horizontal bars, ggplot2 draws the first
-  discrete y-axis level at the bottom, so list levels accordingly when
-  controlling the visual order.
+  NULL (uses natural ascending order from top to bottom: A-Z and lower
+  numbers first). Custom vectors are also interpreted from top to
+  bottom.
 
 - show_national:
 
@@ -298,8 +298,8 @@ wjp_groupbars(
   levels         = "category",
   group_order    = c("Gender", "Age"),
   level_order    = list(
-    Gender = c("Women", "Men"),
-    Age    = c("55+", "25-54", "18-24")
+    Gender = c("Men", "Women"),
+    Age    = c("18-24", "25-54", "55+")
   ),
   draw_ci        = TRUE,
   ci_lower       = "lower",
@@ -319,8 +319,8 @@ wjp_groupbars(
   colors            = c("#482d8b", "#e5e8e8"),
   group_order       = c("Gender", "Age"),
   level_order       = list(
-    Gender = c("Women", "Men"),
-    Age    = c("55+", "25-54", "18-24")
+    Gender = c("Men", "Women"),
+    Age    = c("18-24", "25-54", "55+")
   ),
   draw_ci           = TRUE,
   ci_lower          = "lower",
@@ -343,8 +343,8 @@ wjp_groupbars(
   colors            = c("#482d8b", "#e5e8e8"),
   group_order       = c("Gender", "Age"),
   level_order       = list(
-    Gender = c("Women", "Men"),
-    Age    = c("55+", "25-54", "18-24")
+    Gender = c("Men", "Women"),
+    Age    = c("18-24", "25-54", "55+")
   ),
   draw_ci           = TRUE,
   ci_lower          = "lower",
