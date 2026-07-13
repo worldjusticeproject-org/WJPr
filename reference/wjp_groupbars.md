@@ -203,9 +203,11 @@ wjp_groupbars(
 
 - strip_position:
 
-  String. Position of facet strip labels: "left" places them vertically
-  on the left side, "top" places them horizontally above each group.
-  Default is "left".
+  String. Position of facet strip labels. In single-column layouts
+  (`facet_ncol = 1`) both options render the group title as a horizontal
+  header above each group; "top" uses a slightly larger header. In
+  multi-column layouts, "left" places strips on the left and "top" above
+  each panel. Default is "left".
 
 - national_var:
 

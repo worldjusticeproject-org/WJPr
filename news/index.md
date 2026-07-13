@@ -81,6 +81,10 @@
   when confidence intervals are drawn, value labels are now placed at
   the end of the full bar (after the gray complement), aligned in a
   single column, instead of next to the upper interval whisker.
+- [`wjp_groupbars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_groupbars.md):
+  `strip_position = "top"` in single-column layouts now renders group
+  titles as horizontal headers above each group instead of rotated (and
+  clipped) strips on the right.
 
 ## WJPr 1.0.1
 

@@ -300,8 +300,10 @@ value. Default is TRUE.</p></dd>
 
 
 <dt id="arg-strip-position">strip_position<a class="anchor" aria-label="anchor" href="#arg-strip-position"></a></dt>
-<dd><p>String. Position of facet strip labels: "left" places them
-vertically on the left side, "top" places them horizontally above each group.
+<dd><p>String. Position of facet strip labels. In single-column
+layouts (<code>facet_ncol = 1</code>) both options render the group title as a horizontal
+header above each group; "top" uses a slightly larger header. In multi-column
+layouts, "left" places strips on the left and "top" above each panel.
 Default is "left".</p></dd>
 
 
