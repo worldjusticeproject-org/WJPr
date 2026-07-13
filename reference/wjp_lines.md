@@ -2,9 +2,11 @@
 
 **\[experimental\]**
 
-`wjp_lines()` takes a data frame with a specific data structure (usually
-long shaped) and returns a ggplot object with a line chart following WJP
-style guidelines.
+`wjp_lines()` takes a data frame with long-format data and returns a
+ggplot object with a line chart following WJP style guidelines. Each
+line is defined by the `colors` variable, so the function works out of
+the box for both single and multiple series. Values are expected on a
+0-100 percentage scale.
 
 ## Usage
 
@@ -13,8 +15,7 @@ wjp_lines(
   data,
   target,
   grouping,
-  ngroups,
-  colors,
+  colors = NULL,
   cvec = NULL,
   labels = NULL,
   repel = FALSE,
@@ -24,6 +25,7 @@ wjp_lines(
   x.breaks = NULL,
   x.labels = NULL,
   sec.ticks = NULL,
+  ngroups = NULL,
   ptheme = WJP_theme()
 )
 ```
@@ -32,153 +34,133 @@ wjp_lines(
 
 - data:
 
-  Data frame containing the data to plot
+  Data frame containing the data to plot.
 
 - target:
 
-  String. Column name of the variable that will supply the values to
-  plot.
+  String. Column name of the variable that supplies the values to plot.
 
 - grouping:
 
-  String. Column name of the variable that supplies the grouping values
-  (X-Axis).
-
-- ngroups:
-
-  Vector containing each of the groups for the lines. If there is only a
-  single group, please input c = (1).
+  String. Column name of the variable that supplies the X-axis values
+  (usually years).
 
 - colors:
 
-  String. Column name of the variable that contains the color grouping.
+  String. Column name of the variable that defines the lines and their
+  color grouping. Default is `NULL` (a single line is drawn).
 
 - cvec:
 
-  Named vector with the colors to apply to each line.
+  Named vector of colors, one per line. Names should match the values of
+  the `colors` variable. Default is `NULL` (the WJP palette, see
+  [`wjp_palette()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_palette.md),
+  is applied).
 
 - labels:
 
   String. Column name of the variable containing the value labels to
-  display in plot.
+  display. Default is `NULL` (no labels).
 
 - repel:
 
-  Boolean. If TRUE, function will apply the ggrepel package to repel
-  labels. Default is FALSE.
+  Logical. If `TRUE`, the ggrepel package is used to avoid overlapping
+  labels. Default is `FALSE`.
 
 - transparency:
 
-  Boolean. If TRUE, function will apply different opacities patterns.
-  Default is FALSE.
+  Logical. If `TRUE`, per-line opacities given in `transparencies` are
+  applied. Default is `FALSE`.
 
 - transparencies:
 
-  Named vector with the different opacities to apply to each line.
+  Named vector of opacities, one per line. Required when
+  `transparency = TRUE`.
 
 - custom.axis:
 
-  Boolean. If TRUE, x.breaks and x.labels will be passed to the ggplot
-  theme. Default is FALSE.
+  Logical. If `TRUE`, `x.breaks` and `x.labels` are applied to a
+  continuous X-axis (requires the ggh4x package). Default is `FALSE`.
 
 - x.breaks:
 
-  Numeric vector with custom breaks for the X-Axis.
+  Numeric vector with custom breaks for the X-axis.
 
 - x.labels:
 
-  Character vector with labels for the x-axis. It has to be the same
-  length than x.breaks.
+  Character vector with labels for the X-axis. Must have the same length
+  as `x.breaks`.
 
 - sec.ticks:
 
-  Numeric vector containing the minor breaks for the plot X-Axis.
+  Numeric vector with minor breaks for the X-axis.
+
+- ngroups:
+
+  **\[deprecated\]** Grouping vector for the lines. Retained for
+  backwards compatibility; lines are now grouped by `colors`
+  automatically.
 
 - ptheme:
 
-  ggplot theme function to apply to the plot. By default, function
-  applies WJP_theme()
+  ggplot theme to apply. Default is
+  [`WJP_theme()`](https://worldjusticeproject-org.github.io/WJPr/reference/WJP_theme.md).
 
 ## Value
 
-A ggplot object
+A ggplot object.
 
 ## Examples
 
 ``` r
 library(dplyr)
 library(tidyr)
-library(haven)
-library(ggplot2)
 
-# Always load the WJP fonts if not passing a custom theme to function
+# Always load the WJP fonts
 wjp_fonts()
 
-# Preparing data
-gpp_data <- WJPr::gpp
-
-data4lines <- gpp_data %>%
-filter(
-  country == "Atlantis"
-) %>%
+# Percentage of people that trust their institutions, over time
+data4lines <- WJPr::gpp %>%
+  filter(country == "Atlantis") %>%
   select(year, q1a, q1b, q1c) %>%
   mutate(
-    across(
-      !year,
-      \(x) as.double(unclass(x))
-    ),
-    across(
-      !year,
-      ~case_when(
-        .x <= 2  ~ 1,
-        .x <= 4  ~ 0,
-        .x == 99 ~ NA_real_
-      )
-    ),
+    across(!year, \(x) as.double(unclass(x))),
+    across(!year, ~ case_when(.x <= 2 ~ 1, .x <= 4 ~ 0)),
     year = as.character(year)
   ) %>%
   group_by(year) %>%
-  summarise(
-    across(
-      everything(),
-      \(x) mean(x, na.rm = TRUE)
-    ),
-    .groups = "keep"
-  ) %>%
-  mutate(
-    across(
-      everything(),
-      \(x) x*100
-    )
-  ) %>%
-  pivot_longer(
-    !year,
-    names_to  = "variable",
-    values_to = "percentage" 
-  ) %>%
+  summarise(across(everything(), \(x) mean(x, na.rm = TRUE) * 100)) %>%
+  pivot_longer(!year, names_to = "variable", values_to = "percentage") %>%
   mutate(
     institution = case_when(
       variable == "q1a" ~ "Institution A",
       variable == "q1b" ~ "Institution B",
       variable == "q1c" ~ "Institution C"
     ),
-    value_label = paste0(
-      format(
-        round(percentage, 0),
-        nsmall = 0
-      ),
-      "%"
-    )
+    value_label = paste0(round(percentage, 0), "%")
   )
- 
- # Plotting chart
- wjp_lines(
-  data4lines %>% filter(institution == "Institution A"),                    
-  target         = "percentage",             
-  grouping       = "year",
-  ngroups        = 1,                 
-  colors         = "institution",
-  cvec           = c("Institution A" = "#482d8b"),
-  labels         = "value_label"
- )
+
+# Multiple lines, one per institution
+wjp_lines(
+  data4lines,
+  target   = "percentage",
+  grouping = "year",
+  colors   = "institution",
+  labels   = "value_label",
+  repel    = TRUE,
+  cvec     = c("Institution A" = "#482d8b",
+               "Institution B" = "#2894aa",
+               "Institution C" = "#f26b21")
+)
+
+
+# Single line
+wjp_lines(
+  data4lines %>% filter(institution == "Institution A"),
+  target   = "percentage",
+  grouping = "year",
+  colors   = "institution",
+  labels   = "value_label"
+)
+
 ```

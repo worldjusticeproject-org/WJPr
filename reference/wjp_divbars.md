@@ -2,9 +2,12 @@
 
 **\[experimental\]**
 
-`wjp_divbars()` takes a data frame with a specific data structure
-(usually long shaped) and returns a ggplot object with a diverging
-horizontal bar chart following WJP style guidelines.
+`wjp_divbars()` takes a data frame with long-format data and returns a
+ggplot object with a diverging horizontal bar chart following WJP style
+guidelines. Bars extend left (negative) and right (positive) from a
+common zero line, which makes the chart suitable for contrasting two
+opposing responses (e.g., "Trust" vs "No Trust"). Values are expected on
+a percentage scale.
 
 ## Usage
 
@@ -18,8 +21,8 @@ wjp_divbars(
   cvec = NULL,
   labels = NULL,
   label_color = "#ffffff",
-  custom_order = FALSE,
   order = NULL,
+  custom_order = FALSE,
   ptheme = WJP_theme()
 )
 ```
@@ -28,125 +31,94 @@ wjp_divbars(
 
 - data:
 
-  Data frame containing the data to plot
+  Data frame containing the data to plot.
 
 - target:
 
-  String. Column name of the variable that will supply the values to
-  plot.
+  String. Column name of the variable that supplies the values to plot.
 
 - grouping:
 
-  String. Column name of the variable that supplies the grouping values
-  (Y-Axis Labels).
+  String. Column name of the variable that supplies the categories
+  (Y-axis labels).
 
 - diverging:
 
-  String. Column name of the variable that supplies the diverging
-  values.
+  String. Column name of the variable that supplies the diverging groups
+  (e.g., the answer categories).
 
 - negative:
 
-  String. Value that indicates that the bar should be in the negative
-  quadrant.
+  String. Value of the `diverging` variable whose bars should extend
+  into the negative quadrant. Default is `NULL` (values are used as
+  supplied, so negative values must already carry a negative sign).
 
 - cvec:
 
-  Named vector with the colors to apply to each bar segment. Default is
-  NULL.
+  Named vector of colors, one per diverging group. Default is `NULL`
+  (the WJP contrast pair is applied, with orange for the negative
+  group).
 
 - labels:
 
-  String. Column name of the variable that supplies the labels to show
-  in the plot. Default is NULL.
+  String. Column name of the variable containing the value labels to
+  display inside the bars. Default is `NULL` (no labels).
 
 - label_color:
 
-  String. Hex code to be use for the labels.
-
-- custom_order:
-
-  Boolean. If TRUE, the plot will expect a custom order of the graph
-  labels. Default is FALSE.
+  String. Hex code for the value labels. Default is `"#ffffff"`.
 
 - order:
 
-  String. Vector that contains the custom order for the y-axis labels.
-  Default is NULL.
+  String. Column name of the variable that contains the display order of
+  categories. Default is `NULL` (data order).
+
+- custom_order:
+
+  **\[deprecated\]** Logical. Ordering is now enabled automatically when
+  `order` is supplied.
 
 - ptheme:
 
-  ggplot theme function to apply to the plot. By default, function
-  applies WJP_theme()
+  ggplot theme to apply. Default is
+  [`WJP_theme()`](https://worldjusticeproject-org.github.io/WJPr/reference/WJP_theme.md).
 
 ## Value
 
-A ggplot object
+A ggplot object.
 
 ## Examples
 
 ``` r
 library(dplyr)
-library(tidyr)
-library(haven)
-library(ggplot2)
 
-# Always load the WJP fonts (optional)
+# Always load the WJP fonts
 wjp_fonts()
 
-# Preparing data
+# Trust vs no trust, by country
 data4divbars <- WJPr::gpp %>%
-filter(
-  year == 2022
-) %>%
-  select(country, q1a) %>%
+  filter(year == 2022) %>%
   mutate(
-    q1a = as.double(unclass(q1a)),
-    q1a  = case_when(
-      q1a <= 2  ~ "Trust",
-      q1a <= 4  ~ "No Trust"
-    )
+    q1a      = as.double(unclass(q1a)),
+    response = case_when(q1a <= 2 ~ "Trust", q1a <= 4 ~ "No Trust")
   ) %>%
-  group_by(country, q1a) %>%
+  filter(!is.na(response)) %>%
+  group_by(country, response) %>%
   count() %>%
-  filter(
-    !is.na(q1a)
-  ) %>%
   group_by(country) %>%
   mutate(
-    total       = sum(n),
-    percentage  = (n/total)*100,
-    value_label = paste0(
-      format(
-        round(percentage, 1),
-        nsmall = 1
-      ),
-      "%"
-    ),
-    value_label    = if_else(percentage >= 5, 
-                             value_label, 
-                             NA_character_),
-    direction      = if_else(q1a == "Trust", 
-                             "positive", 
-                             "negative"),
-    percentage     = if_else(direction == "negative", 
-                             percentage*-1, 
-                             percentage),
-    label_position = (percentage/2)
-  ) %>%
-  select(
-    country, q1a, percentage, value_label, label_position, direction
+    percentage  = (n / sum(n)) * 100,
+    value_label = paste0(round(percentage, 0), "%")
   )
 
-# Plotting chart
 wjp_divbars(
-  data4divbars,             
-  target      = "percentage",       
-  grouping    = "country",         
-  diverging   = "q1a",     
-  negative    = "negative",   
-  cvec        = c("Trust"     = "#482d8b",
-                  "No Trust"  = "#f26b21"),
-  labels      = "value_label"
+  data4divbars,
+  target    = "percentage",
+  grouping  = "country",
+  diverging = "response",
+  negative  = "No Trust",
+  labels    = "value_label",
+  cvec      = c("Trust" = "#482d8b", "No Trust" = "#f26b21")
 )
+
 ```

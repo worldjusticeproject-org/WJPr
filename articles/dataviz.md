@@ -553,21 +553,17 @@ functions:
 - `labels`: Specifies the column containing value labels to display, if
   any.
 
-Additionally, the
-[`wjp_lines()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lines.md)
-function requires the ngroups parameter to define the number of groups.
-Here’s how to set it:
+The lines are defined by the `colors` variable, so the same call works
+for one or many lines. Here’s how it looks in both cases:
 
-1.  For a single line: If plotting only one line, as in the example
-    below, set ngroups = 1.
+1.  For a single line, filter the data so only one group remains:
 
 ``` r
 
 wjp_lines(
-    data4lines %>% filter(institution == "Institution A"),                    
-    target         = "percentage",             
+    data4lines %>% filter(institution == "Institution A"),
+    target         = "percentage",
     grouping       = "year",
-    ngroups        = 1,                 
     colors         = "institution",
     cvec           = c("Institution A" = "#482d8b"),
     labels         = "value_label"
@@ -576,8 +572,7 @@ wjp_lines(
 
 ![](dataviz_files/figure-html/unnamed-chunk-15-1.png)
 
-2.  For multiple lines: When plotting multiple lines, specify the column
-    containing the group identifiers. In this case, also consider
+2.  For multiple lines, pass the full data. In this case, also consider
     setting repel = TRUE to prevent overlapping value labels. Note that
     the ggrepel package must be loaded for this feature to work.
 
@@ -585,10 +580,9 @@ wjp_lines(
 
 library(ggrepel)
 wjp_lines(
-    data4lines,                    
-    target         = "percentage",             
+    data4lines,
+    target         = "percentage",
     grouping       = "year",
-    ngroups        = data4lines$institution,                 
     colors         = "institution",
     cvec           = c("Institution A" = "#482d8b",
                        "Institution B" = "#2894aa",
@@ -615,10 +609,9 @@ Ensure the named vector uses the same values as the color vector
 ``` r
 
 wjp_lines(
-    data4lines,                    
-    target         = "percentage",             
+    data4lines,
+    target         = "percentage",
     grouping       = "year",
-    ngroups        = data4lines$institution,                 
     colors         = "institution",
     cvec           = c("Institution A" = "#482d8b",
                        "Institution B" = "#2894aa",
@@ -704,24 +697,22 @@ examples:
   corresponding color codes.
 - `labels`: Specifies the column containing value labels to display, if
   any.
-- `ngroups`: Defines the number of lines to be plotted. For a single
-  line, set `ngroups = 1`. For multiple lines, pass the column
-  containing the group identifiers.
 - `repel`: Activates the `ggrepel` feature to prevent overlapping
   labels. Note that the `ggrepel` package must be loaded for this
   feature to work.
 
-Using these parameters, you can create a slope chart that effectively
-highlights changes between two points in time while maintaining clarity
-and visual appeal.
+As with
+[`wjp_lines()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lines.md),
+the lines are defined by the `colors` variable. Using these parameters,
+you can create a slope chart that effectively highlights changes between
+two points in time while maintaining clarity and visual appeal.
 
 ``` r
 
 wjp_slope(
-    data4slopes,                    
-    target    = "trust",             
+    data4slopes,
+    target    = "trust",
     grouping  = "year",
-    ngroups   = data4slopes$gender,                 
     labels    = "value_label",
     colors    = "gender",
     cvec      = c("Male"   = "#482d8b",
@@ -991,7 +982,7 @@ wjp_dumbbells(
     data = data4dumbbells,
     target    = "percentage",
     grouping  = "institution",
-    color     = "year",
+    colors    = "year",
     cvec      = c("2017" = "#2894aa",
                   "2022" = "#482d8b"),
     cgroups   = c("2017", "2022")
@@ -1001,26 +992,21 @@ wjp_dumbbells(
 ![](dataviz_files/figure-html/unnamed-chunk-25-1.png)
 
 Adding value labels to a dumbbell chart is as easy as specifying the
-column names that have the value label (`labels`) and the label position
-(`labpos`) to the plotting function.
+column name that has the value label (`labels`). By default, labels are
+placed just outside each endpoint; if you need full control, pass a
+column with custom positions through `labpos`.
 
 ``` r
-
-data4dumbbells <- data4dumbbells %>% 
-  mutate(
-    lab_position = if_else(year == "2022", percentage-5, percentage+5)
-  )
 
 wjp_dumbbells(
     data = data4dumbbells,
     target    = "percentage",
     grouping  = "institution",
-    color     = "year",
+    colors    = "year",
     cgroups   = c("2017", "2022"),
     cvec      = c("2017" = "#2894aa",
                   "2022" = "#482d8b"),
-    labels    = "value_label",
-    labpos    = "lab_position"
+    labels    = "value_label"
 )
 ```
 
@@ -1231,13 +1217,12 @@ wjp_rose(
 ## Controlling the order of elements
 
 Sometimes, we might want to control the order in which we show some
-elements in our charts. Some of the plotting functions in our WJPr
-package include the a `custom_order` and an `order` parameter. Let’s say
-that we want to further customize the diverging bars that we showed
-above and present the bars following in a specific order: Neverland (1),
-Atlantis (2), and Narnia (3). For this, we begin by setting the
-`custom_order` to TRUE and adding a new column to our data that has the
-specific order of the elements:
+elements in our charts. Most of the plotting functions in our WJPr
+package include an `order` parameter for this. Let’s say that we want to
+further customize the diverging bars that we showed above and present
+the bars following in a specific order: Neverland (1), Atlantis (2), and
+Narnia (3). For this, we add a new column to our data that has the
+specific order of the elements and pass its name through `order`:
 
 ``` r
 
@@ -1251,16 +1236,15 @@ data4divbars <- data4divbars %>%
   )
 
 wjp_divbars(
-    data4divbars,             
-    target       = "percentage",       
-    grouping     = "country",         
-    diverging    = "q1a",     
-    negative     = "negative",   
+    data4divbars,
+    target       = "percentage",
+    grouping     = "country",
+    diverging    = "q1a",
+    negative     = "negative",
     cvec         = c("Trust"     = "#482d8b",
                      "No Trust"  = "#f26b21"),
     labels       = "value_label",
-    custom_order = TRUE,
-    order        = "order_no" 
+    order        = "order_no"
 )
 ```
 

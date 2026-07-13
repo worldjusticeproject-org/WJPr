@@ -20,10 +20,13 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Carlos A. Toruno Paniagua
-<ctoruno@worldjusticeproject.org>
+**Maintainer**: Santiago Pardo <spardo@worldjusticeproject.org> (github:
+aspardog) \[copyright holder\]
 
 Authors:
+
+- Santiago Pardo <spardo@worldjusticeproject.org> (github: aspardog)
+  \[copyright holder\]
 
 - World Justice Project Data Analytics Unit
   <data-analytics@worldjusticeproject.org> \[copyright holder\]

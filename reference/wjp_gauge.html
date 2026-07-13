@@ -11,7 +11,7 @@ The chart displays segments in a semicircle, useful for showing composition or p
 
     <a class="navbar-brand me-2" href="../index.html">WJPr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +45,11 @@ The chart displays segments in a semicircle, useful for showing composition or p
     <li><a class="dropdown-item" href="../reference/wjp_check_data.html">wjp_check_data()</a></li>
     <li><a class="dropdown-item" href="../reference/wjp_check_deps.html">wjp_check_deps()</a></li>
     <li><a class="dropdown-item" href="../reference/diffmeans.html">diffmeans()</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Styling</h6></li>
+    <li><a class="dropdown-item" href="../reference/wjp_fonts.html">wjp_fonts()</a></li>
+    <li><a class="dropdown-item" href="../reference/wjp_palette.html">wjp_palette()</a></li>
+    <li><a class="dropdown-item" href="../reference/WJP_theme.html">WJP_theme()</a></li>
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Guides</button>
@@ -99,35 +104,41 @@ The chart displays segments in a semicircle, useful for showing composition or p
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>A data frame containing the data to be plotted.</p></dd>
+<dd><p>Data frame containing the data to plot.</p></dd>
 
 
 <dt id="arg-target">target<a class="anchor" aria-label="anchor" href="#arg-target"></a></dt>
-<dd><p>A string specifying the variable in the data frame that contains the values to be plotted.</p></dd>
+<dd><p>String. Column name of the variable that supplies the values to plot.</p></dd>
 
 
 <dt id="arg-colors">colors<a class="anchor" aria-label="anchor" href="#arg-colors"></a></dt>
-<dd><p>A string specifying the variable in the data frame that represents the color groupings for the segments.</p></dd>
+<dd><p>String. Column name of the variable that supplies the color grouping
+for the segments.</p></dd>
 
 
 <dt id="arg-cvec">cvec<a class="anchor" aria-label="anchor" href="#arg-cvec"></a></dt>
-<dd><p>A named vector of colors to apply to the segments. Names should match the values in the colors column.</p></dd>
+<dd><p>Named vector of colors, one per segment. Names should match the values
+of the <code>colors</code> variable. Default is <code>NULL</code> (the WJP palette, see
+<code><a href="wjp_palette.html">wjp_palette()</a></code>, is applied).</p></dd>
 
 
 <dt id="arg-factor-order">factor_order<a class="anchor" aria-label="anchor" href="#arg-factor-order"></a></dt>
-<dd><p>A vector specifying the order in which the segments should be plotted. Default is NULL.</p></dd>
+<dd><p>Vector with the order in which the segments should be plotted.
+Default is <code>NULL</code> (data order).</p></dd>
 
 
 <dt id="arg-labels">labels<a class="anchor" aria-label="anchor" href="#arg-labels"></a></dt>
-<dd><p>A string specifying the variable in the data frame that contains the labels to be displayed. Default is NULL.</p></dd>
+<dd><p>String. Column name of the variable containing the labels to display
+inside the segments. Default is <code>NULL</code> (no labels).</p></dd>
 
 
 <dt id="arg-crop">crop<a class="anchor" aria-label="anchor" href="#arg-crop"></a></dt>
-<dd><p>A numeric vector specifying the amount of space to crop from the Top, Right, Bottom, and Left margins, respectively. Default is c(-10,0,0,-8).</p></dd>
+<dd><p>Numeric vector with the space to crop from the Top, Right, Bottom, and
+Left margins, respectively. Default is <code>c(-10, 0, 0, -8)</code>.</p></dd>
 
 
 <dt id="arg-ptheme">ptheme<a class="anchor" aria-label="anchor" href="#arg-ptheme"></a></dt>
-<dd><p>A ggplot2 theme object to be applied to the plot. Default is WJP_theme().</p></dd>
+<dd><p>ggplot theme to apply. Default is <code><a href="WJP_theme.html">WJP_theme()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

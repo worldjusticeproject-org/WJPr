@@ -2,9 +2,10 @@
 
 **\[experimental\]**
 
-`wjp_dots()` takes a data frame with a specific data structure (usually
-long shaped) and returns a ggplot object with a dots chart following WJP
-style guidelines.
+`wjp_dots()` takes a data frame with long-format data and returns a
+ggplot object with a dots chart following WJP style guidelines. Dots
+charts compare multiple variables (rows) across groups (colors) on a
+horizontal 0-100 percentage scale, with an alternating strip background.
 
 ## Usage
 
@@ -32,137 +33,118 @@ wjp_dots(
 
 - data:
 
-  Data frame containing the data to plot
+  Data frame containing the data to plot.
 
 - target:
 
-  String. Column name of the variable that will supply the values to
-  plot.
+  String. Column name of the variable that supplies the values to plot.
 
 - grouping:
 
-  String. Column name of the variable that supplies the Y-Axis labels to
-  show in the plot.
+  String. Column name of the variable that supplies the categories
+  (Y-axis labels).
 
 - colors:
 
-  String. Column name of the variable that supplies the grouping values.
-  The plot will show a different color per group.
+  String. Column name of the variable that supplies the color grouping.
+  The plot shows a different color per group.
 
 - cvec:
 
-  Named vector with the colors to apply to the dots. Default is NULL.
+  Named vector of colors. Names should match the values of the `colors`
+  variable. Default is `NULL` (the WJP palette, see
+  [`wjp_palette()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_palette.md),
+  is applied).
 
 - order:
 
-  String. Column name of the variable that contains the desired order
-  for the labels.
+  String. Column name of the variable that contains the display order of
+  categories. Default is `NULL` (data order).
 
 - diffOpac:
 
-  Boolean. If TRUE, the plot will expect different levels of opacities
-  for the dots. Default is FALSE.
+  Logical. If `TRUE`, different opacity levels are applied per group.
+  Automatically enabled when `opacities` is supplied. Default is
+  `FALSE`.
 
 - opacities:
 
-  Named vector with the opacity levels to apply to the dots. Default is
-  NULL.
+  Named vector of opacity levels, one per group. Default is `NULL`.
 
 - diffShp:
 
-  Boolean. If TRUE, the plot will expect different shapes for the dots.
-  Default is FALSE.
+  Logical. If `TRUE`, different point shapes are applied per group.
+  Automatically enabled when `shapes` is supplied. Default is `FALSE`.
 
 - shapes:
 
-  Named vector with shapes to be displayed. Default is NULL.
+  Named vector of point shapes, one per group. Default is `NA`.
 
 - draw_ci:
 
-  Boolean. If TRUE, draws a normal-approximation confidence interval
-  using `sd` and `sample_size`.
+  Logical. If `TRUE`, draws a normal-approximation confidence interval
+  using `sd` and `sample_size`. Default is `FALSE`.
 
 - sd:
 
-  String. Column name of the variable that supplies the standard error
-  for drawing confidence intervals.
+  String. Column name of the variable that supplies the standard
+  deviation for the confidence intervals.
 
 - sample_size:
 
   String. Column name of the variable that supplies the number of
-  observations for drawing confidence intervals.
+  observations for the confidence intervals.
 
 - bgcolor:
 
-  String. Hex code for the "white" background in the strips.
+  String. Hex code of the background color for the alternating row
+  strips. Default is `"#ffffff"`.
 
 - ptheme:
 
-  ggplot theme function to apply to the plot. By default, function
-  applies WJP_theme().
+  ggplot theme to apply. Default is
+  [`WJP_theme()`](https://worldjusticeproject-org.github.io/WJPr/reference/WJP_theme.md).
 
 ## Value
 
-A ggplot object
+A ggplot object.
 
 ## Examples
 
 ``` r
 library(dplyr)
 library(tidyr)
-library(haven)
-library(ggplot2)
 
-# Always load the WJP fonts if not passing a custom theme to function
+# Always load the WJP fonts
 wjp_fonts()
 
-# Preparing data
-gpp_data <- WJPr::gpp
-
-# Preparing data
-data4dots <- gpp_data %>%
+# Percentage of people that trust their institutions, by country
+data4dots <- WJPr::gpp %>%
   select(country, q1a, q1b, q1c, q1d) %>%
   mutate(
     across(!country, \(x) as.double(unclass(x))),
-    across(
-      !country,
-      \(x) case_when(
-        x <= 2 ~ 1,
-        x <= 4 ~ 0
-      )
-    )
+    across(!country, \(x) case_when(x <= 2 ~ 1, x <= 4 ~ 0))
   ) %>%
   group_by(country) %>%
-  summarise(
-    across(
-      everything(),
-      \(x) mean(x, na.rm = TRUE)*100
-    ),
-    .groups = "keep"
-  ) %>%
-  pivot_longer(
-    !country,
-    names_to  = "variable",
-    values_to = "percentage" 
-  ) %>%
+  summarise(across(everything(), \(x) mean(x, na.rm = TRUE) * 100)) %>%
+  pivot_longer(!country, names_to = "variable", values_to = "percentage") %>%
   mutate(
     institution = case_when(
       variable == "q1a" ~ "Institution A",
       variable == "q1b" ~ "Institution B",
       variable == "q1c" ~ "Institution C",
-      variable == "q1d" ~ "Institution D",
+      variable == "q1d" ~ "Institution D"
     )
   )
 
-# Plotting chart
 wjp_dots(
-  data4dots,             
-  target      = "percentage",
-  grouping    = "institution",  
-  colors      = "country",  
-  cvec        = c("Atlantis"  = "#482d8b",
-                  "Narnia"    = "#2894aa",
-                  "Neverland" = "#f26b21")
+  data4dots,
+  target   = "percentage",
+  grouping = "institution",
+  colors   = "country",
+  cvec     = c("Atlantis"  = "#482d8b",
+               "Narnia"    = "#2894aa",
+               "Neverland" = "#f26b21")
 )
 
 ```

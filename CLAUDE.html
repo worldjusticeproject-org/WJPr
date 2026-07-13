@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">WJPr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,6 +41,11 @@
     <li><a class="dropdown-item" href="reference/wjp_check_data.html">wjp_check_data()</a></li>
     <li><a class="dropdown-item" href="reference/wjp_check_deps.html">wjp_check_deps()</a></li>
     <li><a class="dropdown-item" href="reference/diffmeans.html">diffmeans()</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Styling</h6></li>
+    <li><a class="dropdown-item" href="reference/wjp_fonts.html">wjp_fonts()</a></li>
+    <li><a class="dropdown-item" href="reference/wjp_palette.html">wjp_palette()</a></li>
+    <li><a class="dropdown-item" href="reference/WJP_theme.html">WJP_theme()</a></li>
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Guides</button>
@@ -119,7 +124,7 @@
 <div class="section level3">
 <h3 id="key-files">Key Files<a class="anchor" aria-label="anchor" href="#key-files"></a></h3>
 <ul><li>
-<code>R/utils.R</code> - <code><a href="reference/wjp_fonts.html">wjp_fonts()</a></code> loads Lato and Inter Tight fonts; <code><a href="reference/WJP_theme.html">WJP_theme()</a></code> provides base ggplot2 theme</li>
+<code>R/utils.R</code> - <code><a href="reference/wjp_fonts.html">wjp_fonts()</a></code> loads Lato and Inter Tight fonts; <code><a href="reference/WJP_theme.html">WJP_theme()</a></code> provides base ggplot2 theme; <code><a href="reference/wjp_palette.html">wjp_palette()</a></code> exposes the WJP categorical palette (used as the default <code>cvec</code> fallback by all chart functions)</li>
 <li>
 <code>R/*Chart.R</code> - Each chart type has its own file (barsChart.R, lineChart.R, radarChart.R, etc.)</li>
 <li>
@@ -172,17 +177,22 @@
 </tr><tr><td><code><a href="reference/wjp_groupbars.html">wjp_groupbars()</a></code></td>
 <td>groupbarsChart.R</td>
 <td>Faceted stacked bars by demographic groups, with optional CI and national line/bar</td>
-</tr><tr><td><code>wjp_diffmeans()</code></td>
+</tr><tr><td><code><a href="reference/diffmeans.html">diffmeans()</a></code></td>
 <td>diffmeans.R</td>
 <td>Difference in means analysis</td>
 </tr></tbody></table></div>
 <div class="section level3">
 <h3 id="styling-conventions">Styling Conventions<a class="anchor" aria-label="anchor" href="#styling-conventions"></a></h3>
 <ul><li>Font: Lato (loaded via Google Fonts using sysfonts/showtext)</li>
-<li>WJP color palette uses hex codes such as <code>#482d8b</code>, <code>#2894aa</code>, <code>#f26b21</code>, and <code>#555659</code>
+<li>WJP color palette uses hex codes such as <code>#482d8b</code>, <code>#2894aa</code>, <code>#f26b21</code>, and <code>#555659</code> (full ordered palette available via <code><a href="reference/wjp_palette.html">wjp_palette()</a></code>)</li>
+<li>Colors are passed via named vectors (<code>cvec</code>) where names match grouping variable values; when <code>cvec</code> is NULL, functions fall back to <code><a href="reference/wjp_palette.html">wjp_palette()</a></code>
 </li>
-<li>Colors are passed via named vectors (<code>cvec</code>) where names match grouping variable values</li>
 <li>Always call <code><a href="reference/wjp_fonts.html">wjp_fonts()</a></code> before plotting to ensure fonts are available</li>
+<li>Value labels: Lato Full bold, <code>size = 3.514598</code> (10 pt), ink color <code>#4a4a49</code>
+</li>
+<li>Grid lines: <code>#d1cfd1</code>; category axis text: <code>#524F4C</code>, <code>hjust = 0</code>
+</li>
+<li>Horizontal charts display the first data row at the top</li>
 </ul></div>
 <div class="section level3">
 <h3 id="documentation-1">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1"></a></h3>

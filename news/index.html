@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">WJPr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,6 +41,11 @@
     <li><a class="dropdown-item" href="../reference/wjp_check_data.html">wjp_check_data()</a></li>
     <li><a class="dropdown-item" href="../reference/wjp_check_deps.html">wjp_check_deps()</a></li>
     <li><a class="dropdown-item" href="../reference/diffmeans.html">diffmeans()</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Styling</h6></li>
+    <li><a class="dropdown-item" href="../reference/wjp_fonts.html">wjp_fonts()</a></li>
+    <li><a class="dropdown-item" href="../reference/wjp_palette.html">wjp_palette()</a></li>
+    <li><a class="dropdown-item" href="../reference/WJP_theme.html">WJP_theme()</a></li>
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Guides</button>
@@ -69,6 +74,50 @@
       <small>Source: <a href="https://github.com/worldjusticeproject-org/WJPr/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.0" id="wjpr-110">WJPr 1.1.0<a class="anchor" aria-label="anchor" href="#wjpr-110"></a></h2>
+<div class="section level3">
+<h3 id="new-features-1-1-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-1-0"></a></h3>
+<ul><li>New <code><a href="../reference/wjp_palette.html">wjp_palette()</a></code> function exposing the official WJP categorical color palette. All chart functions now fall back to this palette when no <code>cvec</code> is supplied, so charts stay on-brand by default (previously they fell back to the default ggplot2 hues).</li>
+<li>
+<code><a href="../reference/wjp_lines.html">wjp_lines()</a></code> and <code><a href="../reference/wjp_slope.html">wjp_slope()</a></code> no longer require the <code>ngroups</code> parameter: lines are grouped by the <code>colors</code> variable automatically. Both functions also work without <code>colors</code> (a single series is drawn). <code>ngroups</code> is retained for backwards compatibility.</li>
+<li>
+<code><a href="../reference/wjp_dumbbells.html">wjp_dumbbells()</a></code> gains an alternating strip background (visual consistency with <code><a href="../reference/wjp_dots.html">wjp_dots()</a></code>), automatic label positions when <code>labpos</code> is not supplied, and support for named <code>cvec</code> vectors matched against <code>cgroups</code>.</li>
+<li>
+<code><a href="../reference/wjp_lollipops.html">wjp_lollipops()</a></code> gains <code>labels</code>, <code>order</code>, and <code>ptheme</code> parameters. Value labels are generated automatically when <code>labels</code> is not supplied.</li>
+<li>
+<code><a href="../reference/wjp_edgebars.html">wjp_edgebars()</a></code> <code>labels</code> parameter is now optional and defaults to the <code>grouping</code> values.</li>
+<li>
+<code><a href="../reference/wjp_dots.html">wjp_dots()</a></code> automatically enables per-group opacities and shapes when <code>opacities</code> or <code>shapes</code> are supplied.</li>
+<li>
+<code><a href="../reference/wjp_divbars.html">wjp_divbars()</a></code> enables custom ordering automatically when <code>order</code> is supplied (the <code>custom_order</code> flag is retained for backwards compatibility).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="parameter-harmonization-1-1-0">Parameter harmonization<a class="anchor" aria-label="anchor" href="#parameter-harmonization-1-1-0"></a></h3>
+<ul><li>
+<code><a href="../reference/wjp_dumbbells.html">wjp_dumbbells()</a></code>: <code>color</code> was renamed to <code>colors</code> (old name still works).</li>
+<li>
+<code><a href="../reference/wjp_radar.html">wjp_radar()</a></code> and <code><a href="../reference/wjp_rose.html">wjp_rose()</a></code>: <code>order_var</code> was renamed to <code>order</code> (old name still works).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-1-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-0"></a></h3>
+<ul><li>Fixed a bug in <code><a href="../reference/wjp_gauge.html">wjp_gauge()</a></code> where the invisible padding segment received a visible palette color when no <code>cvec</code> was supplied, drawing a full circle instead of a semicircle.</li>
+<li>Fixed a bug in <code><a href="../reference/wjp_dumbbells.html">wjp_dumbbells()</a></code> where the <code>order</code> parameter was ignored.</li>
+<li>
+<code><a href="../reference/diffmeans.html">diffmeans()</a></code> now returns its results explicitly (previously the value was returned invisibly).</li>
+<li>
+<code><a href="../reference/wjp_lines.html">wjp_lines()</a></code> value labels no longer get clipped when values are close to 100%: the label flips below the point instead.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="visual-consistency-1-1-0">Visual consistency<a class="anchor" aria-label="anchor" href="#visual-consistency-1-1-0"></a></h3>
+<ul><li>Value labels now share the same typography across all charts (Lato bold, 10 pt, ink <code>#4a4a49</code>).</li>
+<li>Grid lines harmonized to a single gray (<code>#d1cfd1</code>) across charts.</li>
+<li>Category axis text harmonized (<code>#524F4C</code>, left-aligned) across horizontal charts.</li>
+<li>Horizontal charts (<code><a href="../reference/wjp_dots.html">wjp_dots()</a></code>, <code><a href="../reference/wjp_dumbbells.html">wjp_dumbbells()</a></code>, <code><a href="../reference/wjp_lollipops.html">wjp_lollipops()</a></code>, <code><a href="../reference/wjp_edgebars.html">wjp_edgebars()</a></code>) now consistently display the first row of the data at the top of the chart.</li>
+<li>
+<code><a href="../reference/wjp_check_data.html">wjp_check_data()</a></code> gains support for <code>type = "groupbars"</code>.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.1" id="wjpr-101">WJPr 1.0.1<a class="anchor" aria-label="anchor" href="#wjpr-101"></a></h2>
 <ul><li>Updated <code><a href="../reference/wjp_groupbars.html">wjp_groupbars()</a></code> documentation and gallery images to show the corrected grouped-bar layout with neutral complement bars, confidence intervals, a national bar, and an optional percentage axis.</li>

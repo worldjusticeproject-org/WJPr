@@ -29,7 +29,7 @@ wjp_check_data(
 
   A string specifying the chart type. Options are: "bars", "dots",
   "lines", "slope", "dumbbells", "divbars", "radar", "rose", "gauge",
-  "lollipops", "edgebars".
+  "lollipops", "edgebars", "groupbars".
 
 - target:
 

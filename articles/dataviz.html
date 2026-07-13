@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">WJPr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,6 +61,11 @@
     <li><a class="dropdown-item" href="../reference/wjp_check_data.html">wjp_check_data()</a></li>
     <li><a class="dropdown-item" href="../reference/wjp_check_deps.html">wjp_check_deps()</a></li>
     <li><a class="dropdown-item" href="../reference/diffmeans.html">diffmeans()</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Styling</h6></li>
+    <li><a class="dropdown-item" href="../reference/wjp_fonts.html">wjp_fonts()</a></li>
+    <li><a class="dropdown-item" href="../reference/wjp_palette.html">wjp_palette()</a></li>
+    <li><a class="dropdown-item" href="../reference/WJP_theme.html">WJP_theme()</a></li>
   </ul>
 </li>
 <li class="active nav-item dropdown">
@@ -1044,37 +1049,33 @@ to their corresponding color codes.</li>
 <code>labels</code>: Specifies the column containing value labels to
 display, if any.</li>
 </ul>
-<p>Additionally, the <code><a href="../reference/wjp_lines.html">wjp_lines()</a></code> function requires the
-ngroups parameter to define the number of groups. Here’s how to set
-it:</p>
+<p>The lines are defined by the <code>colors</code> variable, so the
+same call works for one or many lines. Here’s how it looks in both
+cases:</p>
 <ol style="list-style-type: decimal">
-<li>For a single line: If plotting only one line, as in the example
-below, set ngroups = 1.</li>
+<li>For a single line, filter the data so only one group remains:</li>
 </ol>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/wjp_lines.html">wjp_lines</a></span><span class="op">(</span></span>
-<span>    <span class="va">data4lines</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">institution</span> <span class="op">==</span> <span class="st">"Institution A"</span><span class="op">)</span>,                    </span>
-<span>    target         <span class="op">=</span> <span class="st">"percentage"</span>,             </span>
+<span>    <span class="va">data4lines</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">institution</span> <span class="op">==</span> <span class="st">"Institution A"</span><span class="op">)</span>,</span>
+<span>    target         <span class="op">=</span> <span class="st">"percentage"</span>,</span>
 <span>    grouping       <span class="op">=</span> <span class="st">"year"</span>,</span>
-<span>    ngroups        <span class="op">=</span> <span class="fl">1</span>,                 </span>
 <span>    colors         <span class="op">=</span> <span class="st">"institution"</span>,</span>
 <span>    cvec           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Institution A"</span> <span class="op">=</span> <span class="st">"#482d8b"</span><span class="op">)</span>,</span>
 <span>    labels         <span class="op">=</span> <span class="st">"value_label"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="dataviz_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" alt="" width="100%"></p>
 <ol start="2" style="list-style-type: decimal">
-<li>For multiple lines: When plotting multiple lines, specify the column
-containing the group identifiers. In this case, also consider setting
-repel = TRUE to prevent overlapping value labels. Note that the ggrepel
-package must be loaded for this feature to work.</li>
+<li>For multiple lines, pass the full data. In this case, also consider
+setting repel = TRUE to prevent overlapping value labels. Note that the
+ggrepel package must be loaded for this feature to work.</li>
 </ol>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggrepel.slowkow.com/" class="external-link">ggrepel</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/wjp_lines.html">wjp_lines</a></span><span class="op">(</span></span>
-<span>    <span class="va">data4lines</span>,                    </span>
-<span>    target         <span class="op">=</span> <span class="st">"percentage"</span>,             </span>
+<span>    <span class="va">data4lines</span>,</span>
+<span>    target         <span class="op">=</span> <span class="st">"percentage"</span>,</span>
 <span>    grouping       <span class="op">=</span> <span class="st">"year"</span>,</span>
-<span>    ngroups        <span class="op">=</span> <span class="va">data4lines</span><span class="op">$</span><span class="va">institution</span>,                 </span>
 <span>    colors         <span class="op">=</span> <span class="st">"institution"</span>,</span>
 <span>    cvec           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Institution A"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
 <span>                       <span class="st">"Institution B"</span> <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
@@ -1096,10 +1097,9 @@ uses the same values as the color vector (<code>cvec</code>) to align
 opacities with the corresponding lines.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/wjp_lines.html">wjp_lines</a></span><span class="op">(</span></span>
-<span>    <span class="va">data4lines</span>,                    </span>
-<span>    target         <span class="op">=</span> <span class="st">"percentage"</span>,             </span>
+<span>    <span class="va">data4lines</span>,</span>
+<span>    target         <span class="op">=</span> <span class="st">"percentage"</span>,</span>
 <span>    grouping       <span class="op">=</span> <span class="st">"year"</span>,</span>
-<span>    ngroups        <span class="op">=</span> <span class="va">data4lines</span><span class="op">$</span><span class="va">institution</span>,                 </span>
 <span>    colors         <span class="op">=</span> <span class="st">"institution"</span>,</span>
 <span>    cvec           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Institution A"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
 <span>                       <span class="st">"Institution B"</span> <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
@@ -1253,23 +1253,19 @@ to their corresponding color codes.</li>
 <code>labels</code>: Specifies the column containing value labels to
 display, if any.</li>
 <li>
-<code>ngroups</code>: Defines the number of lines to be plotted. For
-a single line, set <code>ngroups = 1</code>. For multiple lines, pass
-the column containing the group identifiers.</li>
-<li>
 <code>repel</code>: Activates the <code>ggrepel</code> feature to
 prevent overlapping labels. Note that the <code>ggrepel</code> package
 must be loaded for this feature to work.</li>
 </ul>
-<p>Using these parameters, you can create a slope chart that effectively
-highlights changes between two points in time while maintaining clarity
-and visual appeal.</p>
+<p>As with <code><a href="../reference/wjp_lines.html">wjp_lines()</a></code>, the lines are defined by the
+<code>colors</code> variable. Using these parameters, you can create a
+slope chart that effectively highlights changes between two points in
+time while maintaining clarity and visual appeal.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/wjp_slope.html">wjp_slope</a></span><span class="op">(</span></span>
-<span>    <span class="va">data4slopes</span>,                    </span>
-<span>    target    <span class="op">=</span> <span class="st">"trust"</span>,             </span>
+<span>    <span class="va">data4slopes</span>,</span>
+<span>    target    <span class="op">=</span> <span class="st">"trust"</span>,</span>
 <span>    grouping  <span class="op">=</span> <span class="st">"year"</span>,</span>
-<span>    ngroups   <span class="op">=</span> <span class="va">data4slopes</span><span class="op">$</span><span class="va">gender</span>,                 </span>
 <span>    labels    <span class="op">=</span> <span class="st">"value_label"</span>,</span>
 <span>    colors    <span class="op">=</span> <span class="st">"gender"</span>,</span>
 <span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span>   <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
@@ -1866,31 +1862,26 @@ we have reviewed in previous sections:</p>
 <span>    data <span class="op">=</span> <span class="va">data4dumbbells</span>,</span>
 <span>    target    <span class="op">=</span> <span class="st">"percentage"</span>,</span>
 <span>    grouping  <span class="op">=</span> <span class="st">"institution"</span>,</span>
-<span>    color     <span class="op">=</span> <span class="st">"year"</span>,</span>
+<span>    colors    <span class="op">=</span> <span class="st">"year"</span>,</span>
 <span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span> <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
 <span>                  <span class="st">"2022"</span> <span class="op">=</span> <span class="st">"#482d8b"</span><span class="op">)</span>,</span>
 <span>    cgroups   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span>, <span class="st">"2022"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="dataviz_files/figure-html/unnamed-chunk-25-1.png" class="r-plt" alt="" width="100%"></p>
 <p>Adding value labels to a dumbbell chart is as easy as specifying the
-column names that have the value label (<code>labels</code>) and the
-label position (<code>labpos</code>) to the plotting function.</p>
+column name that has the value label (<code>labels</code>). By default,
+labels are placed just outside each endpoint; if you need full control,
+pass a column with custom positions through <code>labpos</code>.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">data4dumbbells</span> <span class="op">&lt;-</span> <span class="va">data4dumbbells</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    lab_position <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="st">"2022"</span>, <span class="va">percentage</span><span class="op">-</span><span class="fl">5</span>, <span class="va">percentage</span><span class="op">+</span><span class="fl">5</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/wjp_dumbbells.html">wjp_dumbbells</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/wjp_dumbbells.html">wjp_dumbbells</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">data4dumbbells</span>,</span>
 <span>    target    <span class="op">=</span> <span class="st">"percentage"</span>,</span>
 <span>    grouping  <span class="op">=</span> <span class="st">"institution"</span>,</span>
-<span>    color     <span class="op">=</span> <span class="st">"year"</span>,</span>
+<span>    colors    <span class="op">=</span> <span class="st">"year"</span>,</span>
 <span>    cgroups   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span>, <span class="st">"2022"</span><span class="op">)</span>,</span>
 <span>    cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span> <span class="op">=</span> <span class="st">"#2894aa"</span>,</span>
 <span>                  <span class="st">"2022"</span> <span class="op">=</span> <span class="st">"#482d8b"</span><span class="op">)</span>,</span>
-<span>    labels    <span class="op">=</span> <span class="st">"value_label"</span>,</span>
-<span>    labpos    <span class="op">=</span> <span class="st">"lab_position"</span></span>
+<span>    labels    <span class="op">=</span> <span class="st">"value_label"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="dataviz_files/figure-html/unnamed-chunk-26-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
@@ -2348,14 +2339,13 @@ used to exemplify the radar chart.</p>
 <h2 id="controlling-the-order-of-elements">Controlling the order of elements<a class="anchor" aria-label="anchor" href="#controlling-the-order-of-elements"></a>
 </h2>
 <p>Sometimes, we might want to control the order in which we show some
-elements in our charts. Some of the plotting functions in our WJPr
-package include the a <code>custom_order</code> and an
-<code>order</code> parameter. Let’s say that we want to further
-customize the diverging bars that we showed above and present the bars
-following in a specific order: Neverland (1), Atlantis (2), and Narnia
-(3). For this, we begin by setting the <code>custom_order</code> to TRUE
-and adding a new column to our data that has the specific order of the
-elements:</p>
+elements in our charts. Most of the plotting functions in our WJPr
+package include an <code>order</code> parameter for this. Let’s say that
+we want to further customize the diverging bars that we showed above and
+present the bars following in a specific order: Neverland (1), Atlantis
+(2), and Narnia (3). For this, we add a new column to our data that has
+the specific order of the elements and pass its name through
+<code>order</code>:</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data4divbars</span> <span class="op">&lt;-</span> <span class="va">data4divbars</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -2367,16 +2357,15 @@ elements:</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/wjp_divbars.html">wjp_divbars</a></span><span class="op">(</span></span>
-<span>    <span class="va">data4divbars</span>,             </span>
-<span>    target       <span class="op">=</span> <span class="st">"percentage"</span>,       </span>
-<span>    grouping     <span class="op">=</span> <span class="st">"country"</span>,         </span>
-<span>    diverging    <span class="op">=</span> <span class="st">"q1a"</span>,     </span>
-<span>    negative     <span class="op">=</span> <span class="st">"negative"</span>,   </span>
+<span>    <span class="va">data4divbars</span>,</span>
+<span>    target       <span class="op">=</span> <span class="st">"percentage"</span>,</span>
+<span>    grouping     <span class="op">=</span> <span class="st">"country"</span>,</span>
+<span>    diverging    <span class="op">=</span> <span class="st">"q1a"</span>,</span>
+<span>    negative     <span class="op">=</span> <span class="st">"negative"</span>,</span>
 <span>    cvec         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Trust"</span>     <span class="op">=</span> <span class="st">"#482d8b"</span>,</span>
 <span>                     <span class="st">"No Trust"</span>  <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span>,</span>
 <span>    labels       <span class="op">=</span> <span class="st">"value_label"</span>,</span>
-<span>    custom_order <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>    order        <span class="op">=</span> <span class="st">"order_no"</span> </span>
+<span>    order        <span class="op">=</span> <span class="st">"order_no"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="dataviz_files/figure-html/unnamed-chunk-31-1.png" class="r-plt" alt="" width="100%"></p>
 <p>Same can be done when working with dot charts:</p>

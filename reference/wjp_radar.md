@@ -17,8 +17,9 @@ wjp_radar(
   colors,
   maincat = NULL,
   cvec = NULL,
-  order_var = NULL,
-  source = "GPP"
+  order = NULL,
+  source = "GPP",
+  order_var = NULL
 )
 ```
 
@@ -26,45 +27,50 @@ wjp_radar(
 
 - data:
 
-  A data frame containing the data to be plotted.
+  Data frame containing the data to plot.
 
 - axis_var:
 
-  A string specifying the variable in the data frame that contains the
-  groups for the axis.
+  String. Column name of the variable that supplies the axes
+  (dimensions) of the radar.
 
 - target:
 
-  A string specifying the variable in the data frame that contains the
-  values to be plotted.
+  String. Column name of the variable that supplies the values to plot.
 
 - labels:
 
-  A string specifying the variable in the data frame that contains the
-  labels to be displayed.
+  String. Column name of the variable containing the axis labels to
+  display around the radar.
 
 - colors:
 
-  A string specifying the variable in the data frame that contains the
-  color groupings.
+  String. Column name of the variable that supplies the color grouping.
+  The plot shows one polygon per group.
 
 - maincat:
 
-  A string indicating the column used to choose the axis labels. If
-  NULL, labels are taken from the first color group.
+  String. Column used to choose the axis labels. If `NULL`, labels are
+  taken from the first color group.
 
 - cvec:
 
-  A named vector of colors to apply to lines.
+  Named vector of colors, one per group. Default is `NULL` (the WJP
+  contrast pair `#482d8b` / `#f26b21` is applied).
 
-- order_var:
+- order:
 
-  A string specifying the variable in the data frame that contains the
-  display order of categories. Default is NULL.
+  String. Column name of the variable that contains the display order of
+  the axes. Default is `NULL` (data order).
 
 - source:
 
-  A string which can take two values (GPP or QRQ).
+  String. Either `"GPP"` (values on a 0-100 percentage scale) or `"QRQ"`
+  (values on a 0-1 score scale). Default is `"GPP"`.
+
+- order_var:
+
+  **\[deprecated\]** Use `order` instead.
 
 ## Value
 
@@ -75,57 +81,31 @@ A ggplot object representing the radar plot.
 ``` r
 library(dplyr)
 library(tidyr)
-library(haven)
-library(ggplot2)
-library(purrr)
-library(ggtext)
 
-# Always load the WJP fonts (optional)
+# Always load the WJP fonts
 wjp_fonts()
 
-# Preparing data
-gpp_data <- WJPr::gpp
-
-data4radar <- gpp_data %>%
-select(gend, starts_with("q49")) %>%
+# Opinions about authorities, by gender
+data4radar <- WJPr::gpp %>%
+  select(gend, starts_with("q49")) %>%
   mutate(
-    gend = as.double(unclass(gend)),
+    gend   = as.double(unclass(gend)),
     across(starts_with("q49"), \(x) as.double(unclass(x))),
-    gender = case_when(
-      gend == 1 ~ "Male",
-      gend == 2 ~ "Female"
-    ),
-    across(
-      starts_with("q49"),
-      \(x) case_when(
-        x <= 2  ~ 1,
-        x <= 99 ~ 0
-      )
-    )
+    gender = case_when(gend == 1 ~ "Male", gend == 2 ~ "Female"),
+    across(starts_with("q49"), \(x) case_when(x <= 2 ~ 1, x <= 99 ~ 0))
   ) %>%
   group_by(gender) %>%
-  summarise(
-    across(
-      starts_with("q49"),
-      \(x) mean(x, na.rm = TRUE)*100
-    )
-  ) %>%
-  pivot_longer(
-    !gender,
-    names_to  = "category",
-    values_to = "percentage"
-  ) %>%
-  mutate(
-    axis_label = category
-  )
+  summarise(across(starts_with("q49"), \(x) mean(x, na.rm = TRUE) * 100)) %>%
+  pivot_longer(!gender, names_to = "category", values_to = "percentage") %>%
+  mutate(axis_label = category)
 
-# Plotting chart
 wjp_radar(
-  data4radar,             
-  axis_var    = "category",         
-  target      = "percentage",       
-  labels      = "axis_label",        
-  colors      = "gender"
+  data4radar,
+  axis_var = "category",
+  target   = "percentage",
+  labels   = "axis_label",
+  colors   = "gender",
+  cvec     = c("Male" = "#482d8b", "Female" = "#f26b21")
 )
 
 ```

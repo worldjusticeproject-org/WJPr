@@ -443,13 +443,13 @@ data <- raw_data %>%
 |----|----|----|
 | [`wjp_bars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_bars.md) | target, grouping | colors, labels, lab_pos, order |
 | [`wjp_dots()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dots.md) | target, grouping, colors | order, sd, sample_size (for CI) |
-| [`wjp_lines()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lines.md) | target, grouping, colors, ngroups | labels |
-| [`wjp_dumbbells()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dumbbells.md) | target, grouping, color, cgroups | labels, labpos |
-| [`wjp_divbars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_divbars.md) | target, grouping, diverging | labels, order |
-| [`wjp_radar()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_radar.md) | target, axis_var, labels, colors | order_var |
-| [`wjp_rose()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_rose.md) | target, grouping, labels | order_var |
-| [`wjp_slope()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_slope.md) | target, grouping, colors, ngroups | labels |
+| [`wjp_lines()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lines.md) | target, grouping | colors, labels |
+| [`wjp_dumbbells()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dumbbells.md) | target, grouping, colors, cgroups | labels, labpos, order |
+| [`wjp_divbars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_divbars.md) | target, grouping, diverging | negative, labels, order |
+| [`wjp_radar()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_radar.md) | target, axis_var, labels, colors | order |
+| [`wjp_rose()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_rose.md) | target, grouping, labels | order |
+| [`wjp_slope()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_slope.md) | target, grouping | colors, labels |
 | [`wjp_gauge()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_gauge.md) | target, colors | labels, factor_order |
-| [`wjp_lollipops()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lollipops.md) | target, grouping | order |
-| [`wjp_edgebars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_edgebars.md) | target, grouping, labels | x_lab_pos |
+| [`wjp_lollipops()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lollipops.md) | target, grouping | labels, order |
+| [`wjp_edgebars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_edgebars.md) | target, grouping | labels, x_lab_pos |
 | [`wjp_groupbars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_groupbars.md) | target, grouping, levels | labels, group_order, level_order, ci_lower + ci_upper or sd + sample_size (for CI), show_national + national_value, national_style, national_ci_lower + national_ci_upper, show_axis, label_position |

@@ -1,5 +1,83 @@
 # Changelog
 
+## WJPr 1.1.0
+
+### New features
+
+- New
+  [`wjp_palette()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_palette.md)
+  function exposing the official WJP categorical color palette. All
+  chart functions now fall back to this palette when no `cvec` is
+  supplied, so charts stay on-brand by default (previously they fell
+  back to the default ggplot2 hues).
+- [`wjp_lines()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lines.md)
+  and
+  [`wjp_slope()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_slope.md)
+  no longer require the `ngroups` parameter: lines are grouped by the
+  `colors` variable automatically. Both functions also work without
+  `colors` (a single series is drawn). `ngroups` is retained for
+  backwards compatibility.
+- [`wjp_dumbbells()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dumbbells.md)
+  gains an alternating strip background (visual consistency with
+  [`wjp_dots()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dots.md)),
+  automatic label positions when `labpos` is not supplied, and support
+  for named `cvec` vectors matched against `cgroups`.
+- [`wjp_lollipops()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lollipops.md)
+  gains `labels`, `order`, and `ptheme` parameters. Value labels are
+  generated automatically when `labels` is not supplied.
+- [`wjp_edgebars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_edgebars.md)
+  `labels` parameter is now optional and defaults to the `grouping`
+  values.
+- [`wjp_dots()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dots.md)
+  automatically enables per-group opacities and shapes when `opacities`
+  or `shapes` are supplied.
+- [`wjp_divbars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_divbars.md)
+  enables custom ordering automatically when `order` is supplied (the
+  `custom_order` flag is retained for backwards compatibility).
+
+### Parameter harmonization
+
+- [`wjp_dumbbells()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dumbbells.md):
+  `color` was renamed to `colors` (old name still works).
+- [`wjp_radar()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_radar.md)
+  and
+  [`wjp_rose()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_rose.md):
+  `order_var` was renamed to `order` (old name still works).
+
+### Bug fixes
+
+- Fixed a bug in
+  [`wjp_gauge()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_gauge.md)
+  where the invisible padding segment received a visible palette color
+  when no `cvec` was supplied, drawing a full circle instead of a
+  semicircle.
+- Fixed a bug in
+  [`wjp_dumbbells()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dumbbells.md)
+  where the `order` parameter was ignored.
+- [`diffmeans()`](https://worldjusticeproject-org.github.io/WJPr/reference/diffmeans.md)
+  now returns its results explicitly (previously the value was returned
+  invisibly).
+- [`wjp_lines()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lines.md)
+  value labels no longer get clipped when values are close to 100%: the
+  label flips below the point instead.
+
+### Visual consistency
+
+- Value labels now share the same typography across all charts (Lato
+  bold, 10 pt, ink `#4a4a49`).
+- Grid lines harmonized to a single gray (`#d1cfd1`) across charts.
+- Category axis text harmonized (`#524F4C`, left-aligned) across
+  horizontal charts.
+- Horizontal charts
+  ([`wjp_dots()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dots.md),
+  [`wjp_dumbbells()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dumbbells.md),
+  [`wjp_lollipops()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lollipops.md),
+  [`wjp_edgebars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_edgebars.md))
+  now consistently display the first row of the data at the top of the
+  chart.
+- [`wjp_check_data()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_check_data.md)
+  gains support for `type = "groupbars"`.
+
 ## WJPr 1.0.1
 
 - Updated

@@ -11,7 +11,7 @@ object with a radar chart following WJP style guidelines."><link rel="preconnect
 
     <a class="navbar-brand me-2" href="../index.html">WJPr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +45,11 @@ object with a radar chart following WJP style guidelines."><link rel="preconnect
     <li><a class="dropdown-item" href="../reference/wjp_check_data.html">wjp_check_data()</a></li>
     <li><a class="dropdown-item" href="../reference/wjp_check_deps.html">wjp_check_deps()</a></li>
     <li><a class="dropdown-item" href="../reference/diffmeans.html">diffmeans()</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Styling</h6></li>
+    <li><a class="dropdown-item" href="../reference/wjp_fonts.html">wjp_fonts()</a></li>
+    <li><a class="dropdown-item" href="../reference/wjp_palette.html">wjp_palette()</a></li>
+    <li><a class="dropdown-item" href="../reference/WJP_theme.html">WJP_theme()</a></li>
   </ul></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Guides</button>
@@ -90,8 +95,9 @@ object with a radar chart following WJP style guidelines.</p>
 <span>  <span class="va">colors</span>,</span>
 <span>  maincat <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  cvec <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  order_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  source <span class="op">=</span> <span class="st">"GPP"</span></span>
+<span>  order <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  source <span class="op">=</span> <span class="st">"GPP"</span>,</span>
+<span>  order_var <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -100,40 +106,50 @@ object with a radar chart following WJP style guidelines.</p>
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>A data frame containing the data to be plotted.</p></dd>
+<dd><p>Data frame containing the data to plot.</p></dd>
 
 
 <dt id="arg-axis-var">axis_var<a class="anchor" aria-label="anchor" href="#arg-axis-var"></a></dt>
-<dd><p>A string specifying the variable in the data frame that contains the groups for the axis.</p></dd>
+<dd><p>String. Column name of the variable that supplies the axes
+(dimensions) of the radar.</p></dd>
 
 
 <dt id="arg-target">target<a class="anchor" aria-label="anchor" href="#arg-target"></a></dt>
-<dd><p>A string specifying the variable in the data frame that contains the values to be plotted.</p></dd>
+<dd><p>String. Column name of the variable that supplies the values to plot.</p></dd>
 
 
 <dt id="arg-labels">labels<a class="anchor" aria-label="anchor" href="#arg-labels"></a></dt>
-<dd><p>A string specifying the variable in the data frame that contains the labels to be displayed.</p></dd>
+<dd><p>String. Column name of the variable containing the axis labels to
+display around the radar.</p></dd>
 
 
 <dt id="arg-colors">colors<a class="anchor" aria-label="anchor" href="#arg-colors"></a></dt>
-<dd><p>A string specifying the variable in the data frame that contains the color groupings.</p></dd>
+<dd><p>String. Column name of the variable that supplies the color grouping.
+The plot shows one polygon per group.</p></dd>
 
 
 <dt id="arg-maincat">maincat<a class="anchor" aria-label="anchor" href="#arg-maincat"></a></dt>
-<dd><p>A string indicating the column used to choose the axis labels.
-If NULL, labels are taken from the first color group.</p></dd>
+<dd><p>String. Column used to choose the axis labels. If <code>NULL</code>, labels are
+taken from the first color group.</p></dd>
 
 
 <dt id="arg-cvec">cvec<a class="anchor" aria-label="anchor" href="#arg-cvec"></a></dt>
-<dd><p>A named vector of colors to apply to lines.</p></dd>
+<dd><p>Named vector of colors, one per group. Default is <code>NULL</code>
+(the WJP contrast pair <code>#482d8b</code> / <code>#f26b21</code> is applied).</p></dd>
 
 
-<dt id="arg-order-var">order_var<a class="anchor" aria-label="anchor" href="#arg-order-var"></a></dt>
-<dd><p>A string specifying the variable in the data frame that contains the display order of categories. Default is NULL.</p></dd>
+<dt id="arg-order">order<a class="anchor" aria-label="anchor" href="#arg-order"></a></dt>
+<dd><p>String. Column name of the variable that contains the display order of
+the axes. Default is <code>NULL</code> (data order).</p></dd>
 
 
 <dt id="arg-source">source<a class="anchor" aria-label="anchor" href="#arg-source"></a></dt>
-<dd><p>A string which can take two values (GPP or QRQ).</p></dd>
+<dd><p>String. Either <code>"GPP"</code> (values on a 0-100 percentage scale) or
+<code>"QRQ"</code> (values on a 0-1 score scale). Default is <code>"GPP"</code>.</p></dd>
+
+
+<dt id="arg-order-var">order_var<a class="anchor" aria-label="anchor" href="#arg-order-var"></a></dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Use <code>order</code> instead.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -145,57 +161,31 @@ If NULL, labels are taken from the first color group.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://haven.tidyverse.org" class="external-link">haven</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/ggtext/" class="external-link">ggtext</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Always load the WJP fonts (optional)</span></span></span>
+<span class="r-in"><span><span class="co"># Always load the WJP fonts</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="wjp_fonts.html">wjp_fonts</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Preparing data</span></span></span>
-<span class="r-in"><span><span class="va">gpp_data</span> <span class="op">&lt;-</span> <span class="fu">WJPr</span><span class="fu">::</span><span class="va"><a href="gpp.html">gpp</a></span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">data4radar</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">gend</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"q49"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span><span class="co"># Opinions about authorities, by gender</span></span></span>
+<span class="r-in"><span><span class="va">data4radar</span> <span class="op">&lt;-</span> <span class="fu">WJPr</span><span class="fu">::</span><span class="va"><a href="gpp.html">gpp</a></span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">gend</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"q49"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    gend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="va">gend</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    gend   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="va">gend</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"q49"</span><span class="op">)</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    gender <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>      <span class="va">gend</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"Male"</span>,</span></span>
-<span class="r-in"><span>      <span class="va">gend</span> <span class="op">==</span> <span class="fl">2</span> <span class="op">~</span> <span class="st">"Female"</span></span></span>
-<span class="r-in"><span>    <span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>      <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"q49"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>      \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>        <span class="va">x</span> <span class="op">&lt;=</span> <span class="fl">2</span>  <span class="op">~</span> <span class="fl">1</span>,</span></span>
-<span class="r-in"><span>        <span class="va">x</span> <span class="op">&lt;=</span> <span class="fl">99</span> <span class="op">~</span> <span class="fl">0</span></span></span>
-<span class="r-in"><span>      <span class="op">)</span></span></span>
-<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>    gender <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">gend</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">~</span> <span class="st">"Male"</span>, <span class="va">gend</span> <span class="op">==</span> <span class="fl">2</span> <span class="op">~</span> <span class="st">"Female"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"q49"</span><span class="op">)</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span><span class="va">x</span> <span class="op">&lt;=</span> <span class="fl">2</span> <span class="op">~</span> <span class="fl">1</span>, <span class="va">x</span> <span class="op">&lt;=</span> <span class="fl">99</span> <span class="op">~</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">gender</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>      <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"q49"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>      \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">*</span><span class="fl">100</span></span></span>
-<span class="r-in"><span>    <span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="op">!</span><span class="va">gender</span>,</span></span>
-<span class="r-in"><span>    names_to  <span class="op">=</span> <span class="st">"category"</span>,</span></span>
-<span class="r-in"><span>    values_to <span class="op">=</span> <span class="st">"percentage"</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    axis_label <span class="op">=</span> <span class="va">category</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"q49"</span><span class="op">)</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">!</span><span class="va">gender</span>, names_to <span class="op">=</span> <span class="st">"category"</span>, values_to <span class="op">=</span> <span class="st">"percentage"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>axis_label <span class="op">=</span> <span class="va">category</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Plotting chart</span></span></span>
 <span class="r-in"><span><span class="fu">wjp_radar</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="va">data4radar</span>,             </span></span>
-<span class="r-in"><span>  axis_var    <span class="op">=</span> <span class="st">"category"</span>,         </span></span>
-<span class="r-in"><span>  target      <span class="op">=</span> <span class="st">"percentage"</span>,       </span></span>
-<span class="r-in"><span>  labels      <span class="op">=</span> <span class="st">"axis_label"</span>,        </span></span>
-<span class="r-in"><span>  colors      <span class="op">=</span> <span class="st">"gender"</span></span></span>
+<span class="r-in"><span>  <span class="va">data4radar</span>,</span></span>
+<span class="r-in"><span>  axis_var <span class="op">=</span> <span class="st">"category"</span>,</span></span>
+<span class="r-in"><span>  target   <span class="op">=</span> <span class="st">"percentage"</span>,</span></span>
+<span class="r-in"><span>  labels   <span class="op">=</span> <span class="st">"axis_label"</span>,</span></span>
+<span class="r-in"><span>  colors   <span class="op">=</span> <span class="st">"gender"</span>,</span></span>
+<span class="r-in"><span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>, <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="wjp_radar-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>

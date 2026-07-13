@@ -25,43 +25,43 @@ wjp_gauge(
 
 - data:
 
-  A data frame containing the data to be plotted.
+  Data frame containing the data to plot.
 
 - target:
 
-  A string specifying the variable in the data frame that contains the
-  values to be plotted.
+  String. Column name of the variable that supplies the values to plot.
 
 - colors:
 
-  A string specifying the variable in the data frame that represents the
-  color groupings for the segments.
+  String. Column name of the variable that supplies the color grouping
+  for the segments.
 
 - cvec:
 
-  A named vector of colors to apply to the segments. Names should match
-  the values in the colors column.
+  Named vector of colors, one per segment. Names should match the values
+  of the `colors` variable. Default is `NULL` (the WJP palette, see
+  [`wjp_palette()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_palette.md),
+  is applied).
 
 - factor_order:
 
-  A vector specifying the order in which the segments should be plotted.
-  Default is NULL.
+  Vector with the order in which the segments should be plotted. Default
+  is `NULL` (data order).
 
 - labels:
 
-  A string specifying the variable in the data frame that contains the
-  labels to be displayed. Default is NULL.
+  String. Column name of the variable containing the labels to display
+  inside the segments. Default is `NULL` (no labels).
 
 - crop:
 
-  A numeric vector specifying the amount of space to crop from the Top,
-  Right, Bottom, and Left margins, respectively. Default is
-  c(-10,0,0,-8).
+  Numeric vector with the space to crop from the Top, Right, Bottom, and
+  Left margins, respectively. Default is `c(-10, 0, 0, -8)`.
 
 - ptheme:
 
-  A ggplot2 theme object to be applied to the plot. Default is
-  WJP_theme().
+  ggplot theme to apply. Default is
+  [`WJP_theme()`](https://worldjusticeproject-org.github.io/WJPr/reference/WJP_theme.md).
 
 ## Value
 

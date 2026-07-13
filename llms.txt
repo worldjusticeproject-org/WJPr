@@ -319,6 +319,8 @@ differences, and applying WJP styling.
   : Difference of Means Analysis
 - [`wjp_fonts()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_fonts.md)
   : Load WJP Fonts
+- [`wjp_palette()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_palette.md)
+  : WJP Color Palette
 - [`WJP_theme()`](https://worldjusticeproject-org.github.io/WJPr/reference/WJP_theme.md)
   : WJP ggplot2 Theme
 

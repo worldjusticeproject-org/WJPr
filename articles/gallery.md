@@ -7,6 +7,17 @@ brand colors. The examples use the package’s sample data and are
 intended to demonstrate chart structure, not to reproduce findings from
 a specific report.
 
+``` r
+
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(WJPr)
+
+# Always load the WJP fonts before plotting
+wjp_fonts()
+```
+
 ## WJP Color Palette
 
 The WJPr package uses colors from the WJP brand system:
@@ -20,19 +31,22 @@ The WJPr package uses colors from the WJP brand system:
 
 For categorical data visualizations, start with violet, teal-blue, and
 orange. When a chart needs more categories, use the established Rule of
-Law Index factor colors already included in this package:
-
-    #482d8b, #2894aa, #f26b21, #137b3f, #869d3b, #0f9581, #1a74b6, #8f2e8c, #555659
+Law Index factor colors already included in this package. The full
+ordered palette is available programmatically via
+[`wjp_palette()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_palette.md):
 
 ``` r
 
-library(ggplot2)
-library(dplyr)
-library(tidyr)
-library(WJPr)
+wjp_palette()
+#> [1] "#482d8b" "#2894aa" "#f26b21" "#137b3f" "#869d3b" "#0f9581" "#1a74b6"
+#> [8] "#8f2e8c" "#555659"
+```
 
-# Load fonts
-wjp_fonts()
+Every chart function falls back to this palette automatically when you
+do not supply a color vector (`cvec`), so quick exploratory charts stay
+on-brand by default.
+
+``` r
 
 # Load sample data
 gpp_data <- WJPr::gpp
@@ -149,8 +163,7 @@ data_divbars <- gpp_data %>%
   group_by(country) %>%
   mutate(
     percent = (n / sum(n)) * 100,
-    label   = paste0(round(percent, 0), "%"),
-    percent = if_else(response == "No Trust", -percent, percent)
+    label   = paste0(round(percent, 0), "%")
   )
 
 wjp_divbars(
@@ -158,7 +171,7 @@ wjp_divbars(
   target    = "percent",
   grouping  = "country",
   diverging = "response",
-  negative  = "negative",
+  negative  = "No Trust",
   labels    = "label",
   cvec      = c("Trust" = "#482d8b", "No Trust" = "#f26b21")
 )
@@ -167,15 +180,16 @@ wjp_divbars(
 ![](gallery_files/figure-html/divbars-1.png)
 
 **Expected input structure** — one row per `grouping` × `diverging`
-combination. Negative values point left, positive values point right
-(`percent` here is signed).
+combination. The group named in `negative` is flipped into the negative
+quadrant automatically, so all values can be supplied as positive
+percentages.
 
-| country  | response |   n |   percent | label |
-|:---------|:---------|----:|----------:|:------|
-| Atlantis | No Trust |  28 | -50.90909 | 51%   |
-| Atlantis | Trust    |  27 |  49.09091 | 49%   |
-| Narnia   | No Trust |  25 | -54.34783 | 54%   |
-| Narnia   | Trust    |  21 |  45.65217 | 46%   |
+| country  | response |   n |  percent | label |
+|:---------|:---------|----:|---------:|:------|
+| Atlantis | No Trust |  28 | 50.90909 | 51%   |
+| Atlantis | Trust    |  27 | 49.09091 | 49%   |
+| Narnia   | No Trust |  25 | 54.34783 | 54%   |
+| Narnia   | Trust    |  21 | 45.65217 | 46%   |
 
 Input data for wjp_divbars(): target = percent, grouping = country,
 diverging = response {.table}
@@ -266,7 +280,6 @@ wjp_lines(
   data_lines,
   target   = "trust",
   grouping = "year",
-  ngroups  = data_lines$institution,
   colors   = "institution",
   labels   = "label",
   repel    = TRUE,
@@ -277,7 +290,8 @@ wjp_lines(
 ![](gallery_files/figure-html/lines-1.png)
 
 **Expected input structure** — long format: one row per `grouping` (time
-point) × series. Pass the series vector through `ngroups`.
+point) × series. The `colors` variable defines the lines, so single- and
+multi-series data use the same call.
 
 | year | variable |    trust | institution | label |
 |:-----|:---------|---------:|:------------|:------|
@@ -286,7 +300,7 @@ point) × series. Pass the series vector through `ngroups`.
 | 2017 | q1c      | 40.00000 | Parliament  | 40%   |
 | 2019 | q1a      | 63.51351 | Police      | 64%   |
 
-Input data for wjp_lines(): target = trust, grouping = year, ngroups =
+Input data for wjp_lines(): target = trust, grouping = year, colors =
 institution {.table}
 
 ------------------------------------------------------------------------
@@ -314,7 +328,6 @@ wjp_slope(
   data_slope,
   target   = "trust",
   grouping = "year",
-  ngroups  = data_slope$gender,
   colors   = "gender",
   labels   = "label",
   cvec     = c("Male" = "#482d8b", "Female" = "#f26b21"),
@@ -325,7 +338,7 @@ wjp_slope(
 ![](gallery_files/figure-html/slope-1.png)
 
 **Expected input structure** — exactly two `grouping` values (the two
-time points) per series. Pass the series vector through `ngroups`.
+time points) per series. The `colors` variable defines the lines.
 
 | year | gender |    trust | label |
 |-----:|:-------|---------:|:------|
@@ -334,7 +347,7 @@ time points) per series. Pass the series vector through `ngroups`.
 | 2019 | Female | 65.90909 | 66%   |
 | 2019 | Male   | 63.46154 | 63%   |
 
-Input data for wjp_slope(): target = trust, grouping = year, ngroups =
+Input data for wjp_slope(): target = trust, grouping = year, colors =
 gender {.table}
 
 ------------------------------------------------------------------------
@@ -353,16 +366,18 @@ wjp_dumbbells(
   data_dumbbells,
   target   = "trust",
   grouping = "institution",
-  color    = "year",
+  colors   = "year",
   cgroups  = c("2017", "2022"),
+  labels   = "label",
   cvec     = c("2017" = "#2894aa", "2022" = "#482d8b")
 )
 ```
 
 ![](gallery_files/figure-html/dumbbells-1.png)
 
-**Expected input structure** — one row per `grouping` × `color` (the two
-endpoints). `cgroups` lists the two endpoint values.
+**Expected input structure** — one row per `grouping` × `colors` (the
+two endpoints). `cgroups` lists the two endpoint values, and the
+optional `labels` column adds a value label next to each point.
 
 | year | variable |    trust | institution | label |
 |:-----|:---------|---------:|:------------|:------|
@@ -372,7 +387,7 @@ endpoints). `cgroups` lists the two endpoint values.
 | 2022 | q1a      | 49.09091 | Police      | 49%   |
 
 Input data for wjp_dumbbells(): target = trust, grouping = institution,
-color = year {.table}
+colors = year {.table}
 
 ------------------------------------------------------------------------
 
@@ -385,17 +400,16 @@ Minimalist bar alternative with stems and dots.
 
 wjp_lollipops(
   data_bars,
-  target      = "trust",
-  grouping    = "country",
-  line_color  = "#555659",
-  point_color = "#482d8b"
+  target   = "trust",
+  grouping = "country"
 )
 ```
 
 ![](gallery_files/figure-html/lollipops-1.png)
 
 Uses the same `data_bars` structure (one row per category with a
-`target` value) shown under **Bar Charts**.
+`target` value) shown under **Bar Charts**. Value labels are generated
+automatically; pass a `labels` column to override them.
 
 ------------------------------------------------------------------------
 
@@ -410,15 +424,15 @@ wjp_edgebars(
   data_bars,
   target   = "trust",
   grouping = "country",
-  labels   = "country",
   cvec     = "#2894aa"
 )
 ```
 
 ![](gallery_files/figure-html/edgebars-1.png)
 
-Uses the same `data_bars` structure shown under **Bar Charts**; `labels`
-supplies the text drawn at the edge of each bar.
+Uses the same `data_bars` structure shown under **Bar Charts**. The text
+drawn at the edge of each bar defaults to the `grouping` values; pass a
+`labels` column to customize it.
 
 ------------------------------------------------------------------------
 

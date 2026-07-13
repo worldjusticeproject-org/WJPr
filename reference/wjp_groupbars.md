@@ -209,8 +209,7 @@ wjp_groupbars(
   String. Value in the `grouping` column that identifies the national
   average row (e.g., "general", "Overall"). When specified, this row is
   displayed with a special formatted label (bold, italic, colored) using
-  [`geom_richtext()`](https://wilkelab.org/ggtext/reference/geom_richtext.html).
-  Default is NULL.
+  `geom_richtext()`. Default is NULL.
 
 - national_level:
 
