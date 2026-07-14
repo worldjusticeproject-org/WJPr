@@ -80,6 +80,31 @@ wjp_bars(
 )
 ```
 
+### Example: Changing the Chart Font
+
+`wjp_fonts()` registers two font systems: **Lato** (the default, in Full, Light, and Black weights) and **Inter Tight**. Switch every chart of the session with the `wjpr.family` option:
+
+```R
+# Load the WJP fonts (Lato + Inter Tight)
+wjp_fonts()
+
+# All charts use Lato by default
+wjp_bars(data4bars, target = "trust", grouping = "country")
+
+# Switch every chart to Inter Tight
+options(wjpr.family = "Inter Tight")
+wjp_bars(data4bars, target = "trust", grouping = "country")
+
+# Check the active family at any time
+wjp_font_family()
+#> [1] "Inter Tight"
+
+# Back to Lato
+options(wjpr.family = NULL)
+```
+
+See `wjp_font_family()` for per-chart and theme-only alternatives.
+
 ## Chart Gallery
 
 WJPr includes focused chart functions for common WJP reporting patterns:
