@@ -31,6 +31,8 @@
 #'   Retained for backwards compatibility; lines are now grouped by `colors`
 #'   automatically.
 #' @param ptheme ggplot theme to apply. Default is [WJP_theme()].
+#' @param show_legend Logical. If `TRUE`, displays a horizontal series legend above
+#'   the chart when `colors` is supplied. Default is `FALSE`.
 #'
 #' @return A ggplot object.
 #' @export
@@ -61,7 +63,8 @@
 #'   colors   = "gender",
 #'   labels   = "value_label",
 #'   cvec     = c("Male" = "#482d8b", "Female" = "#f26b21"),
-#'   repel    = TRUE
+#'   repel    = TRUE,
+#'   show_legend = TRUE
 #' )
 #'
 #' # Minimal call: colors default to the WJP palette
@@ -82,8 +85,15 @@ wjp_slope <- function(
     labels    = NULL,
     repel     = FALSE,
     ngroups   = NULL,
-    ptheme    = WJP_theme()
+    ptheme    = WJP_theme(),
+    show_legend = FALSE
 ){
+
+  legend_theme <- wjp_legend_theme(show_legend)
+  show_color_legend <- isTRUE(show_legend) && !is.null(colors)
+  if (!show_color_legend) {
+    legend_theme <- wjp_legend_theme(FALSE)
+  }
 
   # Renaming variables in the data frame to match the function naming
   if (is.null(labels)) {
@@ -130,6 +140,7 @@ wjp_slope <- function(
   if (is.null(cvec)) {
     cvec <- wjp_default_cvec(data$colors_var)
   }
+  legend_breaks <- wjp_legend_breaks(data$colors_var)
 
   # Creating ggplot
   plt <- ggplot(data,
@@ -139,9 +150,9 @@ wjp_slope <- function(
                     label = labels_var,
                     group = group_var)) +
     geom_point(size = 2,
-               show.legend = FALSE) +
+               show.legend = show_color_legend) +
     geom_line(linewidth    = 1,
-              show.legend  = FALSE)
+              show.legend  = show_color_legend)
 
   if (isFALSE(repel)) {
 
@@ -191,7 +202,16 @@ wjp_slope <- function(
                        expand = c(0, 0),
                        breaks = seq(0, 100, 20),
                        labels = paste0(seq(0, 100, 20), "%")) +
-    scale_color_manual(values = cvec) +
+    scale_color_manual(
+      values = cvec,
+      breaks = legend_breaks,
+      name   = NULL,
+      guide  = ggplot2::guide_legend(
+        direction = "horizontal",
+        nrow = 1,
+        byrow = TRUE
+      )
+    ) +
     ptheme +
     theme(
       panel.grid.major.x = element_line(color     = "#ACA8AC",
@@ -204,7 +224,8 @@ wjp_slope <- function(
       axis.line.x        = element_blank(),
       axis.ticks.x       = element_blank(),
       axis.text.y        = element_blank()
-    )
+    ) +
+    legend_theme
 
   return(plt)
 }

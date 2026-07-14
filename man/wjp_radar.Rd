@@ -14,7 +14,8 @@ wjp_radar(
   cvec = NULL,
   order = NULL,
   source = "GPP",
-  order_var = NULL
+  order_var = NULL,
+  show_legend = FALSE
 )
 }
 \arguments{
@@ -44,6 +45,9 @@ the axes. Default is \code{NULL} (data order).}
 \code{"QRQ"} (values on a 0-1 score scale). Default is \code{"GPP"}.}
 
 \item{order_var}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{order} instead.}
+
+\item{show_legend}{Logical. If \code{TRUE}, displays a horizontal legend above the
+chart using the color groups. Default is \code{FALSE}.}
 }
 \value{
 A ggplot object representing the radar plot.
@@ -91,6 +95,7 @@ wjp_radar(
   target   = "percentage",
   labels   = "axis_label",
   colors   = "gender",
+  show_legend = TRUE,
   cvec     = c("Male" = "#482d8b", "Female" = "#f26b21")
 )
 

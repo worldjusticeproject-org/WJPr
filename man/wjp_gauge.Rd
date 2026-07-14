@@ -12,7 +12,8 @@ wjp_gauge(
   factor_order = NULL,
   labels = NULL,
   crop = c(-10, 0, 0, -8),
-  ptheme = WJP_theme()
+  ptheme = WJP_theme(),
+  show_legend = FALSE
 )
 }
 \arguments{
@@ -37,6 +38,9 @@ inside the segments. Default is \code{NULL} (no labels).}
 Left margins, respectively. Default is \code{c(-10, 0, 0, -8)}.}
 
 \item{ptheme}{ggplot theme to apply. Default is \code{\link[=WJP_theme]{WJP_theme()}}.}
+
+\item{show_legend}{Logical. If \code{TRUE}, displays a horizontal legend above the
+chart using the segment categories. Default is \code{FALSE}.}
 }
 \value{
 A ggplot object representing the gauge chart.
@@ -83,7 +87,8 @@ wjp_gauge(
   colors       = "category",
   cvec         = gauge_colors,
   factor_order = c("Category A", "Category B", "Category C", "Category D"),
-  labels       = "label"
+  labels       = "label",
+  show_legend  = TRUE
 )
 
 # Minimal call: segments default to the WJP palette

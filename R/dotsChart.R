@@ -41,6 +41,8 @@
 #' @param bgcolor String. Hex code of the background color for the alternating row
 #'   strips. Default is `"#ffffff"`.
 #' @param ptheme ggplot theme to apply. Default is [WJP_theme()].
+#' @param show_legend Logical. If `TRUE`, displays a horizontal color legend above
+#'   the chart. Default is `FALSE`.
 #'
 #' @return A ggplot object.
 #' @export
@@ -78,7 +80,8 @@
 #'   colors   = "country",
 #'   cvec     = c("Atlantis"  = "#482d8b",
 #'                "Narnia"    = "#2894aa",
-#'                "Neverland" = "#f26b21")
+#'                "Neverland" = "#f26b21"),
+#'   show_legend = TRUE
 #' )
 #'
 #' # With 95% confidence intervals from sd and sample size
@@ -124,8 +127,11 @@ wjp_dots <- function(
     sd          = NULL,
     sample_size = NULL,
     bgcolor     = "#ffffff",
-    ptheme      = WJP_theme()
+    ptheme      = WJP_theme(),
+    show_legend = FALSE
 ){
+
+  legend_theme <- wjp_legend_theme(show_legend)
 
   # Renaming variables in the data frame to match the function naming
   data <- data %>%
@@ -155,6 +161,7 @@ wjp_dots <- function(
   if (is.null(cvec)) {
     cvec <- wjp_default_cvec(data$colors_var)
   }
+  legend_breaks <- wjp_legend_breaks(data$colors_var)
 
   # Compute confidence intervals if requested
   if (draw_ci) {
@@ -194,7 +201,8 @@ wjp_dots <- function(
                aes(x     = reorder(grouping_var, -order_var),
                    y     = target_var,
                    label = grouping_var,
-                   color = colors_var)) +
+                   color = colors_var),
+               show.legend = FALSE) +
     geom_ribbon(data      = strips,
                 aes(x     = x,
                     ymin  = ymin,
@@ -204,7 +212,8 @@ wjp_dots <- function(
                 show.legend = FALSE) +
     scale_fill_manual(values = c("grey"  = "#EBEBEB",
                                  "white" = bgcolor),
-                      na.value = NA)
+                      na.value = NA,
+                      guide    = "none")
 
   if (draw_ci) {
     plt <- plt +
@@ -238,19 +247,31 @@ wjp_dots <- function(
                fill        = NA,
                size        = 4,
                stroke      = if (diffShp) 2 else 0.5,
-               show.legend = FALSE)
+               show.legend = show_legend)
 
   if (diffShp) {
     plt <- plt +
-      scale_shape_manual(values = shapes)
+      scale_shape_manual(values = shapes,
+                         guide  = "none")
   }
   if (diffOpac) {
     plt <- plt +
-      scale_alpha_manual(values = opacities)
+      scale_alpha_manual(values = opacities,
+                         guide  = "none")
   }
 
   plt <- plt +
-    scale_color_manual(values = cvec) +
+    scale_color_manual(
+      values = cvec,
+      breaks = legend_breaks,
+      name   = NULL,
+      guide  = ggplot2::guide_legend(
+        direction = "horizontal",
+        nrow = 1,
+        byrow = TRUE,
+        override.aes = list(size = 4, shape = 19, alpha = 1)
+      )
+    ) +
     scale_y_continuous(limits = c(0, 100),
                        breaks = seq(0, 100, 20),
                        labels = paste0(seq(0, 100, 20),
@@ -264,7 +285,8 @@ wjp_dots <- function(
           panel.background   = element_blank(),
           panel.ontop        = TRUE,
           axis.text.y        = element_text(color = "#524F4C",
-                                            hjust = 0))
+                                            hjust = 0)) +
+    legend_theme
 
   return(plt)
 

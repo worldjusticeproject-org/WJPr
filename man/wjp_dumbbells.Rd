@@ -16,7 +16,9 @@ wjp_dumbbells(
   order = NULL,
   bgcolor = "#ffffff",
   color = NULL,
-  ptheme = WJP_theme()
+  ptheme = WJP_theme(),
+  label_offset = 4,
+  show_legend = TRUE
 )
 }
 \arguments{
@@ -53,6 +55,13 @@ strips. Default is \code{"#ffffff"}.}
 \item{color}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{colors} instead.}
 
 \item{ptheme}{ggplot theme to apply. Default is \code{\link[=WJP_theme]{WJP_theme()}}.}
+
+\item{label_offset}{Numeric. Distance in percentage points between an endpoint
+and its automatically positioned label. Ignored when \code{labpos} is supplied.
+Default is \code{4}.}
+
+\item{show_legend}{Logical. If \code{TRUE}, displays a horizontal point legend above
+the chart using the \code{cgroups} values as labels. Default is \code{TRUE}.}
 }
 \value{
 A ggplot object.
@@ -70,9 +79,10 @@ percentage scale.
 The function expects long-format data with one row per \code{grouping} (category)
 and \code{colors} (endpoint) combination; \code{cgroups} names the two endpoint values
 in order (start, end). When \code{labels} is supplied without \code{labpos}, labels
-are placed automatically just outside each endpoint. Use \code{order} (a named
-vector such as \code{c("A" = 1, "B" = 2)}) to control the top-to-bottom order of
-the rows.
+are placed automatically just outside each endpoint and use the endpoint
+color. By default, a horizontal legend is built from the two \code{cgroups}
+values and displayed above the chart. Use \code{order} (a named vector such as
+\code{c("A" = 1, "B" = 2)}) to control the top-to-bottom order of the rows.
 }
 \examples{
 library(dplyr)
@@ -109,7 +119,9 @@ wjp_dumbbells(
   colors   = "year",
   cgroups  = c("2017", "2022"),
   labels   = "value_label",
-  cvec     = c("2017" = "#2894aa", "2022" = "#482d8b")
+  cvec     = c("2017" = "#2894aa", "2022" = "#482d8b"),
+  show_legend = TRUE,
+  label_offset = 4
 )
 
 }

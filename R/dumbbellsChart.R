@@ -13,9 +13,10 @@
 #' The function expects long-format data with one row per `grouping` (category)
 #' and `colors` (endpoint) combination; `cgroups` names the two endpoint values
 #' in order (start, end). When `labels` is supplied without `labpos`, labels
-#' are placed automatically just outside each endpoint. Use `order` (a named
-#' vector such as `c("A" = 1, "B" = 2)`) to control the top-to-bottom order of
-#' the rows.
+#' are placed automatically just outside each endpoint and use the endpoint
+#' color. By default, a horizontal legend is built from the two `cgroups`
+#' values and displayed above the chart. Use `order` (a named vector such as
+#' `c("A" = 1, "B" = 2)`) to control the top-to-bottom order of the rows.
 #'
 #' @param data Data frame containing the data to plot.
 #' @param target String. Column name of the variable that supplies the values to plot.
@@ -30,6 +31,9 @@
 #' @param labpos String. Column name of the variable that contains the positions for
 #'   the value labels. Default is `NULL` (positions are computed automatically just
 #'   outside each endpoint).
+#' @param label_offset Numeric. Distance in percentage points between an endpoint
+#'   and its automatically positioned label. Ignored when `labpos` is supplied.
+#'   Default is `4`.
 #' @param cvec Vector of two colors for the start and end points. If named, names
 #'   should match the `cgroups` values. Default is `NULL`
 #'   (`c("#2894aa", "#482d8b")` is applied).
@@ -37,6 +41,8 @@
 #'   bottom). Default is `NULL` (data order).
 #' @param bgcolor String. Hex code of the background color for the alternating row
 #'   strips. Default is `"#ffffff"`.
+#' @param show_legend Logical. If `TRUE`, displays a horizontal point legend above
+#'   the chart using the `cgroups` values as labels. Default is `TRUE`.
 #' @param color `r lifecycle::badge("deprecated")` Use `colors` instead.
 #' @param ptheme ggplot theme to apply. Default is [WJP_theme()].
 #'
@@ -78,7 +84,9 @@
 #'   colors   = "year",
 #'   cgroups  = c("2017", "2022"),
 #'   labels   = "value_label",
-#'   cvec     = c("2017" = "#2894aa", "2022" = "#482d8b")
+#'   cvec     = c("2017" = "#2894aa", "2022" = "#482d8b"),
+#'   show_legend = TRUE,
+#'   label_offset = 4
 #' )
 #'
 wjp_dumbbells <- function(
@@ -93,7 +101,9 @@ wjp_dumbbells <- function(
     order     = NULL,
     bgcolor   = "#ffffff",
     color     = NULL,
-    ptheme    = WJP_theme()
+    ptheme    = WJP_theme(),
+    label_offset = 4,
+    show_legend = TRUE
 ){
 
   # Backwards compatibility: `color` was renamed to `colors`
@@ -106,6 +116,15 @@ wjp_dumbbells <- function(
   if (length(cgroups) != 2) {
     stop("`cgroups` must be a vector of exactly two values.", call. = FALSE)
   }
+  cgroups <- as.character(cgroups)
+  if (length(unique(cgroups)) != 2) {
+    stop("`cgroups` must contain two different values.", call. = FALSE)
+  }
+  if (length(label_offset) != 1 || !is.numeric(label_offset) ||
+      !is.finite(label_offset) || label_offset < 0) {
+    stop("`label_offset` must be a single non-negative number.", call. = FALSE)
+  }
+  legend_theme <- wjp_legend_theme(show_legend)
 
   # Default colors: map named vectors onto cgroups, otherwise use positions
   if (is.null(cvec)) {
@@ -115,6 +134,10 @@ wjp_dumbbells <- function(
   } else {
     cvec <- unname(cvec)
   }
+  if (length(cvec) != 2) {
+    stop("`cvec` must contain exactly two colors.", call. = FALSE)
+  }
+  endpoint_palette <- stats::setNames(cvec, cgroups)
 
   # Reshaping data into a wide format with start/end columns
   data_wider <- data %>%
@@ -166,11 +189,25 @@ wjp_dumbbells <- function(
       # Place labels just outside each endpoint, kept inside the 0-100 panel
       data_wider <- data_wider %>%
         mutate(
-          labp0 = pmax(3, pmin(97, if_else(start <= end, start - 7, start + 7))),
-          labp1 = pmax(3, pmin(97, if_else(start <= end, end + 7, end - 7)))
+          labp0 = pmax(
+            label_offset,
+            pmin(100 - label_offset,
+                 if_else(start <= end, start - label_offset, start + label_offset))
+          ),
+          labp1 = pmax(
+            label_offset,
+            pmin(100 - label_offset,
+                 if_else(start <= end, end + label_offset, end - label_offset))
+          )
         )
     }
   }
+
+  data_wider <- data_wider %>%
+    mutate(
+      start_group = cgroups[1],
+      end_group   = cgroups[2]
+    )
 
   # Ordering rows: first item of the order appears at the top
   if (is.null(order)) {
@@ -223,7 +260,8 @@ wjp_dumbbells <- function(
     ) +
     scale_fill_manual(values   = c("grey"  = "#EBEBEB",
                                    "white" = bgcolor),
-                      na.value = NA) +
+                      na.value = NA,
+                      guide    = "none") +
     geom_segment(
       data = data_wider,
       aes(
@@ -239,19 +277,32 @@ wjp_dumbbells <- function(
       data = data_wider,
       aes(
         x = group,
-        y = start
+        y = start,
+        color = start_group
       ),
-      color = cvec[1],
-      size  = 4.5
+      size        = 4.5,
+      show.legend = show_legend
     ) +
     geom_point(
       data = data_wider,
       aes(
         x = group,
-        y = end
+        y = end,
+        color = end_group
       ),
-      color = cvec[2],
-      size  = 4.5
+      size        = 4.5,
+      show.legend = show_legend
+    ) +
+    scale_color_manual(
+      values = endpoint_palette,
+      breaks = cgroups,
+      name   = NULL,
+      guide  = ggplot2::guide_legend(
+        direction = "horizontal",
+        nrow = 1,
+        byrow = TRUE,
+        override.aes = list(size = 4.5)
+      )
     )
 
   if (!is.null(labels)) {
@@ -261,24 +312,26 @@ wjp_dumbbells <- function(
         aes(
           x     = group,
           y     = labp0,
-          label = lab0
+          label = lab0,
+          color = start_group
         ),
         family   = "Lato Full",
         fontface = "bold",
         size     = 3.514598,
-        color    = cvec[1]
+        show.legend = FALSE
       ) +
       geom_text(
         data = data_wider,
         aes(
           x     = group,
           y     = labp1,
-          label = lab1
+          label = lab1,
+          color = end_group
         ),
         family   = "Lato Full",
         fontface = "bold",
         size     = 3.514598,
-        color    = cvec[2]
+        show.legend = FALSE
       )
   }
 
@@ -296,7 +349,8 @@ wjp_dumbbells <- function(
           panel.background   = element_blank(),
           panel.ontop        = TRUE,
           axis.text.y        = element_text(color = "#524F4C",
-                                            hjust = 0))
+                                            hjust = 0)) +
+    legend_theme
 
   return(plt)
 }

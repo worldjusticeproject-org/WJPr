@@ -333,6 +333,177 @@ test_that("wjp_dumbbells honors order, colors alias, and named cvec", {
   )
 })
 
+test_that("wjp_dumbbells supports colored outside labels and an endpoint legend", {
+  dumb <- data.frame(
+    category = rep(c("Problem Solved", "Trust in Effectiveness"), each = 2),
+    comparison = rep(c("Category 1", "Category 2"), 2),
+    value = c(68, 79, 38, 37),
+    label = c("68%", "79%", "38%", "37%")
+  )
+
+  plot <- wjp_dumbbells(
+    dumb,
+    target       = "value",
+    grouping     = "category",
+    colors       = "comparison",
+    cgroups      = c("Category 1", "Category 2"),
+    labels       = "label",
+    cvec         = c("Category 1" = "#2894aa", "Category 2" = "#482d8b"),
+    show_legend  = TRUE,
+    label_offset = 4
+  )
+
+  color_scale <- plot$scales$get_scales("colour")
+  fill_scale <- plot$scales$get_scales("fill")
+  expect_equal(color_scale$breaks, c("Category 1", "Category 2"))
+  expect_equal(
+    unname(color_scale$palette(2)),
+    c("#2894aa", "#482d8b")
+  )
+  expect_equal(plot$theme$legend.position, "top")
+  expect_equal(plot$theme$legend.justification, "left")
+  expect_equal(fill_scale$guide, "none")
+  expect_true(plot$layers[[4]]$show.legend)
+  expect_true(plot$layers[[5]]$show.legend)
+  expect_equal(plot$layers[[6]]$data$labp0, c(64, 42))
+  expect_equal(plot$layers[[7]]$data$labp1, c(83, 33))
+  expect_equal(rlang::as_label(plot$layers[[6]]$mapping$colour), "start_group")
+  expect_equal(rlang::as_label(plot$layers[[7]]$mapping$colour), "end_group")
+
+  plot_without_legend <- wjp_dumbbells(
+    dumb,
+    target      = "value",
+    grouping    = "category",
+    colors      = "comparison",
+    cgroups     = c("Category 1", "Category 2"),
+    show_legend = FALSE
+  )
+  expect_equal(plot_without_legend$theme$legend.position, "none")
+
+  expect_error(
+    wjp_dumbbells(
+      dumb, "value", "category",
+      cgroups = c("Category 1", "Category 2"),
+      colors = "comparison",
+      label_offset = -1
+    ),
+    "`label_offset`"
+  )
+})
+
+test_that("categorical charts expose consistent optional legends", {
+  categories <- c("Category 1", "Category 2")
+  category_colors <- c("Category 1" = "#2894aa", "Category 2" = "#482d8b")
+
+  bars <- data.frame(
+    item = rep(c("Item A", "Item B"), each = 2),
+    category = rep(categories, 2),
+    value = c(45, 55, 60, 40)
+  )
+  dots <- data.frame(
+    item = rep(c("Item A", "Item B", "Item C"), each = 2),
+    category = rep(categories, 3),
+    value = c(45, 55, 60, 40, 35, 65),
+    order = rep(1:3, each = 2)
+  )
+  lines <- data.frame(
+    year = rep(2022:2024, 2),
+    category = rep(categories, each = 3),
+    value = c(45, 50, 55, 65, 60, 58)
+  )
+  slopes <- lines[lines$year %in% c(2022, 2024), ]
+  radar <- data.frame(
+    axis = rep(LETTERS[1:5], 2),
+    category = rep(categories, each = 5),
+    value = c(45, 50, 55, 60, 65, 65, 60, 58, 55, 50),
+    label = rep(paste("Measure", 1:5), 2),
+    order = rep(1:5, 2)
+  )
+  gauge <- data.frame(
+    category = categories,
+    value = c(45, 55)
+  )
+
+  make_plots <- function(show_legend) {
+    list(
+      bars = wjp_bars(
+        bars, "value", "item", colors = "category", stacked = TRUE,
+        cvec = category_colors, show_legend = show_legend
+      ),
+      divbars = wjp_divbars(
+        bars, "value", "item", "category", negative = "Category 2",
+        cvec = category_colors, show_legend = show_legend
+      ),
+      dots = wjp_dots(
+        dots, "value", "item", "category", order = "order",
+        cvec = category_colors,
+        shapes = c("Category 1" = 16, "Category 2" = 17),
+        opacities = c("Category 1" = 1, "Category 2" = 0.65),
+        show_legend = show_legend
+      ),
+      lines = wjp_lines(
+        lines, "value", "year", colors = "category",
+        cvec = category_colors, show_legend = show_legend
+      ),
+      slope = wjp_slope(
+        slopes, "value", "year", colors = "category",
+        cvec = category_colors, show_legend = show_legend
+      ),
+      radar = wjp_radar(
+        radar, "axis", "value", "label", "category", order = "order",
+        cvec = category_colors, show_legend = show_legend
+      ),
+      gauge = wjp_gauge(
+        gauge, "value", "category", cvec = category_colors,
+        show_legend = show_legend
+      )
+    )
+  }
+
+  visible <- make_plots(TRUE)
+  hidden <- make_plots(FALSE)
+
+  for (plot in visible) {
+    expect_s3_class(plot, "ggplot")
+    expect_equal(plot$theme$legend.position, "top")
+    expect_equal(plot$theme$legend.justification, "left")
+    expect_no_error(ggplot2::ggplot_build(plot))
+  }
+  for (plot in hidden) {
+    expect_equal(plot$theme$legend.position, "none")
+  }
+
+  expect_equal(visible$bars$scales$get_scales("fill")$breaks, categories)
+  expect_equal(visible$divbars$scales$get_scales("fill")$breaks, categories)
+  expect_equal(visible$dots$scales$get_scales("colour")$breaks, categories)
+  expect_equal(visible$lines$scales$get_scales("colour")$breaks, categories)
+  expect_equal(visible$slope$scales$get_scales("colour")$breaks, categories)
+  expect_equal(visible$radar$scales$get_scales("colour")$breaks, categories)
+  expect_equal(visible$gauge$scales$get_scales("fill")$breaks, categories)
+
+  expect_equal(visible$dots$scales$get_scales("fill")$guide, "none")
+  expect_equal(visible$dots$scales$get_scales("shape")$guide, "none")
+  expect_equal(visible$dots$scales$get_scales("alpha")$guide, "none")
+  expect_false("___padding___" %in% visible$gauge$scales$get_scales("fill")$breaks)
+  expect_false("#524F4C" %in% visible$radar$scales$get_scales("colour")$breaks)
+
+  single_line <- lines[lines$category == "Category 1", ]
+  single_slope <- slopes[slopes$category == "Category 1", ]
+  expect_equal(
+    wjp_lines(single_line, "value", "year", show_legend = TRUE)$theme$legend.position,
+    "none"
+  )
+  expect_equal(
+    wjp_slope(single_slope, "value", "year", show_legend = TRUE)$theme$legend.position,
+    "none"
+  )
+
+  expect_error(
+    wjp_bars(bars, "value", "item", show_legend = "yes"),
+    "`show_legend`"
+  )
+})
+
 test_that("wjp_rose and wjp_radar accept the harmonized order parameter", {
   radar <- data.frame(
     axis = rep(LETTERS[1:5], 2),

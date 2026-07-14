@@ -19,7 +19,8 @@ wjp_lines(
   x.labels = NULL,
   sec.ticks = NULL,
   ngroups = NULL,
-  ptheme = WJP_theme()
+  ptheme = WJP_theme(),
+  show_legend = FALSE
 )
 }
 \arguments{
@@ -64,6 +65,9 @@ Retained for backwards compatibility; lines are now grouped by \code{colors}
 automatically.}
 
 \item{ptheme}{ggplot theme to apply. Default is \code{\link[=WJP_theme]{WJP_theme()}}.}
+
+\item{show_legend}{Logical. If \code{TRUE}, displays a horizontal series legend above
+the chart when \code{colors} is supplied. Default is \code{FALSE}.}
 }
 \value{
 A ggplot object.
@@ -122,7 +126,8 @@ wjp_lines(
   repel    = TRUE,
   cvec     = c("Institution A" = "#482d8b",
                "Institution B" = "#2894aa",
-               "Institution C" = "#f26b21")
+               "Institution C" = "#f26b21"),
+  show_legend = TRUE
 )
 
 # Single line

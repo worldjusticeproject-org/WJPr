@@ -13,7 +13,8 @@ wjp_slope(
   labels = NULL,
   repel = FALSE,
   ngroups = NULL,
-  ptheme = WJP_theme()
+  ptheme = WJP_theme(),
+  show_legend = FALSE
 )
 }
 \arguments{
@@ -42,6 +43,9 @@ Retained for backwards compatibility; lines are now grouped by \code{colors}
 automatically.}
 
 \item{ptheme}{ggplot theme to apply. Default is \code{\link[=WJP_theme]{WJP_theme()}}.}
+
+\item{show_legend}{Logical. If \code{TRUE}, displays a horizontal series legend above
+the chart when \code{colors} is supplied. Default is \code{FALSE}.}
 }
 \value{
 A ggplot object.
@@ -86,7 +90,8 @@ wjp_slope(
   colors   = "gender",
   labels   = "value_label",
   cvec     = c("Male" = "#482d8b", "Female" = "#f26b21"),
-  repel    = TRUE
+  repel    = TRUE,
+  show_legend = TRUE
 )
 
 # Minimal call: colors default to the WJP palette

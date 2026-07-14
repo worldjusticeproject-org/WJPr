@@ -27,6 +27,8 @@
 #' @param crop Numeric vector with the space to crop from the Top, Right, Bottom, and
 #'   Left margins, respectively. Default is `c(-10, 0, 0, -8)`.
 #' @param ptheme ggplot theme to apply. Default is [WJP_theme()].
+#' @param show_legend Logical. If `TRUE`, displays a horizontal legend above the
+#'   chart using the segment categories. Default is `FALSE`.
 #'
 #' @return A ggplot object representing the gauge chart.
 #' @export
@@ -60,7 +62,8 @@
 #'   colors       = "category",
 #'   cvec         = gauge_colors,
 #'   factor_order = c("Category A", "Category B", "Category C", "Category D"),
-#'   labels       = "label"
+#'   labels       = "label",
+#'   show_legend  = TRUE
 #' )
 #'
 #' # Minimal call: segments default to the WJP palette
@@ -80,7 +83,8 @@ wjp_gauge <- function(
     factor_order   = NULL,
     labels         = NULL,
     crop           = c(-10,0,0,-8),
-    ptheme         = WJP_theme()
+    ptheme         = WJP_theme(),
+    show_legend    = FALSE
 ){
   
   # Renaming variables in the data frame to match the function naming
@@ -149,6 +153,10 @@ wjp_gauge <- function(
     cvec <- wjp_default_cvec(data$colors_var)
   }
 
+  # Preserve the visible category order and keep the technical padding out
+  # of the legend.
+  legend_breaks <- wjp_legend_breaks(data$colors_var)
+
   # Add invisible padding segment to complete the circle
   padding_data <- data.frame(
     colors_var = "___padding___",
@@ -172,7 +180,7 @@ wjp_gauge <- function(
         xmax = 2,
         xmin = 1)
   ) +
-    geom_rect(show.legend = FALSE) +
+    geom_rect(show.legend = show_legend) +
     geom_text(
       data = data %>% dplyr::filter(colors_var != "___padding___"),
       aes(label = labels_var,
@@ -181,16 +189,16 @@ wjp_gauge <- function(
       color     = "white",
       size      = 1.866058 * ggplot2::.pt,
       family    = "Lato Full",
-      fontface  = "bold"
+      fontface  = "bold",
+      show.legend = FALSE
     ) +
     scale_x_continuous(limits = c(0, 2)) +
     scale_y_continuous(limits = c(0, 100)) +
-    scale_fill_manual(values = cvec) +
+    scale_fill_manual(values = cvec, breaks = legend_breaks, name = NULL) +
     coord_polar(theta = "y", start = pi) +
     ptheme +
     labs(y = "", x = "") +
     theme(
-      legend.position    = "none",
       plot.margin        = grid::unit(crop, "mm"),
       panel.grid.major   = element_blank(),
       panel.background   = element_blank(),
@@ -198,7 +206,8 @@ wjp_gauge <- function(
       axis.text.x        = element_blank(),
       axis.text.y        = element_blank(),
       aspect.ratio       = 0.5
-    )
+    ) +
+    wjp_legend_theme(show_legend)
 
   return(plt)
 }

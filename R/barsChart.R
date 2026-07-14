@@ -39,6 +39,9 @@
 #' @param width Numeric value between 0 and 1. Width of bars as a fraction of the space
 #'   available for each bar. Default is `0.9`.
 #' @param ptheme ggplot theme to apply. Default is [WJP_theme()].
+#' @param show_legend Logical. If `TRUE`, displays a horizontal legend above the
+#'   chart using the `colors` values. This is most useful when `colors` differs
+#'   from `grouping`, such as in stacked bars. Default is `FALSE`.
 #'
 #' @return A ggplot object.
 #' @export
@@ -113,6 +116,7 @@
 #'   lab_pos  = "label_position",
 #'   colors   = "level",
 #'   stacked  = TRUE,
+#'   show_legend = TRUE,
 #'   cvec     = c("Trust" = "#482d8b", "No trust" = "#f26b21")
 #' )
 #'
@@ -129,7 +133,8 @@ wjp_bars <- function(
     expand     = FALSE,
     order      = NULL,
     width      = 0.9,
-    ptheme     = WJP_theme()
+    ptheme     = WJP_theme(),
+    show_legend = FALSE
 ){
 
   if (!direction %in% c("vertical", "horizontal")) {
@@ -179,6 +184,7 @@ wjp_bars <- function(
   if (is.null(cvec)) {
     cvec <- wjp_default_cvec(data$colors_var)
   }
+  legend_breaks <- wjp_legend_breaks(data$colors_var)
 
   # Extra headroom for value labels
   y_upper <- 110
@@ -197,13 +203,16 @@ wjp_bars <- function(
                              fill  = colors_var)) +
     ggplot2::geom_col(position    = "stack",
                       width       = width,
-                      show.legend = FALSE) +
+                      show.legend = show_legend) +
     ggplot2::geom_text(aes(y = lab_pos),
                        color    = if (isTRUE(stacked)) "#ffffff" else "#4a4a49",
                        family   = "Lato Full",
                        fontface = "bold",
-                       size     = 3.514598) +
-    ggplot2::scale_fill_manual(values = cvec) +
+                       size     = 3.514598,
+                       show.legend = FALSE) +
+    ggplot2::scale_fill_manual(values = cvec,
+                               breaks = legend_breaks,
+                               name = NULL) +
     labs(y = "% of respondents")
 
   if (direction == "vertical") {
@@ -230,6 +239,8 @@ wjp_bars <- function(
                      axis.title.x       = element_blank(),
                      axis.text.y        = element_text(hjust = 0))
   }
+
+  plt <- plt + wjp_legend_theme(show_legend)
 
   return(plt)
 

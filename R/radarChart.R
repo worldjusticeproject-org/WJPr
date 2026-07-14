@@ -33,6 +33,8 @@
 #' @param source String. Either `"GPP"` (values on a 0-100 percentage scale) or
 #'   `"QRQ"` (values on a 0-1 score scale). Default is `"GPP"`.
 #' @param order_var `r lifecycle::badge("deprecated")` Use `order` instead.
+#' @param show_legend Logical. If `TRUE`, displays a horizontal legend above the
+#'   chart using the color groups. Default is `FALSE`.
 #'
 #' @return A ggplot object representing the radar plot.
 #' @export
@@ -64,6 +66,7 @@
 #'   target   = "percentage",
 #'   labels   = "axis_label",
 #'   colors   = "gender",
+#'   show_legend = TRUE,
 #'   cvec     = c("Male" = "#482d8b", "Female" = "#f26b21")
 #' )
 #'
@@ -96,7 +99,8 @@ wjp_radar <- function(
     cvec      = NULL,
     order     = NULL,
     source    = "GPP",
-    order_var = NULL
+    order_var = NULL,
+    show_legend = FALSE
 ){
 
   # Backwards compatibility: `order_var` was renamed to `order`
@@ -140,6 +144,8 @@ wjp_radar <- function(
     cvec   <- c("#482d8b", "#f26b21")
   }
   cvec <- c(cvec, "#555659")
+
+  legend_breaks <- wjp_legend_breaks(data$color_var)
     
   # Counting number of axis for the radar
   nvertix <- length(unique(data$axis_var))
@@ -281,11 +287,12 @@ wjp_radar <- function(
       data = axis_measure,
       aes(x     = x,
           y     = y,
-          label = r,
-          family   = "Lato Full",
-          fontface = "plain",
-          color    = "#524F4C"
-      )) +
+          label = r),
+      family     = "Lato Full",
+      fontface   = "plain",
+      color      = "#524F4C",
+      show.legend = FALSE
+    ) +
     
     # Then, we add the axis labels
     {
@@ -312,7 +319,8 @@ wjp_radar <- function(
           family      = "Lato Full",
           fontface    = "plain",
           fill        = NA,
-          label.color = NA
+          label.color = NA,
+          show.legend = FALSE
         )
       } else {
         geom_text(
@@ -320,7 +328,8 @@ wjp_radar <- function(
           aes(x = x, y = y),
           label = axis_labels,
           family   = "Lato Full",
-          fontface = "plain"
+          fontface = "plain",
+          show.legend = FALSE
         )
       }
     } +
@@ -332,7 +341,8 @@ wjp_radar <- function(
           y     = y, 
           group = color_var, 
           color = as.factor(color_var)), 
-      size      = 3
+      size        = 3,
+      show.legend = show_legend
     ) +
     geom_path(
       data = rescaled_data, 
@@ -340,20 +350,21 @@ wjp_radar <- function(
           y     = y, 
           group = color_var, 
           color = as.factor(color_var)), 
-      linewidth = 1
+      linewidth   = 1,
+      show.legend = show_legend
     ) +
     
     # Remaining aesthetics
     coord_cartesian(clip = "off") + 
     scale_x_continuous(expand = expansion(mult = 0.125)) + 
     scale_y_continuous(expand = expansion(mult = 0.10)) + 
-    scale_color_manual(values = cvec) +
+    scale_color_manual(values = cvec, breaks = legend_breaks, name = NULL) +
     theme_void() +
     theme(
       panel.background   = element_blank(),
-      plot.background    = element_blank(),
-      legend.position    = "none"
-    )
+      plot.background    = element_blank()
+    ) +
+    wjp_legend_theme(show_legend)
   
   return(radar)
   

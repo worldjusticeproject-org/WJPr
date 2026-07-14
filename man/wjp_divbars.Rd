@@ -15,7 +15,8 @@ wjp_divbars(
   label_color = "#ffffff",
   order = NULL,
   custom_order = FALSE,
-  ptheme = WJP_theme()
+  ptheme = WJP_theme(),
+  show_legend = FALSE
 )
 }
 \arguments{
@@ -48,6 +49,9 @@ categories. Default is \code{NULL} (data order).}
 enabled automatically when \code{order} is supplied.}
 
 \item{ptheme}{ggplot theme to apply. Default is \code{\link[=WJP_theme]{WJP_theme()}}.}
+
+\item{show_legend}{Logical. If \code{TRUE}, displays a horizontal legend above the
+chart using the \code{diverging} values. Default is \code{FALSE}.}
 }
 \value{
 A ggplot object.
@@ -97,6 +101,7 @@ wjp_divbars(
   diverging = "response",
   negative  = "No Trust",
   labels    = "value_label",
+  show_legend = TRUE,
   cvec      = c("Trust" = "#482d8b", "No Trust" = "#f26b21")
 )
 

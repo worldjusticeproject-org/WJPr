@@ -17,7 +17,8 @@ wjp_bars(
   expand = FALSE,
   order = NULL,
   width = 0.9,
-  ptheme = WJP_theme()
+  ptheme = WJP_theme(),
+  show_legend = FALSE
 )
 }
 \arguments{
@@ -55,6 +56,10 @@ categories. Default is \code{NULL} (data order).}
 available for each bar. Default is \code{0.9}.}
 
 \item{ptheme}{ggplot theme to apply. Default is \code{\link[=WJP_theme]{WJP_theme()}}.}
+
+\item{show_legend}{Logical. If \code{TRUE}, displays a horizontal legend above the
+chart using the \code{colors} values. This is most useful when \code{colors} differs
+from \code{grouping}, such as in stacked bars. Default is \code{FALSE}.}
 }
 \value{
 A ggplot object.
@@ -146,6 +151,7 @@ wjp_bars(
   lab_pos  = "label_position",
   colors   = "level",
   stacked  = TRUE,
+  show_legend = TRUE,
   cvec     = c("Trust" = "#482d8b", "No trust" = "#f26b21")
 )
 

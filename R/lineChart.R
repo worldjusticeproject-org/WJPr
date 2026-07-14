@@ -43,6 +43,8 @@
 #'   Retained for backwards compatibility; lines are now grouped by `colors`
 #'   automatically.
 #' @param ptheme ggplot theme to apply. Default is [WJP_theme()].
+#' @param show_legend Logical. If `TRUE`, displays a horizontal series legend above
+#'   the chart when `colors` is supplied. Default is `FALSE`.
 #'
 #' @return A ggplot object.
 #' @export
@@ -85,7 +87,8 @@
 #'   repel    = TRUE,
 #'   cvec     = c("Institution A" = "#482d8b",
 #'                "Institution B" = "#2894aa",
-#'                "Institution C" = "#f26b21")
+#'                "Institution C" = "#f26b21"),
+#'   show_legend = TRUE
 #' )
 #'
 #' # Single line
@@ -129,8 +132,15 @@ wjp_lines <- function(
     x.labels       = NULL,
     sec.ticks      = NULL,
     ngroups        = NULL,
-    ptheme         = WJP_theme()
+    ptheme         = WJP_theme(),
+    show_legend    = FALSE
 ){
+
+  legend_theme <- wjp_legend_theme(show_legend)
+  show_color_legend <- isTRUE(show_legend) && !is.null(colors)
+  if (!show_color_legend) {
+    legend_theme <- wjp_legend_theme(FALSE)
+  }
 
   # Renaming variables in the data frame to match the function naming
   data <- data %>%
@@ -157,6 +167,7 @@ wjp_lines <- function(
   if (is.null(cvec)) {
     cvec <- wjp_default_cvec(data$colors_var)
   }
+  legend_breaks <- wjp_legend_breaks(data$colors_var)
 
   # Lines are grouped by the colors variable; `ngroups` is kept for
   # backwards compatibility with previous versions of the function.
@@ -191,17 +202,18 @@ wjp_lines <- function(
     plt <- plt +
       geom_point(size = 2,
                  aes(alpha   = colors_var),
-                 show.legend = FALSE) +
+                 show.legend = show_color_legend) +
       geom_line(linewidth    = 1,
                 aes(alpha    = colors_var),
-                show.legend  = FALSE) +
-      scale_alpha_manual(values = transparencies)
+                show.legend  = show_color_legend) +
+      scale_alpha_manual(values = transparencies,
+                         guide  = "none")
   } else {
     plt <- plt +
       geom_point(size = 2,
-                 show.legend = FALSE) +
+                 show.legend = show_color_legend) +
       geom_line(linewidth    = 1,
-                show.legend  = FALSE)
+                show.legend  = show_color_legend)
   }
 
   if (isFALSE(repel)) {
@@ -248,7 +260,17 @@ wjp_lines <- function(
                        expand = c(0, 0),
                        breaks = seq(0, 100, 20),
                        labels = paste0(seq(0, 100, 20), "%")) +
-    scale_color_manual(values = cvec)
+    scale_color_manual(
+      values = cvec,
+      breaks = legend_breaks,
+      name   = NULL,
+      guide  = ggplot2::guide_legend(
+        direction = "horizontal",
+        nrow = 1,
+        byrow = TRUE,
+        override.aes = list(alpha = 1)
+      )
+    )
 
   if (isTRUE(custom.axis)) {
     if (!requireNamespace("ggh4x", quietly = TRUE)) {
@@ -286,6 +308,8 @@ wjp_lines <- function(
         ggh4x.axis.ticks.length.minor = rel(1)
       )
   }
+
+  plt <- plt + legend_theme
 
   return(plt)
 }

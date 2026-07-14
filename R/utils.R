@@ -151,6 +151,21 @@ wjp_default_cvec <- function(x) {
 }
 
 
+#' Determine the display order for a categorical legend
+#'
+#' Factor levels take precedence; otherwise categories retain their first
+#' appearance in the data.
+#'
+#' @param x A categorical vector.
+#'
+#' @return A character vector of visible legend breaks.
+#' @noRd
+wjp_legend_breaks <- function(x) {
+  vals <- if (is.factor(x)) levels(droplevels(x)) else unique(as.character(x))
+  vals[!is.na(vals)]
+}
+
+
 #' WJP ggplot2 Theme
 #'
 #' @description
@@ -211,4 +226,36 @@ WJP_theme <- function() {
         axis.ticks  = element_blank(),
         plot.margin  = unit(c(0, 0, 0, 0), "points")
   ) 
+}
+
+
+#' Build the shared WJP legend theme
+#'
+#' Keeps categorical chart legends visually consistent across plot families.
+#'
+#' @param show_legend Logical. Whether the legend should be displayed.
+#'
+#' @return A ggplot2 theme object.
+#' @noRd
+wjp_legend_theme <- function(show_legend = TRUE) {
+  if (length(show_legend) != 1 || !is.logical(show_legend) || is.na(show_legend)) {
+    stop("`show_legend` must be TRUE or FALSE.", call. = FALSE)
+  }
+
+  ggplot2::theme(
+    legend.position      = if (show_legend) "top" else "none",
+    legend.direction     = "horizontal",
+    legend.justification = "left",
+    legend.title         = ggplot2::element_blank(),
+    legend.key           = ggplot2::element_blank(),
+    legend.text          = ggplot2::element_text(
+      family = "Lato Full",
+      face   = "bold",
+      size   = 11,
+      color  = "#524F4C"
+    ),
+    legend.key.width     = grid::unit(1.4, "cm"),
+    legend.spacing.x     = grid::unit(18, "pt"),
+    legend.box.margin    = ggplot2::margin(t = 4, r = 0, b = 20, l = 0)
+  )
 }

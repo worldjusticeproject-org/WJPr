@@ -35,6 +35,8 @@
 #' @param custom_order `r lifecycle::badge("deprecated")` Logical. Ordering is now
 #'   enabled automatically when `order` is supplied.
 #' @param ptheme ggplot theme to apply. Default is [WJP_theme()].
+#' @param show_legend Logical. If `TRUE`, displays a horizontal legend above the
+#'   chart using the `diverging` values. Default is `FALSE`.
 #'
 #' @return A ggplot object.
 #' @export
@@ -68,6 +70,7 @@
 #'   diverging = "response",
 #'   negative  = "No Trust",
 #'   labels    = "value_label",
+#'   show_legend = TRUE,
 #'   cvec      = c("Trust" = "#482d8b", "No Trust" = "#f26b21")
 #' )
 #'
@@ -102,7 +105,8 @@ wjp_divbars <- function(
     label_color  = "#ffffff",
     order        = NULL,
     custom_order = FALSE,
-    ptheme       = WJP_theme()
+    ptheme       = WJP_theme(),
+    show_legend  = FALSE
 ){
 
   # Renaming variables in the data frame to match the function naming
@@ -142,6 +146,7 @@ wjp_divbars <- function(
       cvec <- wjp_default_cvec(data$grouping_var)
     }
   }
+  legend_breaks <- wjp_legend_breaks(data$grouping_var)
 
   # Supplying an order column enables custom ordering
   use_order <- isTRUE(custom_order) || !is.null(order)
@@ -165,13 +170,15 @@ wjp_divbars <- function(
   # Adding geoms
   chart <- chart +
     geom_col(position     = "stack",
-             show.legend  = FALSE,
+             show.legend  = show_legend,
              width        = 0.85) +
     geom_hline(yintercept = 0,
                linetype   = "solid",
                linewidth  = 0.5,
                color      = "#262424") +
-    scale_fill_manual(values = cvec) +
+    scale_fill_manual(values = cvec,
+                      breaks = legend_breaks,
+                      name = NULL) +
     scale_y_continuous(limits   = c(-105, 105),
                        breaks   = brs,
                        labels   = paste0(abs(brs), "%"),
@@ -184,6 +191,7 @@ wjp_divbars <- function(
               fontface = "bold",
               size     = 3.514598,
               color    = label_color,
+              show.legend = FALSE,
               position = position_stack(vjust = 0.5)) +
     theme(panel.grid.major = element_blank(),
           axis.text.x      = element_text(family = "Lato Full",
@@ -201,6 +209,8 @@ wjp_divbars <- function(
           axis.line.x      = element_line(linetype  = "solid",
                                           linewidth = 0.5,
                                           color     = "#262424"))
+
+  chart <- chart + wjp_legend_theme(show_legend)
 
   return(chart)
 

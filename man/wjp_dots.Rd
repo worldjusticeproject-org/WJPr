@@ -19,7 +19,8 @@ wjp_dots(
   sd = NULL,
   sample_size = NULL,
   bgcolor = "#ffffff",
-  ptheme = WJP_theme()
+  ptheme = WJP_theme(),
+  show_legend = FALSE
 )
 }
 \arguments{
@@ -62,6 +63,9 @@ observations for the confidence intervals.}
 strips. Default is \code{"#ffffff"}.}
 
 \item{ptheme}{ggplot theme to apply. Default is \code{\link[=WJP_theme]{WJP_theme()}}.}
+
+\item{show_legend}{Logical. If \code{TRUE}, displays a horizontal color legend above
+the chart. Default is \code{FALSE}.}
 }
 \value{
 A ggplot object.
@@ -115,7 +119,8 @@ wjp_dots(
   colors   = "country",
   cvec     = c("Atlantis"  = "#482d8b",
                "Narnia"    = "#2894aa",
-               "Neverland" = "#f26b21")
+               "Neverland" = "#f26b21"),
+  show_legend = TRUE
 )
 
 # With 95\% confidence intervals from sd and sample size
