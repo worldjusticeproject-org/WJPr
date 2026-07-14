@@ -19,7 +19,8 @@ wjp_radar(
   cvec = NULL,
   order = NULL,
   source = "GPP",
-  order_var = NULL
+  order_var = NULL,
+  show_legend = FALSE
 )
 ```
 
@@ -72,6 +73,11 @@ wjp_radar(
 
   **\[deprecated\]** Use `order` instead.
 
+- show_legend:
+
+  Logical. If `TRUE`, displays a horizontal legend above the chart using
+  the color groups. Default is `FALSE`.
+
 ## Value
 
 A ggplot object representing the radar plot.
@@ -116,6 +122,7 @@ wjp_radar(
   target   = "percentage",
   labels   = "axis_label",
   colors   = "gender",
+  show_legend = TRUE,
   cvec     = c("Male" = "#482d8b", "Female" = "#f26b21")
 )
 

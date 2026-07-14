@@ -108,7 +108,8 @@ percentage scale, with an alternating strip background.</p>
 <span>  sd <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sample_size <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  bgcolor <span class="op">=</span> <span class="st">"#ffffff"</span>,</span>
-<span>  ptheme <span class="op">=</span> <span class="fu"><a href="WJP_theme.html">WJP_theme</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  ptheme <span class="op">=</span> <span class="fu"><a href="WJP_theme.html">WJP_theme</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -185,6 +186,11 @@ strips. Default is <code>"#ffffff"</code>.</p></dd>
 <dt id="arg-ptheme">ptheme<a class="anchor" aria-label="anchor" href="#arg-ptheme"></a></dt>
 <dd><p>ggplot theme to apply. Default is <code><a href="WJP_theme.html">WJP_theme()</a></code>.</p></dd>
 
+
+<dt id="arg-show-legend">show_legend<a class="anchor" aria-label="anchor" href="#arg-show-legend"></a></dt>
+<dd><p>Logical. If <code>TRUE</code>, displays a horizontal color legend above
+the chart. Default is <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -234,7 +240,8 @@ sizes (<code>sample_size</code>). Per-group opacities (<code>opacities</code>) a
 <span class="r-in"><span>  colors   <span class="op">=</span> <span class="st">"country"</span>,</span></span>
 <span class="r-in"><span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>  <span class="op">=</span> <span class="st">"#482d8b"</span>,</span></span>
 <span class="r-in"><span>               <span class="st">"Narnia"</span>    <span class="op">=</span> <span class="st">"#2894aa"</span>,</span></span>
-<span class="r-in"><span>               <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>               <span class="st">"Neverland"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="wjp_dots-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>

@@ -108,7 +108,9 @@ percentage scale.</p>
 <span>  order <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  bgcolor <span class="op">=</span> <span class="st">"#ffffff"</span>,</span>
 <span>  color <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  ptheme <span class="op">=</span> <span class="fu"><a href="WJP_theme.html">WJP_theme</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  ptheme <span class="op">=</span> <span class="fu"><a href="WJP_theme.html">WJP_theme</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  label_offset <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -173,6 +175,17 @@ strips. Default is <code>"#ffffff"</code>.</p></dd>
 <dt id="arg-ptheme">ptheme<a class="anchor" aria-label="anchor" href="#arg-ptheme"></a></dt>
 <dd><p>ggplot theme to apply. Default is <code><a href="WJP_theme.html">WJP_theme()</a></code>.</p></dd>
 
+
+<dt id="arg-label-offset">label_offset<a class="anchor" aria-label="anchor" href="#arg-label-offset"></a></dt>
+<dd><p>Numeric. Distance in percentage points between an endpoint
+and its automatically positioned label. Ignored when <code>labpos</code> is supplied.
+Default is <code>4</code>.</p></dd>
+
+
+<dt id="arg-show-legend">show_legend<a class="anchor" aria-label="anchor" href="#arg-show-legend"></a></dt>
+<dd><p>Logical. If <code>TRUE</code>, displays a horizontal point legend above
+the chart using the <code>cgroups</code> values as labels. Default is <code>TRUE</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -183,9 +196,10 @@ strips. Default is <code>"#ffffff"</code>.</p></dd>
     <p>The function expects long-format data with one row per <code>grouping</code> (category)
 and <code>colors</code> (endpoint) combination; <code>cgroups</code> names the two endpoint values
 in order (start, end). When <code>labels</code> is supplied without <code>labpos</code>, labels
-are placed automatically just outside each endpoint. Use <code>order</code> (a named
-vector such as <code>c("A" = 1, "B" = 2)</code>) to control the top-to-bottom order of
-the rows.</p>
+are placed automatically just outside each endpoint and use the endpoint
+color. By default, a horizontal legend is built from the two <code>cgroups</code>
+values and displayed above the chart. Use <code>order</code> (a named vector such as
+<code>c("A" = 1, "B" = 2)</code>) to control the top-to-bottom order of the rows.</p>
     </div>
 
     <div class="section level2">
@@ -224,7 +238,9 @@ the rows.</p>
 <span class="r-in"><span>  colors   <span class="op">=</span> <span class="st">"year"</span>,</span></span>
 <span class="r-in"><span>  cgroups  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span>, <span class="st">"2022"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  labels   <span class="op">=</span> <span class="st">"value_label"</span>,</span></span>
-<span class="r-in"><span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span> <span class="op">=</span> <span class="st">"#2894aa"</span>, <span class="st">"2022"</span> <span class="op">=</span> <span class="st">"#482d8b"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span> <span class="op">=</span> <span class="st">"#2894aa"</span>, <span class="st">"2022"</span> <span class="op">=</span> <span class="st">"#482d8b"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  label_offset <span class="op">=</span> <span class="fl">4</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="wjp_dumbbells-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>

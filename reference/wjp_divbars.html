@@ -107,7 +107,8 @@ which makes the chart suitable for contrasting two opposing responses
 <span>  label_color <span class="op">=</span> <span class="st">"#ffffff"</span>,</span>
 <span>  order <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  custom_order <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  ptheme <span class="op">=</span> <span class="fu"><a href="WJP_theme.html">WJP_theme</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  ptheme <span class="op">=</span> <span class="fu"><a href="WJP_theme.html">WJP_theme</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -166,6 +167,11 @@ enabled automatically when <code>order</code> is supplied.</p></dd>
 <dt id="arg-ptheme">ptheme<a class="anchor" aria-label="anchor" href="#arg-ptheme"></a></dt>
 <dd><p>ggplot theme to apply. Default is <code><a href="WJP_theme.html">WJP_theme()</a></code>.</p></dd>
 
+
+<dt id="arg-show-legend">show_legend<a class="anchor" aria-label="anchor" href="#arg-show-legend"></a></dt>
+<dd><p>Logical. If <code>TRUE</code>, displays a horizontal legend above the
+chart using the <code>diverging</code> values. Default is <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -210,6 +216,7 @@ pre-signed values. Value labels are drawn centered inside each segment.</p>
 <span class="r-in"><span>  diverging <span class="op">=</span> <span class="st">"response"</span>,</span></span>
 <span class="r-in"><span>  negative  <span class="op">=</span> <span class="st">"No Trust"</span>,</span></span>
 <span class="r-in"><span>  labels    <span class="op">=</span> <span class="st">"value_label"</span>,</span></span>
+<span class="r-in"><span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  cvec      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Trust"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>, <span class="st">"No Trust"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="wjp_divbars-1.png" alt="" width="700" height="433"></span>

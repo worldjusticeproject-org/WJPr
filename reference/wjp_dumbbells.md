@@ -23,7 +23,9 @@ wjp_dumbbells(
   order = NULL,
   bgcolor = "#ffffff",
   color = NULL,
-  ptheme = WJP_theme()
+  ptheme = WJP_theme(),
+  label_offset = 4,
+  show_legend = TRUE
 )
 ```
 
@@ -88,6 +90,17 @@ wjp_dumbbells(
   ggplot theme to apply. Default is
   [`WJP_theme()`](https://worldjusticeproject-org.github.io/WJPr/reference/WJP_theme.md).
 
+- label_offset:
+
+  Numeric. Distance in percentage points between an endpoint and its
+  automatically positioned label. Ignored when `labpos` is supplied.
+  Default is `4`.
+
+- show_legend:
+
+  Logical. If `TRUE`, displays a horizontal point legend above the chart
+  using the `cgroups` values as labels. Default is `TRUE`.
+
 ## Value
 
 A ggplot object.
@@ -97,9 +110,11 @@ A ggplot object.
 The function expects long-format data with one row per `grouping`
 (category) and `colors` (endpoint) combination; `cgroups` names the two
 endpoint values in order (start, end). When `labels` is supplied without
-`labpos`, labels are placed automatically just outside each endpoint.
-Use `order` (a named vector such as `c("A" = 1, "B" = 2)`) to control
-the top-to-bottom order of the rows.
+`labpos`, labels are placed automatically just outside each endpoint and
+use the endpoint color. By default, a horizontal legend is built from
+the two `cgroups` values and displayed above the chart. Use `order` (a
+named vector such as `c("A" = 1, "B" = 2)`) to control the top-to-bottom
+order of the rows.
 
 ## Examples
 
@@ -138,7 +153,9 @@ wjp_dumbbells(
   colors   = "year",
   cgroups  = c("2017", "2022"),
   labels   = "value_label",
-  cvec     = c("2017" = "#2894aa", "2022" = "#482d8b")
+  cvec     = c("2017" = "#2894aa", "2022" = "#482d8b"),
+  show_legend = TRUE,
+  label_offset = 4
 )
 
 ```

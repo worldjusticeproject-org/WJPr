@@ -25,7 +25,8 @@ wjp_dots(
   sd = NULL,
   sample_size = NULL,
   bgcolor = "#ffffff",
-  ptheme = WJP_theme()
+  ptheme = WJP_theme(),
+  show_legend = FALSE
 )
 ```
 
@@ -105,6 +106,11 @@ wjp_dots(
   ggplot theme to apply. Default is
   [`WJP_theme()`](https://worldjusticeproject-org.github.io/WJPr/reference/WJP_theme.md).
 
+- show_legend:
+
+  Logical. If `TRUE`, displays a horizontal color legend above the
+  chart. Default is `FALSE`.
+
 ## Value
 
 A ggplot object.
@@ -154,7 +160,8 @@ wjp_dots(
   colors   = "country",
   cvec     = c("Atlantis"  = "#482d8b",
                "Narnia"    = "#2894aa",
-               "Neverland" = "#f26b21")
+               "Neverland" = "#f26b21"),
+  show_legend = TRUE
 )
 
 

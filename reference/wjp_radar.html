@@ -97,7 +97,8 @@ object with a radar chart following WJP style guidelines.</p>
 <span>  cvec <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  order <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  source <span class="op">=</span> <span class="st">"GPP"</span>,</span>
-<span>  order_var <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  order_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -151,6 +152,11 @@ the axes. Default is <code>NULL</code> (data order).</p></dd>
 <dt id="arg-order-var">order_var<a class="anchor" aria-label="anchor" href="#arg-order-var"></a></dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Use <code>order</code> instead.</p></dd>
 
+
+<dt id="arg-show-legend">show_legend<a class="anchor" aria-label="anchor" href="#arg-show-legend"></a></dt>
+<dd><p>Logical. If <code>TRUE</code>, displays a horizontal legend above the
+chart using the color groups. Default is <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -196,6 +202,7 @@ installed.</p>
 <span class="r-in"><span>  target   <span class="op">=</span> <span class="st">"percentage"</span>,</span></span>
 <span class="r-in"><span>  labels   <span class="op">=</span> <span class="st">"axis_label"</span>,</span></span>
 <span class="r-in"><span>  colors   <span class="op">=</span> <span class="st">"gender"</span>,</span></span>
+<span class="r-in"><span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  cvec     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span> <span class="op">=</span> <span class="st">"#482d8b"</span>, <span class="st">"Female"</span> <span class="op">=</span> <span class="st">"#f26b21"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="wjp_radar-1.png" alt="" width="700" height="433"></span>

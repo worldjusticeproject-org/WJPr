@@ -22,7 +22,8 @@ wjp_bars(
   expand = FALSE,
   order = NULL,
   width = 0.9,
-  ptheme = WJP_theme()
+  ptheme = WJP_theme(),
+  show_legend = FALSE
 )
 ```
 
@@ -92,6 +93,12 @@ wjp_bars(
 
   ggplot theme to apply. Default is
   [`WJP_theme()`](https://worldjusticeproject-org.github.io/WJPr/reference/WJP_theme.md).
+
+- show_legend:
+
+  Logical. If `TRUE`, displays a horizontal legend above the chart using
+  the `colors` values. This is most useful when `colors` differs from
+  `grouping`, such as in stacked bars. Default is `FALSE`.
 
 ## Value
 
@@ -182,6 +189,7 @@ wjp_bars(
   lab_pos  = "label_position",
   colors   = "level",
   stacked  = TRUE,
+  show_legend = TRUE,
   cvec     = c("Trust" = "#482d8b", "No trust" = "#f26b21")
 )
 

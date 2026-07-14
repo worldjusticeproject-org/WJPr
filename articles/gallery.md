@@ -111,6 +111,11 @@ wjp_bars(
 column (`target`) and the category column (`grouping`);
 `labels`/`lab_pos` are optional helpers for the data labels.
 
+For stacked or multi-series bars, set `show_legend = TRUE` when `colors`
+identifies the segments or series. A legend is intentionally omitted for
+simple category bars like this example because it would repeat the axis
+labels.
+
 | country   |    trust | label | label_pos |
 |:----------|---------:|:------|----------:|
 | Atlantis  | 49.09091 | 49%   |  54.09091 |
@@ -173,7 +178,8 @@ wjp_divbars(
   diverging = "response",
   negative  = "No Trust",
   labels    = "label",
-  cvec      = c("Trust" = "#482d8b", "No Trust" = "#f26b21")
+  cvec      = c("Trust" = "#482d8b", "No Trust" = "#f26b21"),
+  show_legend = TRUE
 )
 ```
 
@@ -182,7 +188,8 @@ wjp_divbars(
 **Expected input structure** — one row per `grouping` × `diverging`
 combination. The group named in `negative` is flipped into the negative
 quadrant automatically, so all values can be supplied as positive
-percentages.
+percentages. With `show_legend = TRUE`, the legend identifies the
+response groups using the names in `cvec`.
 
 | country  | response |   n |  percent | label |
 |:---------|:---------|----:|---------:|:------|
@@ -226,7 +233,8 @@ wjp_dots(
   target   = "trust",
   grouping = "institution",
   colors   = "country",
-  cvec     = c("Atlantis" = "#482d8b", "Narnia" = "#2894aa", "Neverland" = "#f26b21")
+  cvec     = c("Atlantis" = "#482d8b", "Narnia" = "#2894aa", "Neverland" = "#f26b21"),
+  show_legend = TRUE
 )
 ```
 
@@ -234,6 +242,7 @@ wjp_dots(
 
 **Expected input structure** — long format: one row per `grouping`
 (variable) × `colors` (group) combination, each with its `target` value.
+Set `show_legend = TRUE` to identify the groups mapped through `colors`.
 
 | country  | variable |    trust | institution |
 |:---------|:---------|---------:|:------------|
@@ -283,7 +292,8 @@ wjp_lines(
   colors   = "institution",
   labels   = "label",
   repel    = TRUE,
-  cvec     = c("Police" = "#482d8b", "Courts" = "#2894aa", "Parliament" = "#f26b21")
+  cvec     = c("Police" = "#482d8b", "Courts" = "#2894aa", "Parliament" = "#f26b21"),
+  show_legend = TRUE
 )
 ```
 
@@ -291,7 +301,8 @@ wjp_lines(
 
 **Expected input structure** — long format: one row per `grouping` (time
 point) × series. The `colors` variable defines the lines, so single- and
-multi-series data use the same call.
+multi-series data use the same call. Use `show_legend = TRUE` to label
+those series with a shared legend.
 
 | year | variable |    trust | institution | label |
 |:-----|:---------|---------:|:------------|:------|
@@ -331,14 +342,16 @@ wjp_slope(
   colors   = "gender",
   labels   = "label",
   cvec     = c("Male" = "#482d8b", "Female" = "#f26b21"),
-  repel    = TRUE
+  repel    = TRUE,
+  show_legend = TRUE
 )
 ```
 
 ![](gallery_files/figure-html/slope-1.png)
 
 **Expected input structure** — exactly two `grouping` values (the two
-time points) per series. The `colors` variable defines the lines.
+time points) per series. The `colors` variable defines the lines, and
+`show_legend = TRUE` identifies them above the chart.
 
 | year | gender |    trust | label |
 |-----:|:-------|---------:|:------|
@@ -369,15 +382,19 @@ wjp_dumbbells(
   colors   = "year",
   cgroups  = c("2017", "2022"),
   labels   = "label",
-  cvec     = c("2017" = "#2894aa", "2022" = "#482d8b")
+  cvec     = c("2017" = "#2894aa", "2022" = "#482d8b"),
+  show_legend = TRUE,
+  label_offset = 4
 )
 ```
 
 ![](gallery_files/figure-html/dumbbells-1.png)
 
 **Expected input structure** — one row per `grouping` × `colors` (the
-two endpoints). `cgroups` lists the two endpoint values, and the
-optional `labels` column adds a value label next to each point.
+two endpoints). `cgroups` lists the two endpoint values and supplies the
+legend labels. The optional `labels` column adds a color-matched value
+label next to each point; `label_offset` controls its distance from the
+endpoint.
 
 | year | variable |    trust | institution | label |
 |:-----|:---------|---------:|:------------|:------|
@@ -474,7 +491,8 @@ wjp_radar(
   target   = "score",
   labels   = "label",
   colors   = "gender",
-  cvec     = c("Male" = "#482d8b", "Female" = "#f26b21")
+  cvec     = c("Male" = "#482d8b", "Female" = "#f26b21"),
+  show_legend = TRUE
 )
 ```
 
@@ -482,7 +500,7 @@ wjp_radar(
 
 **Expected input structure** — long format: one row per `axis_var`
 (dimension) × `colors` (group). `labels` gives the human-readable axis
-name.
+name, while `show_legend = TRUE` identifies the compared groups.
 
 | gender | category |    score | label      |
 |:-------|:---------|---------:|:-----------|
@@ -552,7 +570,8 @@ wjp_gauge(
   cvec         = c("Factor 1" = "#482d8b", "Factor 2" = "#2894aa",
                    "Factor 3" = "#f26b21", "Factor 4" = "#555659"),
   factor_order = c("Factor 1", "Factor 2", "Factor 3", "Factor 4"),
-  labels       = "label"
+  labels       = "label",
+  show_legend  = TRUE
 )
 ```
 
@@ -560,7 +579,7 @@ wjp_gauge(
 
 **Expected input structure** — one row per slice: a `colors` category,
 its `target` value, and a display `label`. `factor_order` controls the
-drawing order.
+drawing order, and `show_legend = TRUE` identifies each colored slice.
 
 | category | value | label |
 |:---------|------:|:------|

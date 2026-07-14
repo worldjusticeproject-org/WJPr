@@ -23,7 +23,8 @@ wjp_divbars(
   label_color = "#ffffff",
   order = NULL,
   custom_order = FALSE,
-  ptheme = WJP_theme()
+  ptheme = WJP_theme(),
+  show_legend = FALSE
 )
 ```
 
@@ -83,6 +84,11 @@ wjp_divbars(
   ggplot theme to apply. Default is
   [`WJP_theme()`](https://worldjusticeproject-org.github.io/WJPr/reference/WJP_theme.md).
 
+- show_legend:
+
+  Logical. If `TRUE`, displays a horizontal legend above the chart using
+  the `diverging` values. Default is `FALSE`.
+
 ## Value
 
 A ggplot object.
@@ -127,6 +133,7 @@ wjp_divbars(
   diverging = "response",
   negative  = "No Trust",
   labels    = "value_label",
+  show_legend = TRUE,
   cvec      = c("Trust" = "#482d8b", "No Trust" = "#f26b21")
 )
 
