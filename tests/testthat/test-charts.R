@@ -593,3 +593,33 @@ test_that("wjp_groupbars orders default levels naturally from top to bottom", {
     c("Zulu", "Beta", "Alpha")
   )
 })
+
+test_that("wjp_font_family switches chart fonts via the wjpr.family option", {
+  expect_equal(wjp_font_family(), "Lato Full")
+
+  withr::with_options(list(wjpr.family = "Inter Tight"), {
+    expect_equal(wjp_font_family(), "Inter Tight")
+
+    # Theme text elements pick up the active family
+    thm <- WJP_theme()
+    expect_equal(thm$axis.title.y$family, "Inter Tight")
+
+    # Chart text layers pick up the active family
+    bars <- data.frame(cat = c("A", "B"), val = c(30, 70), lab = c("30%", "70%"))
+    plot <- wjp_bars(bars, "val", "cat", labels = "lab")
+    text_families <- vapply(
+      Filter(function(l) "family" %in% names(l$aes_params), plot$layers),
+      function(l) l$aes_params$family,
+      character(1)
+    )
+    expect_true(all(text_families == "Inter Tight"))
+  })
+
+  # Explicit family argument overrides the option
+  thm <- WJP_theme(family = "Inter Tight")
+  expect_equal(thm$axis.text.x$family, "Inter Tight")
+
+  withr::with_options(list(wjpr.family = c("a", "b")), {
+    expect_error(wjp_font_family(), "single string")
+  })
+})

@@ -2,6 +2,12 @@
 
 ## New features
 
+- New `wjp_font_family()` function and `wjpr.family` option: switch every
+  WJPr chart and theme between the loaded font families (Lato by default,
+  Inter Tight as alternative) with a single line, e.g.
+  `options(wjpr.family = "Inter Tight")`. `WJP_theme()` also gains a
+  `family` parameter.
+
 - New `wjp_palette()` function exposing the official WJP categorical color
   palette. All chart functions now fall back to this palette when no `cvec`
   is supplied, so charts stay on-brand by default (previously they fell back

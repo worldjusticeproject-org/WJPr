@@ -108,6 +108,8 @@ navbar:
       - text: Styling
       - text: wjp_fonts()
         href: reference/wjp_fonts.html
+      - text: wjp_font_family()
+        href: reference/wjp_font_family.html
       - text: wjp_palette()
         href: reference/wjp_palette.html
       - text: WJP_theme()
@@ -158,6 +160,7 @@ reference:
   - wjp_check_deps
   - diffmeans
   - wjp_fonts
+  - wjp_font_family
   - wjp_palette
   - WJP_theme
 - title: Data

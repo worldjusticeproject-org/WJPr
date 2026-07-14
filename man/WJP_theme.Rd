@@ -4,7 +4,12 @@
 \alias{WJP_theme}
 \title{WJP ggplot2 Theme}
 \usage{
-WJP_theme()
+WJP_theme(family = wjp_font_family())
+}
+\arguments{
+\item{family}{String. Font family for all text elements. Default is the
+active WJP font family (see \code{\link[=wjp_font_family]{wjp_font_family()}}), which is \code{"Lato Full"}
+unless changed via \code{options(wjpr.family = )}.}
 }
 \value{
 A ggplot2 theme object that can be added to any ggplot.
@@ -18,7 +23,8 @@ The theme includes the following style specifications:
 \itemize{
 \item Transparent panel and plot backgrounds
 \item Dashed grey grid lines (\code{#5e5c5a})
-\item Lato Full font family for all text elements
+\item WJP font family for all text elements (Lato Full by default; see
+\code{\link[=wjp_font_family]{wjp_font_family()}})
 \item Text color \code{#524F4C}
 \item No axis ticks
 \item Zero plot margins
@@ -34,5 +40,10 @@ wjp_fonts()
 ggplot(mtcars, aes(x = mpg, y = wt)) +
   geom_point() +
   WJP_theme()
+
+# Same plot with Inter Tight
+ggplot(mtcars, aes(x = mpg, y = wt)) +
+  geom_point() +
+  WJP_theme(family = "Inter Tight")
 
 }

@@ -206,7 +206,7 @@ wjp_bars <- function(
                       show.legend = show_legend) +
     ggplot2::geom_text(aes(y = lab_pos),
                        color    = if (isTRUE(stacked)) "#ffffff" else "#4a4a49",
-                       family   = "Lato Full",
+                       family   = wjp_font_family(),
                        fontface = "bold",
                        size     = 3.514598,
                        show.legend = FALSE) +

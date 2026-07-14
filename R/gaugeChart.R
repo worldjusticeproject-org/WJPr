@@ -188,7 +188,7 @@ wjp_gauge <- function(
           x     = 1.5),
       color     = "white",
       size      = 1.866058 * ggplot2::.pt,
-      family    = "Lato Full",
+      family    = wjp_font_family(),
       fontface  = "bold",
       show.legend = FALSE
     ) +

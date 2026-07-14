@@ -315,7 +315,7 @@ wjp_dumbbells <- function(
           label = lab0,
           color = start_group
         ),
-        family   = "Lato Full",
+        family   = wjp_font_family(),
         fontface = "bold",
         size     = 3.514598,
         show.legend = FALSE
@@ -328,7 +328,7 @@ wjp_dumbbells <- function(
           label = lab1,
           color = end_group
         ),
-        family   = "Lato Full",
+        family   = wjp_font_family(),
         fontface = "bold",
         size     = 3.514598,
         show.legend = FALSE

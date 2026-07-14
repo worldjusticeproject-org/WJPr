@@ -187,19 +187,19 @@ wjp_divbars <- function(
     coord_flip() +
     ptheme +
     geom_text(aes(label = labels_var),
-              family   = "Lato Full",
+              family   = wjp_font_family(),
               fontface = "bold",
               size     = 3.514598,
               color    = label_color,
               show.legend = FALSE,
               position = position_stack(vjust = 0.5)) +
     theme(panel.grid.major = element_blank(),
-          axis.text.x      = element_text(family = "Lato Full",
+          axis.text.x      = element_text(family = wjp_font_family(),
                                           face   = "bold",
                                           size   = 3.514598 * ggplot2::.pt,
                                           color  = "#262424",
                                           hjust  = 0),
-          axis.text.y      = element_text(family = "Lato Full",
+          axis.text.y      = element_text(family = wjp_font_family(),
                                           face   = "bold",
                                           size   = 3.514598 * ggplot2::.pt,
                                           color  = "#262424",

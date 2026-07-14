@@ -132,7 +132,7 @@ wjp_rose <- function(
     plt <- plt +
       ggtext::geom_richtext(aes(y     = 1.3,
                                 label = alabels_var),
-                            family      = "Lato Full",
+                            family      = wjp_font_family(),
                             fontface    = "plain",
                             color       = "#524F4C",
                             fill        = NA,
@@ -141,7 +141,7 @@ wjp_rose <- function(
     plt <- plt +
       geom_text(aes(y     = 1.3,
                     label = alabels_var),
-                family   = "Lato Full",
+                family   = wjp_font_family(),
                 fontface = "plain",
                 color    = "#524F4C")
   }

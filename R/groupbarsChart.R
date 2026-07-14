@@ -804,7 +804,7 @@ wjp_groupbars <- function(
     plt <- plt +
       ggplot2::geom_text(
         ggplot2::aes(x = label_x, label = label_value),
-        family   = "Lato Full",
+        family   = wjp_font_family(),
         fontface = "bold",
         color    = if (label_position == "inside") "#ffffff" else colors[1],
         hjust    = if (label_position == "inside") 1 else 0,
@@ -829,7 +829,7 @@ wjp_groupbars <- function(
           data = national_label_data,
           ggplot2::aes(x = x, y = y_id, label = label, hjust = hjust),
           inherit.aes   = FALSE,
-          family        = "Lato Full",
+          family        = wjp_font_family(),
           fontface      = "plain",
           color         = colors[1],
           fill          = NA,
@@ -849,7 +849,7 @@ wjp_groupbars <- function(
             hjust = hjust
           ),
           inherit.aes = FALSE,
-          family      = "Lato Full",
+          family      = wjp_font_family(),
           fontface    = "plain",
           color       = colors[1],
           size        = 3.5,
@@ -907,7 +907,7 @@ wjp_groupbars <- function(
           fill        = NA,
           label.color = NA,
           size        = 4.5,
-          family      = "Lato Full"
+          family      = wjp_font_family()
         )
     }
   }
@@ -936,7 +936,7 @@ wjp_groupbars <- function(
     theme_axis <- ggplot2::theme(
       axis.text.x = ggplot2::element_text(
         size   = 6.5,
-        family = "Lato Full",
+        family = wjp_font_family(),
         face   = "plain",
         color  = "#4a4a4a"
       ),
@@ -955,7 +955,7 @@ wjp_groupbars <- function(
       axis.text.y = ggtext::element_markdown(
         size   = 13,
         hjust  = 1,
-        family = "Lato Full"
+        family = wjp_font_family()
       )
     )
   } else {
@@ -963,7 +963,7 @@ wjp_groupbars <- function(
       axis.text.y = ggplot2::element_text(
         size   = 13,
         hjust  = 1,
-        family = "Lato Full",
+        family = wjp_font_family(),
         face   = "plain"
       )
     )
@@ -977,7 +977,7 @@ wjp_groupbars <- function(
         size   = 13,
         color  = colors[1],
         hjust  = 0,
-        family = "Lato Full",
+        family = wjp_font_family(),
         face   = "bold"
       ),
       # facet_grid switched strips shown as horizontal group headers
@@ -988,7 +988,7 @@ wjp_groupbars <- function(
         color  = colors[1],
         hjust  = 0,
         vjust  = 1,
-        family = "Lato Full",
+        family = wjp_font_family(),
         face   = "bold",
         margin = ggplot2::margin(0, -15, 0, 0)
       ),
@@ -1003,7 +1003,7 @@ wjp_groupbars <- function(
         color  = colors[1],
         hjust  = 0,
         vjust  = 1,
-        family = "Lato Full",
+        family = wjp_font_family(),
         face   = "bold",
         margin = ggplot2::margin(0, -15, 0, 0)
       ),

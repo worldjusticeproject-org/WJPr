@@ -151,7 +151,7 @@ wjp_edgebars <- function(
           x        = reorder(x_var, -x_lab_pos),
           y        = y_lab_pos,
           label    = label_var,
-          family   = "Lato Full",
+          family   = wjp_font_family(),
           fontface = "plain"
         ),
         fill  = NA,
@@ -169,7 +169,7 @@ wjp_edgebars <- function(
           y     = y_lab_pos,
           label = label_var
         ),
-        family   = "Lato Full",
+        family   = wjp_font_family(),
         hjust    = 0,
         vjust    = 0,
         size     = 3.514598
@@ -187,7 +187,7 @@ wjp_edgebars <- function(
       ),
       color    = "#4a4a49",
       position = position_dodge(width = bar_width),
-      family   = "Lato Full",
+      family   = wjp_font_family(),
       fontface = "bold",
       size     = 3.514598,
       hjust    = -0.1

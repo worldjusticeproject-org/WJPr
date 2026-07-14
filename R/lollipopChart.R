@@ -135,7 +135,7 @@ wjp_lollipops <- function(
           label = labels_var),
       size     = 3.514598,
       color    = "#4a4a49",
-      family   = "Lato Full",
+      family   = wjp_font_family(),
       fontface = "bold"
     ) +
     scale_y_continuous(breaks   = seq(0, 100, by = 20),

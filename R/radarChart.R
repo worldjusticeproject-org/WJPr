@@ -288,7 +288,7 @@ wjp_radar <- function(
       aes(x     = x,
           y     = y,
           label = r),
-      family     = "Lato Full",
+      family     = wjp_font_family(),
       fontface   = "plain",
       color      = "#524F4C",
       show.legend = FALSE
@@ -316,7 +316,7 @@ wjp_radar <- function(
           data  = label_data,
           aes(x = x, y = y),
           label = axis_labels,
-          family      = "Lato Full",
+          family      = wjp_font_family(),
           fontface    = "plain",
           fill        = NA,
           label.color = NA,
@@ -327,7 +327,7 @@ wjp_radar <- function(
           data  = label_data,
           aes(x = x, y = y),
           label = axis_labels,
-          family   = "Lato Full",
+          family   = wjp_font_family(),
           fontface = "plain",
           show.legend = FALSE
         )

@@ -23,6 +23,11 @@ The function loads the following font families:
 \item \strong{Lato Black}: Black weight (900)
 \item \strong{Inter Tight}: Regular weight (400) and bold (700)
 }
+
+WJPr charts use \strong{Lato Full} by default. To switch every chart and
+theme to another loaded family (e.g., Inter Tight), set the \code{wjpr.family}
+option once per session: \code{options(wjpr.family = "Inter Tight")}. See
+\code{\link[=wjp_font_family]{wjp_font_family()}}.
 }
 \examples{
 # Load fonts before creating charts

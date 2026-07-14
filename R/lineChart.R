@@ -223,7 +223,7 @@ wjp_lines <- function(
       geom_text(aes(y       = labpos_var,
                     x       = grouping_var,
                     label   = labels_var),
-                family      = "Lato Full",
+                family      = wjp_font_family(),
                 fontface    = "bold",
                 size        = 3.514598,
                 show.legend = FALSE)
@@ -240,7 +240,7 @@ wjp_lines <- function(
       ggrepel::geom_text_repel(mapping = aes(y     = target_var,
                                              x     = grouping_var,
                                              label = labels_var),
-                               family      = "Lato Full",
+                               family      = wjp_font_family(),
                                fontface    = "bold",
                                size        = 3.514598,
                                show.legend = FALSE,
