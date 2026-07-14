@@ -122,6 +122,22 @@ input:focus-visible {
   color: #ffffff !important;
 }
 
+/* Version badge and any muted text sitting on the violet navbar */
+.navbar small.nav-text,
+.navbar .navbar-text,
+.navbar .text-muted {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Mobile menu toggler: white icon on the violet navbar */
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
 .page-header {
   background: var(--wjp-violet-dark);
   color: #ffffff;
@@ -338,6 +354,7 @@ blockquote {
 .badge-primary,
 .bg-primary {
   background: var(--wjp-violet) !important;
+  color: #ffffff !important;
 }
 
 .figure,
@@ -436,17 +453,31 @@ aside[role="doc-toc"] .nav-link.active,
 footer {
   background: var(--wjp-violet-dark);
   border-top: 4px solid var(--wjp-orange);
-  color: rgba(255, 255, 255, 0.84);
+  color: rgba(255, 255, 255, 0.92);
   margin-top: 3.5rem;
   padding: 2rem 0;
 }
 
-footer a {
-  color: #ffffff;
+/* The global `p, li` color rule outranks the inherited footer color,
+   so footer text must be set explicitly to stay white on violet. */
+footer p,
+footer li,
+footer .pkgdown-footer-left,
+footer .pkgdown-footer-right,
+footer small {
+  color: rgba(255, 255, 255, 0.92) !important;
 }
 
-footer a:hover {
-  color: #ffffff;
+footer a {
+  color: #ffffff !important;
+  font-weight: 700;
+  text-decoration-color: rgba(255, 255, 255, 0.55);
+}
+
+footer a:hover,
+footer a:focus {
+  color: #ffffff !important;
+  text-decoration-color: #ffffff;
 }
 
 .wjp-gallery-grid {
