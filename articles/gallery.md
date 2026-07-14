@@ -46,6 +46,53 @@ Every chart function falls back to this palette automatically when you
 do not supply a color vector (`cvec`), so quick exploratory charts stay
 on-brand by default.
 
+## Typography
+
+[`wjp_fonts()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_fonts.md)
+registers two font systems from Google Fonts: **Lato** (Full, Light, and
+Black weights) and **Inter Tight**. All charts use Lato by default. To
+switch every chart of the session — axis text, value labels, and legends
+— set the `wjpr.family` option once:
+
+``` r
+
+# Check the active family
+wjp_font_family()
+#> [1] "Lato Full"
+
+# Same chart, Inter Tight
+options(wjpr.family = "Inter Tight")
+
+wjp_bars(
+  data.frame(
+    country = c("Atlantis", "Narnia", "Neverland"),
+    trust   = c(49, 46, 64)
+  ) %>%
+    mutate(label = paste0(trust, "%"), label_pos = trust + 6),
+  target   = "trust",
+  grouping = "country",
+  labels   = "label",
+  lab_pos  = "label_pos"
+)
+```
+
+![](gallery_files/figure-html/typography-1.png)
+
+``` r
+
+
+# Back to Lato (the default)
+options(wjpr.family = NULL)
+```
+
+For a single chart, wrap the call with
+`withr::with_options(list(wjpr.family = "Inter Tight"), ...)`. To change
+only the theme elements (axis text and titles) of one chart, pass
+`ptheme = WJP_theme(family = "Inter Tight")` — note that value labels
+keep the session font in that case. See
+[`wjp_font_family()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_font_family.md)
+for details.
+
 ``` r
 
 # Load sample data

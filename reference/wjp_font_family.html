@@ -107,7 +107,18 @@ line switches every chart to another family loaded by <code><a href="wjp_fonts.h
 <code>"Lato Light"</code>, <code>"Lato Black"</code>, and <code>"Inter Tight"</code>. Any other family
 already registered in your session (via <code><a href="https://rdrr.io/pkg/sysfonts/man/font_add_google.html" class="external-link">sysfonts::font_add_google()</a></code> or
 similar) can also be used.</p>
-    </div>
+<p>There are three ways to control the font of a WJPr chart:</p><ol><li><p><strong>Whole session</strong>: <code>options(wjpr.family = "Inter Tight")</code>.
+Every chart created afterwards (axis text, value labels, and legends)
+uses the new family. Reset with <code>options(wjpr.family = NULL)</code>.</p></li>
+<li><p><strong>A single chart</strong>: wrap the call with
+<code>withr::with_options(list(wjpr.family = "Inter Tight"), ...)</code> so the
+rest of the session keeps the default.</p></li>
+<li><p><strong>Theme elements only</strong>: pass
+<code>ptheme = WJP_theme(family = "Inter Tight")</code> to a chart function.
+Note this changes axis text and titles only; value labels drawn
+inside the chart read the session option at call time, so use
+approaches 1 or 2 to switch the complete chart.</p></li>
+</ol></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

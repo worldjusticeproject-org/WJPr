@@ -177,7 +177,46 @@ ordered palette is available programmatically via
 <p>Every chart function falls back to this palette automatically when
 you do not supply a color vector (<code>cvec</code>), so quick
 exploratory charts stay on-brand by default.</p>
+</div>
+<div class="section level2">
+<h2 id="typography">Typography<a class="anchor" aria-label="anchor" href="#typography"></a>
+</h2>
+<p><code><a href="../reference/wjp_fonts.html">wjp_fonts()</a></code> registers two font systems from Google
+Fonts: <strong>Lato</strong> (Full, Light, and Black weights) and
+<strong>Inter Tight</strong>. All charts use Lato by default. To switch
+every chart of the session — axis text, value labels, and legends — set
+the <code>wjpr.family</code> option once:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Check the active family</span></span>
+<span><span class="fu"><a href="../reference/wjp_font_family.html">wjp_font_family</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Lato Full"</span></span>
+<span></span>
+<span><span class="co"># Same chart, Inter Tight</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>wjpr.family <span class="op">=</span> <span class="st">"Inter Tight"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/wjp_bars.html">wjp_bars</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>    country <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Atlantis"</span>, <span class="st">"Narnia"</span>, <span class="st">"Neverland"</span><span class="op">)</span>,</span>
+<span>    trust   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">49</span>, <span class="fl">46</span>, <span class="fl">64</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">trust</span>, <span class="st">"%"</span><span class="op">)</span>, label_pos <span class="op">=</span> <span class="va">trust</span> <span class="op">+</span> <span class="fl">6</span><span class="op">)</span>,</span>
+<span>  target   <span class="op">=</span> <span class="st">"trust"</span>,</span>
+<span>  grouping <span class="op">=</span> <span class="st">"country"</span>,</span>
+<span>  labels   <span class="op">=</span> <span class="st">"label"</span>,</span>
+<span>  lab_pos  <span class="op">=</span> <span class="st">"label_pos"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="gallery_files/figure-html/typography-1.png" class="r-plt" alt="" width="100%"></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Back to Lato (the default)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>wjpr.family <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<p>For a single chart, wrap the call with
+<code>withr::with_options(list(wjpr.family = "Inter Tight"), ...)</code>.
+To change only the theme elements (axis text and titles) of one chart,
+pass <code>ptheme = WJP_theme(family = "Inter Tight")</code> — note that
+value labels keep the session font in that case. See
+<code><a href="../reference/wjp_font_family.html">wjp_font_family()</a></code> for details.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load sample data</span></span>
 <span><span class="va">gpp_data</span> <span class="op">&lt;-</span> <span class="fu">WJPr</span><span class="fu">::</span><span class="va"><a href="../reference/gpp.html">gpp</a></span></span>
 <span></span>
@@ -211,7 +250,7 @@ exploratory charts stay on-brand by default.</p>
 </h3>
 <p><code><a href="../reference/wjp_bars.html">wjp_bars()</a></code> - Standard vertical bar chart for comparing
 values across categories.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_bars</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2022</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -276,7 +315,7 @@ country</caption>
 </h3>
 <p>Set <code>direction = "horizontal"</code> for horizontal
 orientation.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/wjp_bars.html">wjp_bars</a></span><span class="op">(</span></span>
 <span>  <span class="va">data_bars</span>,</span>
 <span>  target    <span class="op">=</span> <span class="st">"trust"</span>,</span>
@@ -298,7 +337,7 @@ orientation.</p>
 </h2>
 <p><code><a href="../reference/wjp_divbars.html">wjp_divbars()</a></code> - Show positive and negative values
 extending from a center point.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_divbars</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2022</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -379,7 +418,7 @@ country, diverging = response</caption>
 </h2>
 <p><code><a href="../reference/wjp_dots.html">wjp_dots()</a></code> - Compare multiple variables across groups
 with dot markers.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_dots</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">country</span>, <span class="va">q1a</span>, <span class="va">q1b</span>, <span class="va">q1c</span>, <span class="va">q1d</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -455,7 +494,7 @@ institution, colors = country</caption>
 </h2>
 <p><code><a href="../reference/wjp_lines.html">wjp_lines()</a></code> - Display trends over time with connected
 points.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggrepel.slowkow.com/" class="external-link">ggrepel</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data_lines</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -542,7 +581,7 @@ colors = institution</caption>
 </h2>
 <p><code><a href="../reference/wjp_slope.html">wjp_slope()</a></code> - Compare values between exactly two time
 points.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_slope</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2017</span>, <span class="fl">2019</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -613,7 +652,7 @@ colors = gender</caption>
 </h2>
 <p><code><a href="../reference/wjp_dumbbells.html">wjp_dumbbells()</a></code> - Show change between two points with
 connected markers.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_dumbbells</span> <span class="op">&lt;-</span> <span class="va">data_lines</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2017"</span>, <span class="st">"2022"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -683,7 +722,7 @@ institution, colors = year</caption>
 </h2>
 <p><code><a href="../reference/wjp_lollipops.html">wjp_lollipops()</a></code> - Minimalist bar alternative with stems
 and dots.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/wjp_lollipops.html">wjp_lollipops</a></span><span class="op">(</span></span>
 <span>  <span class="va">data_bars</span>,</span>
 <span>  target   <span class="op">=</span> <span class="st">"trust"</span>,</span>
@@ -701,7 +740,7 @@ Charts</strong>. Value labels are generated automatically; pass a
 </h2>
 <p><code><a href="../reference/wjp_edgebars.html">wjp_edgebars()</a></code> - Horizontal bars with labels at the
 edge, ideal for narrow spaces.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/wjp_edgebars.html">wjp_edgebars</a></span><span class="op">(</span></span>
 <span>  <span class="va">data_bars</span>,</span>
 <span>  target   <span class="op">=</span> <span class="st">"trust"</span>,</span>
@@ -720,7 +759,7 @@ column to customize it.</p>
 </h2>
 <p><code><a href="../reference/wjp_radar.html">wjp_radar()</a></code> - Compare multiple dimensions on a circular
 grid.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_radar</span> <span class="op">&lt;-</span> <span class="va">gpp_data</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">gend</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"q49"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -803,7 +842,7 @@ category, colors = gender</caption>
 </h2>
 <p><code><a href="../reference/wjp_rose.html">wjp_rose()</a></code> - Circular bar chart for single-unit
 multi-dimensional data.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_rose</span> <span class="op">&lt;-</span> <span class="va">data_radar</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">gender</span> <span class="op">==</span> <span class="st">"Male"</span><span class="op">)</span></span>
 <span></span>
@@ -862,7 +901,7 @@ category</caption>
 </h2>
 <p><code><a href="../reference/wjp_gauge.html">wjp_gauge()</a></code> - Semicircular chart for showing composition
 or progress.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_gauge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Factor 1"</span>, <span class="st">"Factor 2"</span>, <span class="st">"Factor 3"</span>, <span class="st">"Factor 4"</span><span class="op">)</span>,</span>
 <span>  value    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">35</span>, <span class="fl">25</span>, <span class="fl">15</span><span class="op">)</span>,</span>
@@ -930,7 +969,7 @@ can be supplied as proportions (<code>0-1</code>) or percentages
 value can be added either as its own bar
 (<code>national_style = "bar"</code>) or as a vertical reference line
 (<code>national_style = "line"</code>).</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Percentage-scale input with precomputed confidence intervals.</span></span>
 <span><span class="va">data_groupbars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  group    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Gender"</span>, <span class="st">"Gender"</span>, <span class="st">"Age"</span>, <span class="st">"Age"</span>, <span class="st">"Age"</span><span class="op">)</span>,</span>

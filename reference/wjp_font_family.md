@@ -27,6 +27,22 @@ Families registered by
 [`sysfonts::font_add_google()`](https://rdrr.io/pkg/sysfonts/man/font_add_google.html)
 or similar) can also be used.
 
+There are three ways to control the font of a WJPr chart:
+
+1.  **Whole session**: `options(wjpr.family = "Inter Tight")`. Every
+    chart created afterwards (axis text, value labels, and legends) uses
+    the new family. Reset with `options(wjpr.family = NULL)`.
+
+2.  **A single chart**: wrap the call with
+    `withr::with_options(list(wjpr.family = "Inter Tight"), ...)` so the
+    rest of the session keeps the default.
+
+3.  **Theme elements only**: pass
+    `ptheme = WJP_theme(family = "Inter Tight")` to a chart function.
+    Note this changes axis text and titles only; value labels drawn
+    inside the chart read the session option at call time, so use
+    approaches 1 or 2 to switch the complete chart.
+
 ## Examples
 
 ``` r
