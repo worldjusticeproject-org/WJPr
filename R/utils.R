@@ -186,6 +186,21 @@ wjp_legend_breaks <- function(x) {
 #' already registered in your session (via [sysfonts::font_add_google()] or
 #' similar) can also be used.
 #'
+#' There are three ways to control the font of a WJPr chart:
+#' \enumerate{
+#'   \item \strong{Whole session}: `options(wjpr.family = "Inter Tight")`.
+#'     Every chart created afterwards (axis text, value labels, and legends)
+#'     uses the new family. Reset with `options(wjpr.family = NULL)`.
+#'   \item \strong{A single chart}: wrap the call with
+#'     `withr::with_options(list(wjpr.family = "Inter Tight"), ...)` so the
+#'     rest of the session keeps the default.
+#'   \item \strong{Theme elements only}: pass
+#'     `ptheme = WJP_theme(family = "Inter Tight")` to a chart function.
+#'     Note this changes axis text and titles only; value labels drawn
+#'     inside the chart read the session option at call time, so use
+#'     approaches 1 or 2 to switch the complete chart.
+#' }
+#'
 #' @return A single string with the active font family.
 #'
 #' @export
