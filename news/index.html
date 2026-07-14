@@ -44,6 +44,7 @@
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Styling</h6></li>
     <li><a class="dropdown-item" href="../reference/wjp_fonts.html">wjp_fonts()</a></li>
+    <li><a class="dropdown-item" href="../reference/wjp_font_family.html">wjp_font_family()</a></li>
     <li><a class="dropdown-item" href="../reference/wjp_palette.html">wjp_palette()</a></li>
     <li><a class="dropdown-item" href="../reference/WJP_theme.html">WJP_theme()</a></li>
   </ul></li>
@@ -78,19 +79,14 @@
 <h2 class="pkg-version" data-toc-text="1.1.0" id="wjpr-110">WJPr 1.1.0<a class="anchor" aria-label="anchor" href="#wjpr-110"></a></h2>
 <div class="section level3">
 <h3 id="new-features-1-1-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-1-0"></a></h3>
-<ul><li>New <code><a href="../reference/wjp_palette.html">wjp_palette()</a></code> function exposing the official WJP categorical color palette. All chart functions now fall back to this palette when no <code>cvec</code> is supplied, so charts stay on-brand by default (previously they fell back to the default ggplot2 hues).</li>
-<li>
-<code><a href="../reference/wjp_lines.html">wjp_lines()</a></code> and <code><a href="../reference/wjp_slope.html">wjp_slope()</a></code> no longer require the <code>ngroups</code> parameter: lines are grouped by the <code>colors</code> variable automatically. Both functions also work without <code>colors</code> (a single series is drawn). <code>ngroups</code> is retained for backwards compatibility.</li>
-<li>
-<code><a href="../reference/wjp_dumbbells.html">wjp_dumbbells()</a></code> gains an alternating strip background (visual consistency with <code><a href="../reference/wjp_dots.html">wjp_dots()</a></code>), automatic label positions when <code>labpos</code> is not supplied, and support for named <code>cvec</code> vectors matched against <code>cgroups</code>.</li>
-<li>
-<code><a href="../reference/wjp_lollipops.html">wjp_lollipops()</a></code> gains <code>labels</code>, <code>order</code>, and <code>ptheme</code> parameters. Value labels are generated automatically when <code>labels</code> is not supplied.</li>
-<li>
-<code><a href="../reference/wjp_edgebars.html">wjp_edgebars()</a></code> <code>labels</code> parameter is now optional and defaults to the <code>grouping</code> values.</li>
-<li>
-<code><a href="../reference/wjp_dots.html">wjp_dots()</a></code> automatically enables per-group opacities and shapes when <code>opacities</code> or <code>shapes</code> are supplied.</li>
-<li>
-<code><a href="../reference/wjp_divbars.html">wjp_divbars()</a></code> enables custom ordering automatically when <code>order</code> is supplied (the <code>custom_order</code> flag is retained for backwards compatibility).</li>
+<ul><li><p>New <code><a href="../reference/wjp_font_family.html">wjp_font_family()</a></code> function and <code>wjpr.family</code> option: switch every WJPr chart and theme between the loaded font families (Lato by default, Inter Tight as alternative) with a single line, e.g. <code>options(wjpr.family = "Inter Tight")</code>. <code><a href="../reference/WJP_theme.html">WJP_theme()</a></code> also gains a <code>family</code> parameter.</p></li>
+<li><p>New <code><a href="../reference/wjp_palette.html">wjp_palette()</a></code> function exposing the official WJP categorical color palette. All chart functions now fall back to this palette when no <code>cvec</code> is supplied, so charts stay on-brand by default (previously they fell back to the default ggplot2 hues).</p></li>
+<li><p><code><a href="../reference/wjp_lines.html">wjp_lines()</a></code> and <code><a href="../reference/wjp_slope.html">wjp_slope()</a></code> no longer require the <code>ngroups</code> parameter: lines are grouped by the <code>colors</code> variable automatically. Both functions also work without <code>colors</code> (a single series is drawn). <code>ngroups</code> is retained for backwards compatibility.</p></li>
+<li><p><code><a href="../reference/wjp_dumbbells.html">wjp_dumbbells()</a></code> gains an alternating strip background (visual consistency with <code><a href="../reference/wjp_dots.html">wjp_dots()</a></code>), automatic label positions when <code>labpos</code> is not supplied, and support for named <code>cvec</code> vectors matched against <code>cgroups</code>.</p></li>
+<li><p><code><a href="../reference/wjp_lollipops.html">wjp_lollipops()</a></code> gains <code>labels</code>, <code>order</code>, and <code>ptheme</code> parameters. Value labels are generated automatically when <code>labels</code> is not supplied.</p></li>
+<li><p><code><a href="../reference/wjp_edgebars.html">wjp_edgebars()</a></code> <code>labels</code> parameter is now optional and defaults to the <code>grouping</code> values.</p></li>
+<li><p><code><a href="../reference/wjp_dots.html">wjp_dots()</a></code> automatically enables per-group opacities and shapes when <code>opacities</code> or <code>shapes</code> are supplied.</p></li>
+<li><p><code><a href="../reference/wjp_divbars.html">wjp_divbars()</a></code> enables custom ordering automatically when <code>order</code> is supplied (the <code>custom_order</code> flag is retained for backwards compatibility).</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="parameter-harmonization-1-1-0">Parameter harmonization<a class="anchor" aria-label="anchor" href="#parameter-harmonization-1-1-0"></a></h3>

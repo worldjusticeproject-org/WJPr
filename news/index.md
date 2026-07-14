@@ -5,11 +5,21 @@
 ### New features
 
 - New
+  [`wjp_font_family()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_font_family.md)
+  function and `wjpr.family` option: switch every WJPr chart and theme
+  between the loaded font families (Lato by default, Inter Tight as
+  alternative) with a single line, e.g.
+  `options(wjpr.family = "Inter Tight")`.
+  [`WJP_theme()`](https://worldjusticeproject-org.github.io/WJPr/reference/WJP_theme.md)
+  also gains a `family` parameter.
+
+- New
   [`wjp_palette()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_palette.md)
   function exposing the official WJP categorical color palette. All
   chart functions now fall back to this palette when no `cvec` is
   supplied, so charts stay on-brand by default (previously they fell
   back to the default ggplot2 hues).
+
 - [`wjp_lines()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lines.md)
   and
   [`wjp_slope()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_slope.md)
@@ -17,20 +27,25 @@
   `colors` variable automatically. Both functions also work without
   `colors` (a single series is drawn). `ngroups` is retained for
   backwards compatibility.
+
 - [`wjp_dumbbells()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dumbbells.md)
   gains an alternating strip background (visual consistency with
   [`wjp_dots()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dots.md)),
   automatic label positions when `labpos` is not supplied, and support
   for named `cvec` vectors matched against `cgroups`.
+
 - [`wjp_lollipops()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_lollipops.md)
   gains `labels`, `order`, and `ptheme` parameters. Value labels are
   generated automatically when `labels` is not supplied.
+
 - [`wjp_edgebars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_edgebars.md)
   `labels` parameter is now optional and defaults to the `grouping`
   values.
+
 - [`wjp_dots()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_dots.md)
   automatically enables per-group opacities and shapes when `opacities`
   or `shapes` are supplied.
+
 - [`wjp_divbars()`](https://worldjusticeproject-org.github.io/WJPr/reference/wjp_divbars.md)
   enables custom ordering automatically when `order` is supplied (the
   `custom_order` flag is retained for backwards compatibility).

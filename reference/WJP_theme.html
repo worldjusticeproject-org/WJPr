@@ -46,6 +46,7 @@ visual style guidelines to charts."><link rel="preconnect" href="https://fonts.g
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Styling</h6></li>
     <li><a class="dropdown-item" href="../reference/wjp_fonts.html">wjp_fonts()</a></li>
+    <li><a class="dropdown-item" href="../reference/wjp_font_family.html">wjp_font_family()</a></li>
     <li><a class="dropdown-item" href="../reference/wjp_palette.html">wjp_palette()</a></li>
     <li><a class="dropdown-item" href="../reference/WJP_theme.html">WJP_theme()</a></li>
   </ul></li>
@@ -84,9 +85,19 @@ visual style guidelines to charts.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">WJP_theme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">WJP_theme</span><span class="op">(</span>family <span class="op">=</span> <span class="fu"><a href="wjp_font_family.html">wjp_font_family</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+
+
+<dl><dt id="arg-family">family<a class="anchor" aria-label="anchor" href="#arg-family"></a></dt>
+<dd><p>String. Font family for all text elements. Default is the
+active WJP font family (see <code><a href="wjp_font_family.html">wjp_font_family()</a></code>), which is <code>"Lato Full"</code>
+unless changed via <code>options(wjpr.family = )</code>.</p></dd>
+
+</dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A ggplot2 theme object that can be added to any ggplot.</p>
@@ -95,7 +106,8 @@ visual style guidelines to charts.</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The theme includes the following style specifications:</p><ul><li><p>Transparent panel and plot backgrounds</p></li>
 <li><p>Dashed grey grid lines (<code>#5e5c5a</code>)</p></li>
-<li><p>Lato Full font family for all text elements</p></li>
+<li><p>WJP font family for all text elements (Lato Full by default; see
+<code><a href="wjp_font_family.html">wjp_font_family()</a></code>)</p></li>
 <li><p>Text color <code>#524F4C</code></p></li>
 <li><p>No axis ticks</p></li>
 <li><p>Zero plot margins</p></li>
@@ -113,6 +125,12 @@ visual style guidelines to charts.</p>
 <span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">WJP_theme</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="WJP_theme-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Same plot with Inter Tight</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">mpg</span>, y <span class="op">=</span> <span class="va">wt</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu">WJP_theme</span><span class="op">(</span>family <span class="op">=</span> <span class="st">"Inter Tight"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="WJP_theme-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
