@@ -18,12 +18,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Santiago Pardo \email{spardo@worldjusticeproject.org} (github: aspardog) [copyright holder]
+\strong{Maintainer}: World Justice Project Data Analytics Unit \email{data-analytics@worldjusticeproject.org} [copyright holder]
 
 Authors:
 \itemize{
-  \item Santiago Pardo \email{spardo@worldjusticeproject.org} (github: aspardog) [copyright holder]
   \item World Justice Project Data Analytics Unit \email{data-analytics@worldjusticeproject.org} [copyright holder]
+  \item Santiago Pardo \email{spardo@worldjusticeproject.org} (github: aspardog)
 }
 
 }

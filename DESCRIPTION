@@ -5,15 +5,15 @@ Version: 1.1.0
 Authors@R: c(
     person("Santiago", "Pardo",
            email = "spardo@worldjusticeproject.org",
-           role = c("aut", "cre", "cph"),
+           role = "aut",
            comment = c(github = "aspardog")),
     person("World Justice Project", "Data Analytics Unit",
            email = "data-analytics@worldjusticeproject.org",
-           role = c("aut", "cph"))
+           role = c("aut", "cre", "cph"))
     )
-Author: Santiago Pardo [aut, cre, cph],
-    World Justice Project - Data Analytics Unit [aut, cph]
-Maintainer: Santiago Pardo <spardo@worldjusticeproject.org>
+Author: Santiago Pardo [aut],
+    World Justice Project - Data Analytics Unit [aut, cre, cph]
+Maintainer: World Justice Project - Data Analytics Unit <data-analytics@worldjusticeproject.org>
 Description: The WJPr package contains the most important data and
     visualization tools used by Data Analytics Unit at The World Justice
     Project. Version 1.0.0 comes with a wide range of visualization
