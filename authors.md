@@ -2,12 +2,11 @@
 
 ## Authors
 
-- **[Santiago Pardo](https://github.com/aspardog)**. Author, maintainer,
-  copyright holder.  
+- **[Santiago Pardo](https://github.com/aspardog)**. Author.  
   aspardog
 
-- **World Justice Project Data Analytics Unit**. Author, copyright
-  holder.
+- **World Justice Project Data Analytics Unit**. Author, maintainer,
+  copyright holder.
 
 ## Citation
 

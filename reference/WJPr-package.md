@@ -20,13 +20,12 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Santiago Pardo <spardo@worldjusticeproject.org> (github:
-aspardog) \[copyright holder\]
+**Maintainer**: World Justice Project Data Analytics Unit
+<data-analytics@worldjusticeproject.org> \[copyright holder\]
 
 Authors:
 
-- Santiago Pardo <spardo@worldjusticeproject.org> (github: aspardog)
-  \[copyright holder\]
-
 - World Justice Project Data Analytics Unit
   <data-analytics@worldjusticeproject.org> \[copyright holder\]
+
+- Santiago Pardo <spardo@worldjusticeproject.org> (github: aspardog)
