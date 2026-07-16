@@ -497,6 +497,43 @@ plot_groupbars <- wjp_groupbars(
 save_example(plot_groupbars, "groupbars", width = 6, height = 5)
 
 # =============================================================================
+# SPREAD LABELS HELPER
+# =============================================================================
+message("Generating spread_labels_x() example...")
+
+# Several countries share nearly equal values in the top row, so their
+# percentage labels would collide. spread_labels_x() moves only the labels
+# horizontally, keeping every point at its true value.
+data_spread <- tibble::tibble(
+  institution = rep(c("Police", "Courts", "Parliament"), each = 3),
+  country     = rep(c("Atlantis", "Narnia", "Neverland"), times = 3),
+  value       = c(0.37, 0.38, 0.38,
+                  0.52, 0.61, 0.70,
+                  0.25, 0.40, 0.58)
+) %>%
+  group_by(institution) %>%
+  mutate(
+    label   = scales::percent(value, accuracy = 1),
+    label_x = spread_labels_x(value, labels = label, limits = c(0, 1))
+  ) %>%
+  ungroup()
+
+plot_spread <- ggplot(data_spread,
+                      aes(x = value, y = institution, color = country)) +
+  geom_point(size = 4) +
+  geom_text(aes(x = label_x, label = label),
+            vjust = -1, size = 3.514598, fontface = "bold",
+            show.legend = FALSE) +
+  scale_x_continuous(limits = c(0, 1), labels = scales::percent) +
+  scale_color_manual(values = c("Atlantis"  = "#482d8b",
+                                "Narnia"    = "#2894aa",
+                                "Neverland" = "#f26b21")) +
+  WJP_theme() +
+  theme(legend.position = "top")
+
+save_example(plot_spread, "spread-labels")
+
+# =============================================================================
 # SUMMARY
 # =============================================================================
 message("\n", strrep("=", 50))

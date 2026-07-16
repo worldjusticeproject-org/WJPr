@@ -53,6 +53,7 @@ All visualization functions follow a consistent pattern:
 - `R/*Chart.R` - Each chart type has its own file (barsChart.R, lineChart.R, radarChart.R, etc.)
 - `R/check_data.R` - `wjp_check_data()` validates data structure before plotting
 - `R/diffmeans.R` - Statistical analysis function for hypothesis testing
+- `R/spread_labels.R` - `spread_labels_x()` deterministic horizontal collision solver that spreads overlapping point labels for row-based charts (dots, lollipops); keeps points fixed and moves only labels
 - `data/gpp.rda` and `data/roli.rda` - Built-in datasets
 - `vignettes/articles/data-preparation.Rmd` - Guide for preparing data for WJPr functions
 

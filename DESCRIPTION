@@ -52,6 +52,7 @@ Suggests:
     kableExtra (>= 1.4.0),
     knitr,
     rmarkdown,
+    systemfonts (>= 1.0.0),
     testthat (>= 3.0.0),
     withr (>= 3.0.0)
 Config/testthat/edition: 3
