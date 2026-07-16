@@ -62,7 +62,7 @@ All visualization functions follow a consistent pattern:
 |----------|------|-------------|
 | `wjp_bars()` | barsChart.R | Vertical/horizontal bar charts |
 | `wjp_divbars()` | divbarsChart.R | Diverging bar charts |
-| `wjp_dots()` | dotsChart.R | Dot plots |
+| `wjp_dots()` | dotsChart.R | Dot plots, with optional collision-free value labels (`show_labels`, via `spread_labels_x()`) |
 | `wjp_lines()` | lineChart.R | Line charts with points |
 | `wjp_slope()` | slopeChart.R | Slope charts for comparisons |
 | `wjp_dumbbells()` | dumbellsChart.R | Dumbbell plots |

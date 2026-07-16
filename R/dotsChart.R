@@ -40,6 +40,17 @@
 #'   observations for the confidence intervals.
 #' @param bgcolor String. Hex code of the background color for the alternating row
 #'   strips. Default is `"#ffffff"`.
+#' @param labels String. Column name of the variable containing the value labels to
+#'   display above each point. Only used when `show_labels = TRUE`. Default is
+#'   `NULL` (labels are generated automatically as rounded percentages).
+#' @param show_labels Logical. If `TRUE`, draws a value label above each point.
+#'   When several series in the same row share equal or near-equal values, the
+#'   labels are spread horizontally with [spread_labels_x()] so they do not
+#'   overlap, and identical labels within a row are collapsed to a single mark.
+#'   Points are never moved. Default is `FALSE`.
+#' @param label_offset Numeric. Vertical distance (in category units) between each
+#'   point and its value label. Only used when `show_labels = TRUE`. Default is
+#'   `0.32`.
 #' @param ptheme ggplot theme to apply. Default is [WJP_theme()].
 #' @param show_legend Logical. If `TRUE`, displays a horizontal color legend above
 #'   the chart. Default is `FALSE`.
@@ -112,6 +123,15 @@
 #'   sample_size = "n"
 #' )
 #'
+#' # With value labels spread horizontally to avoid collisions
+#' wjp_dots(
+#'   data4dots,
+#'   target      = "percentage",
+#'   grouping    = "institution",
+#'   colors      = "country",
+#'   show_labels = TRUE
+#' )
+#'
 wjp_dots <- function(
     data,
     target,
@@ -126,12 +146,19 @@ wjp_dots <- function(
     draw_ci     = FALSE,
     sd          = NULL,
     sample_size = NULL,
-    bgcolor     = "#ffffff",
-    ptheme      = WJP_theme(),
-    show_legend = FALSE
+    bgcolor      = "#ffffff",
+    labels       = NULL,
+    show_labels  = FALSE,
+    label_offset = 0.32,
+    ptheme       = WJP_theme(),
+    show_legend  = FALSE
 ){
 
   legend_theme <- wjp_legend_theme(show_legend)
+
+  if (length(show_labels) != 1 || !is.logical(show_labels) || is.na(show_labels)) {
+    stop("`show_labels` must be TRUE or FALSE.", call. = FALSE)
+  }
 
   # Renaming variables in the data frame to match the function naming
   data <- data %>%
@@ -177,6 +204,26 @@ wjp_dots <- function(
         lower = target_var - z * se,
         upper = target_var + z * se
       )
+  }
+
+  # Value labels: keep points fixed and spread only the labels horizontally,
+  # collapsing identical labels within a row so they are drawn once.
+  if (show_labels) {
+    if (is.null(labels)) {
+      data <- data %>%
+        mutate(label_var = paste0(round(target_var), "%"))
+    } else {
+      data <- data %>%
+        rename(label_var = all_of(labels))
+    }
+    label_data <- data %>%
+      ungroup() %>%
+      distinct(grouping_var, label_var, .keep_all = TRUE) %>%
+      group_by(grouping_var) %>%
+      mutate(
+        label_pos = spread_labels_x(target_var, labels = label_var, limits = c(0, 100))
+      ) %>%
+      ungroup()
   }
 
   # Creating an alternating strip pattern
@@ -258,6 +305,24 @@ wjp_dots <- function(
     plt <- plt +
       scale_alpha_manual(values = opacities,
                          guide  = "none")
+  }
+
+  # Value-label layer (drawn above the points; colored by series so the
+  # association survives the horizontal shift)
+  if (show_labels) {
+    plt <- plt +
+      geom_text(
+        data    = label_data,
+        mapping = aes(x     = reorder(grouping_var, -order_var),
+                      y     = label_pos,
+                      label = label_var,
+                      color = colors_var),
+        nudge_x     = label_offset,
+        size        = 3.514598,
+        fontface    = "bold",
+        family      = wjp_font_family(),
+        show.legend = FALSE
+      )
   }
 
   plt <- plt +

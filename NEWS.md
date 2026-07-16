@@ -17,6 +17,10 @@
   `wjp_dots()`, `wjp_lollipops()`) while keeping every point at its true
   value. Labels stay on a single row, move by the minimum amount needed,
   are kept inside the panel limits, and produce reproducible output.
+- `wjp_dots()` gains `show_labels`, `labels`, and `label_offset`: value
+  labels can be drawn above each point and are spread horizontally with
+  `spread_labels_x()` so near-equal series do not collide. Identical labels
+  within a row are collapsed to a single mark and points are never moved.
 - `wjp_lines()` and `wjp_slope()` no longer require the `ngroups` parameter:
   lines are grouped by the `colors` variable automatically. Both functions
   also work without `colors` (a single series is drawn). `ngroups` is retained

@@ -501,35 +501,29 @@ save_example(plot_groupbars, "groupbars", width = 6, height = 5)
 # =============================================================================
 message("Generating spread_labels_x() example...")
 
-# Several countries share nearly equal values in the top row, so their
-# percentage labels would collide. spread_labels_x() moves only the labels
-# horizontally, keeping every point at its true value.
+# Several countries share nearly equal values in the "Courts" row, and all
+# three share it in "Parliament". wjp_dots(show_labels = TRUE) spreads the
+# labels horizontally with spread_labels_x() and collapses identical labels,
+# keeping every point at its true value.
 data_spread <- tibble::tibble(
   institution = rep(c("Police", "Courts", "Parliament"), each = 3),
   country     = rep(c("Atlantis", "Narnia", "Neverland"), times = 3),
-  value       = c(0.37, 0.38, 0.38,
-                  0.52, 0.61, 0.70,
-                  0.25, 0.40, 0.58)
-) %>%
-  group_by(institution) %>%
-  mutate(
-    label   = scales::percent(value, accuracy = 1),
-    label_x = spread_labels_x(value, labels = label, limits = c(0, 1))
-  ) %>%
-  ungroup()
+  percentage  = c(41, 63, 88,
+                  37, 38, 38,
+                  55, 55, 55)
+)
 
-plot_spread <- ggplot(data_spread,
-                      aes(x = value, y = institution, color = country)) +
-  geom_point(size = 4) +
-  geom_text(aes(x = label_x, label = label),
-            vjust = -1, size = 3.514598, fontface = "bold",
-            show.legend = FALSE) +
-  scale_x_continuous(limits = c(0, 1), labels = scales::percent) +
-  scale_color_manual(values = c("Atlantis"  = "#482d8b",
-                                "Narnia"    = "#2894aa",
-                                "Neverland" = "#f26b21")) +
-  WJP_theme() +
-  theme(legend.position = "top")
+plot_spread <- wjp_dots(
+  data_spread,
+  target      = "percentage",
+  grouping    = "institution",
+  colors      = "country",
+  cvec        = c("Atlantis"  = "#482d8b",
+                  "Narnia"    = "#2894aa",
+                  "Neverland" = "#f26b21"),
+  show_labels = TRUE,
+  show_legend = TRUE
+)
 
 save_example(plot_spread, "spread-labels")
 
