@@ -52,6 +52,12 @@ home:
   description: >
     Data and visualization tools for building World Justice Project charts,
     country-report graphics, and Rule of Law Index analysis in R.
+  sidebar:
+    structure: [links, license, community, citation, developers]
+    components:
+      developers:
+        title: Developers
+        text: "[Santiago Pardo](https://github.com/aspardog) — Author"
 
 navbar:
   structure:
@@ -112,6 +118,8 @@ navbar:
         href: reference/wjp_font_family.html
       - text: wjp_palette()
         href: reference/wjp_palette.html
+      - text: spread_labels_x()
+        href: reference/spread_labels_x.html
       - text: WJP_theme()
         href: reference/WJP_theme.html
     articles:
@@ -154,7 +162,7 @@ reference:
   - wjp_rose
   - wjp_gauge
 - title: Validation, Analysis, and Styling
-  desc: Support tools for validating data, checking dependencies, analyzing differences, and applying WJP styling.
+  desc: Support tools for validating data, checking dependencies, analyzing differences, spreading overlapping labels, and applying WJP styling.
   contents:
   - wjp_check_data
   - wjp_check_deps
@@ -162,6 +170,7 @@ reference:
   - wjp_fonts
   - wjp_font_family
   - wjp_palette
+  - spread_labels_x
   - WJP_theme
 - title: Data
   desc: Datasets included in the package.

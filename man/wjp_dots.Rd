@@ -19,6 +19,9 @@ wjp_dots(
   sd = NULL,
   sample_size = NULL,
   bgcolor = "#ffffff",
+  labels = NULL,
+  show_labels = FALSE,
+  label_offset = 0.32,
   ptheme = WJP_theme(),
   show_legend = FALSE
 )
@@ -61,6 +64,20 @@ observations for the confidence intervals.}
 
 \item{bgcolor}{String. Hex code of the background color for the alternating row
 strips. Default is \code{"#ffffff"}.}
+
+\item{labels}{String. Column name of the variable containing the value labels to
+display above each point. Only used when \code{show_labels = TRUE}. Default is
+\code{NULL} (labels are generated automatically as rounded percentages).}
+
+\item{show_labels}{Logical. If \code{TRUE}, draws a value label above each point.
+When several series in the same row share equal or near-equal values, the
+labels are spread horizontally with \code{\link[=spread_labels_x]{spread_labels_x()}} so they do not
+overlap, and identical labels within a row are collapsed to a single mark.
+Points are never moved. Default is \code{FALSE}.}
+
+\item{label_offset}{Numeric. Vertical distance (in category units) between each
+point and its value label. Only used when \code{show_labels = TRUE}. Default is
+\code{0.32}.}
 
 \item{ptheme}{ggplot theme to apply. Default is \code{\link[=WJP_theme]{WJP_theme()}}.}
 
@@ -149,6 +166,15 @@ wjp_dots(
   draw_ci     = TRUE,
   sd          = "sd",
   sample_size = "n"
+)
+
+# With value labels spread horizontally to avoid collisions
+wjp_dots(
+  data4dots,
+  target      = "percentage",
+  grouping    = "institution",
+  colors      = "country",
+  show_labels = TRUE
 )
 
 }

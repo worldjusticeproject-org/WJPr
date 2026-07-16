@@ -623,3 +623,45 @@ test_that("wjp_font_family switches chart fonts via the wjpr.family option", {
     expect_error(wjp_font_family(), "single string")
   })
 })
+
+test_that("wjp_dots draws spread, deduplicated value labels without moving points", {
+  dots <- data.frame(
+    cat = rep(c("Row A", "Row B"), each = 3),
+    grp = rep(c("G1", "G2", "G3"), 2),
+    val = c(37, 38, 38, 55, 55, 55)
+  )
+
+  plot <- wjp_dots(dots, "val", "cat", "grp", show_labels = TRUE)
+  expect_s3_class(plot, "ggplot")
+
+  built <- ggplot2::ggplot_build(plot)
+
+  # Points are untouched: one point per observation, at its true value
+  point_layer <- Filter(
+    function(l) all(c("x", "y") %in% names(l)) && !"label" %in% names(l) &&
+      nrow(l) == nrow(dots),
+    built$data
+  )[[1]]
+  expect_setequal(point_layer$y, dots$val)
+
+  # Row A collapses one "38%"; Row B collapses to a single "55%"
+  text_layer <- Filter(
+    function(l) "label" %in% names(l) && any(grepl("%", l$label)),
+    built$data
+  )[[1]]
+  expect_equal(sort(text_layer$label), c("37%", "38%", "55%"))
+
+  # Custom label column is honored
+  dots$lab <- paste0(dots$val, " pts")
+  labelled <- wjp_dots(dots, "val", "cat", "grp", labels = "lab", show_labels = TRUE)
+  labelled_text <- Filter(
+    function(l) "label" %in% names(l) && any(grepl("pts", l$label)),
+    ggplot2::ggplot_build(labelled)$data
+  )[[1]]
+  expect_true(all(grepl("pts$", labelled_text$label)))
+
+  expect_error(
+    wjp_dots(dots, "val", "cat", "grp", show_labels = "yes"),
+    "`show_labels`"
+  )
+})

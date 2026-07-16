@@ -497,6 +497,37 @@ plot_groupbars <- wjp_groupbars(
 save_example(plot_groupbars, "groupbars", width = 6, height = 5)
 
 # =============================================================================
+# SPREAD LABELS HELPER
+# =============================================================================
+message("Generating spread_labels_x() example...")
+
+# Several countries share nearly equal values in the "Courts" row, and all
+# three share it in "Parliament". wjp_dots(show_labels = TRUE) spreads the
+# labels horizontally with spread_labels_x() and collapses identical labels,
+# keeping every point at its true value.
+data_spread <- tibble::tibble(
+  institution = rep(c("Police", "Courts", "Parliament"), each = 3),
+  country     = rep(c("Atlantis", "Narnia", "Neverland"), times = 3),
+  percentage  = c(41, 63, 88,
+                  37, 38, 38,
+                  55, 55, 55)
+)
+
+plot_spread <- wjp_dots(
+  data_spread,
+  target      = "percentage",
+  grouping    = "institution",
+  colors      = "country",
+  cvec        = c("Atlantis"  = "#482d8b",
+                  "Narnia"    = "#2894aa",
+                  "Neverland" = "#f26b21"),
+  show_labels = TRUE,
+  show_legend = TRUE
+)
+
+save_example(plot_spread, "spread-labels")
+
+# =============================================================================
 # SUMMARY
 # =============================================================================
 message("\n", strrep("=", 50))
